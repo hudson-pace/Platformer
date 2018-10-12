@@ -13,6 +13,7 @@ namespace Platformer
     {
         public Tile[][] tiles;
         public Insect[] insects = new Insect[1];
+        public Slime[] slimes = new Slime[1];
         public int height, width;
         public int offsetX, offsetY, screenGridWidth, screenGridHeight;
         public Player player;
@@ -37,9 +38,10 @@ namespace Platformer
                 }
             }
             insects[0].Draw(spriteBatch, offsetX, offsetY);
+            slimes[0].Draw(spriteBatch, offsetX, offsetY);
             player.Draw(spriteBatch, offsetX, offsetY);
         }
-        public void SetTextures(Texture2D brickWall, Texture2D insectRightFacing, Texture2D insectLeftFacing, Texture2D door)
+        public void SetTextures(Texture2D brickWall, Texture2D insectRightFacing, Texture2D insectLeftFacing, Texture2D door, Texture2D slimeLeftFacing, Texture2D slimeRightFacing)
         {
             for (int i = 0; i < tiles.Length; i++)
             {
@@ -52,11 +54,13 @@ namespace Platformer
                 }
             }
             insects[0].SetTexture(insectRightFacing, insectLeftFacing);
+            slimes[0].SetTextures(slimeLeftFacing, slimeRightFacing);
         }
         public void Update(KeyboardState state)
         {
             player.Update(state, tiles);
             insects[0].Update(tiles);
+            slimes[0].Update(tiles);
             if ((player.location.X - offsetX) > (screenGridWidth * 50) - 500)
             {
                 if (offsetX + (screenGridWidth * 50) < tiles.Length * 50)
