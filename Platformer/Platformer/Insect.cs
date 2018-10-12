@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace Platformer
 {
-    class Insect : Character
+    class Insect : Enemy
     {
         private string facing = "right";
         private Texture2D rightFacing, leftFacing;
@@ -21,13 +22,7 @@ namespace Platformer
             height = 100;
         }
 
-        public void SetTexture(Texture2D rightFacing, Texture2D leftFacing)
-        {
-            this.rightFacing = rightFacing;
-            this.leftFacing = leftFacing;
-        }
-
-        public void Update(Tile[][] tiles)
+        public override void Update(Tile[][] tiles)
         {
             newLocation = location;
 
@@ -55,7 +50,7 @@ namespace Platformer
             location = newLocation;
 
         }
-        public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
             if (facing == "right")
             {
@@ -65,6 +60,11 @@ namespace Platformer
             {
                 spriteBatch.Draw(leftFacing, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
             }
+        }
+        public override void LoadTextures(ContentManager content)
+        {
+            this.rightFacing = content.Load<Texture2D>("insect-guy-facing-right");
+            this.leftFacing = content.Load<Texture2D>("insect-guy-facing-left");
         }
     }
 }

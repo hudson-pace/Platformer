@@ -84,7 +84,6 @@ namespace Platformer
                         state = "squished";
                         squishCounter = 8;
                         collisions[1] = true;
-                        Console.WriteLine("wumph");
                         break;
                     }
                 }
