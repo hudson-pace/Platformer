@@ -7,7 +7,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{321101F0-9A1A-4263-B8D7-55A079E4491D}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Platformer</RootNamespace>
     <AssemblyName>Platformer</AssemblyName>
@@ -40,6 +40,9 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Character.cs" />
     <Compile Include="Game1.cs" />
@@ -47,7 +50,9 @@
     <Compile Include="Location.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Slime.cs" />
     <Compile Include="TestArea.cs" />
     <Compile Include="Tile.cs" />
   </ItemGroup>

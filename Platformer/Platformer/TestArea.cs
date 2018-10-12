@@ -15,6 +15,7 @@ namespace Platformer
         public TestArea(Player player, int screenGridWidth, int screenGridHeight) : base(player, screenGridWidth, screenGridHeight)
         {
             insects[0] = insect;
+            slimes[0] = new Slime(new Vector2(700, 400), player);
             height = 15;
             width = 30;
             offsetX = 0;

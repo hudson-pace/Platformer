@@ -12,7 +12,7 @@ namespace Platformer
 {
     class Player : Character
     {
-        private Texture2D normalTexture, squishedTexture, swordTexture;
+        private Texture2D normalFacingRightTexture, normalFacingLeftTexture, squishedTexture, swordTexture, projectileTexture;
         private Location currentLocation;
         private bool previousFPressed = false;
         private bool swingingSword = false;
@@ -21,21 +21,25 @@ namespace Platformer
         private Rectangle swordSource;
         private string facing = "right";
         private string swingFacing = "right";
+        private int projectileCooldown = 0;
+        private Projectile projectile = null;
 
 
 
         public Player(Vector2 location)
         {
             this.location = location;
-            height = 50;
-            width = 50;
+            height = 80;
+            width = 55;
         }
 
-        public void SetTexture(Texture2D normalTexture, Texture2D squishedTexture, Texture2D swordTexture)
+        public void SetTexture(Texture2D normalFacingRightTexture, Texture2D normalFacingLeftTexture, Texture2D squishedTexture, Texture2D swordTexture, Texture2D projectileTexture)
         {
-            this.normalTexture = normalTexture;
+            this.normalFacingRightTexture = normalFacingRightTexture;
+            this.normalFacingLeftTexture = normalFacingLeftTexture;
             this.squishedTexture = squishedTexture;
             this.swordTexture = swordTexture;
+            this.projectileTexture = projectileTexture;
             swordSource = new Rectangle(0, 0, swordTexture.Width, swordTexture.Height);
         }
 
@@ -77,10 +81,29 @@ namespace Platformer
                 verticalVelocity = -20;
             }
 
+            if (projectileCooldown > 0)
+            {
+                projectileCooldown--;
+            }
+            if (state.IsKeyDown(Keys.J) && projectileCooldown == 0)
+            {
+                if (swingFacing == "right")
+                {
+                    projectile = new Projectile(new Vector2(location.X + (width / 2) - (Projectile.WIDTH / 2), location.Y + (height / 2) - (Projectile.HEIGHT / 2)), projectileTexture, 10);
+                }
+                else if (swingFacing == "left")
+                {
+                    projectile = new Projectile(new Vector2(location.X + (width / 2) - (Projectile.WIDTH / 2), location.Y + (height / 2) - (Projectile.HEIGHT / 2)), projectileTexture, -10);
+                }
+                projectileCooldown = 60;
+            }
             if (previousFPressed == false && state.IsKeyDown(Keys.F) && swingingSword == false)
             {
-                Console.WriteLine("swingin");
                 swingingSword = true;
+                swingFacing = facing;
+            }
+            if (!swingingSword)
+            {
                 swingFacing = facing;
             }
             if (swingingSword)
@@ -111,6 +134,11 @@ namespace Platformer
             location.X = newLocation.X;
             location.Y = newLocation.Y;
             previousFPressed = state.IsKeyDown(Keys.F);
+
+            if (projectile != null)
+            {
+                projectile.Update();
+            }
         }
         public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
@@ -118,15 +146,19 @@ namespace Platformer
             {
                 spriteBatch.Draw(swordTexture, new Vector2(swordLocation.X - offsetX, swordLocation.Y - offsetY), swordSource, Color.White, angle, new Vector2(0, swordTexture.Height), 1.0f, SpriteEffects.None, 1);
             }
-            if (state == "normal")
+            if (swingFacing == "right")
             {
-                spriteBatch.Draw(normalTexture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
+                spriteBatch.Draw(normalFacingRightTexture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
             }
-            else if (state == "squished")
+            else if (swingFacing == "left")
             {
-                spriteBatch.Draw(squishedTexture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
+                spriteBatch.Draw(normalFacingLeftTexture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
             }
 
+            if (projectile != null)
+            {
+                projectile.Draw(spriteBatch, offsetX, offsetY);
+            }
         }
     }
 }

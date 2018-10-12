@@ -62,10 +62,12 @@ namespace Platformer
 
             // TODO: use this.Content to load your game content here
 
-            Texture2D door = Content.Load<Texture2D>("door");
-            player.SetTexture(Content.Load<Texture2D>("pink-square"), Content.Load<Texture2D>("pink-square-squished"), Content.Load<Texture2D>("sword"));
-            Texture2D brickWall = Content.Load<Texture2D>("brick-wall");
-            testArea.SetTextures(brickWall, Content.Load<Texture2D>("insect-guy-facing-right"), Content.Load<Texture2D>("insect-guy-facing-left"), door);
+            player.SetTexture(Content.Load<Texture2D>("player-facing-right"), Content.Load<Texture2D>("player-facing-left"),
+                Content.Load<Texture2D>("player-facing-right"), Content.Load<Texture2D>("sword"), Content.Load<Texture2D>("blue-ball"));
+
+            testArea.SetTextures(Content.Load<Texture2D>("brick-wall"), Content.Load<Texture2D>("insect-guy-facing-right"), 
+                Content.Load<Texture2D>("insect-guy-facing-left"), Content.Load<Texture2D>("door"), Content.Load<Texture2D>("slime-facing-left"), 
+                Content.Load<Texture2D>("slime-facing-right"));
 
         }
 

@@ -33,19 +33,26 @@ namespace Platformer
 
             if (newLeftGridX < oldLeftGridX)
             {
-                if (tiles[newLeftGridX][newTopGridY].isBarrier || tiles[newLeftGridX][newBottomGridY].isBarrier)
+                for (int i = newTopGridY; i <= newBottomGridY; i++)
                 {
-                    newLocation.X = oldLeftGridX * 50;
-                    collisions[0] = true;
+                    if (tiles[newLeftGridX][i].isBarrier)
+                    {
+                        newLocation.X = oldLeftGridX * 50;
+                        collisions[0] = true;
+                        break;
+                    }
                 }
             }
 
             else if (newRightGridX > oldRightGridX)
             {
-                if (tiles[newRightGridX][newTopGridY].isBarrier || tiles[newRightGridX][newBottomGridY].isBarrier)
-                {
-                    newLocation.X = newLeftGridX * 50;
-                    collisions[0] = true;
+                for (int i = newTopGridY; i <= newBottomGridY; i++) {
+                    if (tiles[newRightGridX][i].isBarrier)
+                    {
+                        newLocation.X = (newRightGridX * 50) - width;
+                        collisions[0] = true;
+                        break;
+                    }
                 }
             }
 
@@ -54,23 +61,32 @@ namespace Platformer
 
             if (newTopGridY < oldTopGridY)
             {
-                if (tiles[newLeftGridX][newTopGridY].isBarrier || tiles[newRightGridX][newTopGridY].isBarrier)
+                for (int i = newLeftGridX; i <= newRightGridX; i++)
                 {
-                    newLocation.Y = oldTopGridY * 50;
-                    verticalVelocity = 0;
-                    collisions[1] = true;
+                    if (tiles[i][newTopGridY].isBarrier)
+                    {
+                        newLocation.Y = ((newTopGridY + 1) * 50);
+                        verticalVelocity = 0;
+                        collisions[1] = true;
+                        break;
+                    }
                 }
             }
 
             else if (newBottomGridY > oldBottomGridY)
             {
-                if (tiles[newLeftGridX][newBottomGridY].isBarrier || tiles[newRightGridX][newBottomGridY].isBarrier)
+                for (int i = newLeftGridX; i <= newRightGridX; i++)
                 {
-                    newLocation.Y = (int)((newLocation.Y) / 50) * 50;
-                    isFalling = false;
-                    state = "squished";
-                    squishCounter = 8;
-                    collisions[1] = true;
+                    if (tiles[i][newBottomGridY].isBarrier)
+                    {
+                        newLocation.Y = (newBottomGridY * 50) - height;
+                        isFalling = false;
+                        state = "squished";
+                        squishCounter = 8;
+                        collisions[1] = true;
+                        Console.WriteLine("wumph");
+                        break;
+                    }
                 }
             }
 
@@ -83,6 +99,7 @@ namespace Platformer
                 {
                     isFalling = true;
                     verticalVelocity = 0;
+                    Console.WriteLine("ye");
                 }
             }
 
