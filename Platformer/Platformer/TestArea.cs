@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace Platformer
 {
     class TestArea : Location
     {
-        Insect insect = new Insect(new Vector2(100, 600));
-        public TestArea(Player player, int screenGridWidth, int screenGridHeight) : base(player, screenGridWidth, screenGridHeight)
+        public TestArea(Player player, int screenGridWidth, int screenGridHeight, ContentManager content) : base(player, screenGridWidth, screenGridHeight, content)
         {
-            insects[0] = insect;
-            slimes[0] = new Slime(new Vector2(700, 400), player);
+            enemies[0] = new Insect(new Vector2(100, 600));
+            enemies[1] = new Slime(new Vector2(700, 400), player);
+            enemies[2] = new Slime(new Vector2(1000, 300), player);
             height = 15;
             width = 30;
             offsetX = 0;

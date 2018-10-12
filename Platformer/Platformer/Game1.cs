@@ -29,7 +29,7 @@ namespace Platformer
             screenGridWidth = (int)(graphics.PreferredBackBufferWidth / 50) + 1;
             screenGridHeight = (int)(graphics.PreferredBackBufferHeight / 50) + 1;
 
-            testArea = new TestArea(player, screenGridWidth, screenGridHeight);
+            testArea = new TestArea(player, screenGridWidth, screenGridHeight, Content);
 
 
 

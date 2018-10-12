@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 
 namespace Platformer
 {
-    class Slime : Character
+    class Slime : Enemy
     {
         private string facing = "left";
         private Texture2D leftFacingTexture, rightFacingTexture;
@@ -27,13 +28,7 @@ namespace Platformer
             height = 100;
         }
 
-        public void SetTextures(Texture2D leftFacingTexture, Texture2D rightFacingTexture)
-        {
-            this.leftFacingTexture = leftFacingTexture;
-            this.rightFacingTexture = rightFacingTexture;
-        }
-
-        public void Update(Tile[][] tiles)
+        public override void Update(Tile[][] tiles)
         {
             newLocation = location;
 
@@ -50,7 +45,16 @@ namespace Platformer
 
             if (isFalling)
             {
-                newLocation.Y += 1;
+                newLocation.Y += verticalVelocity;
+                verticalVelocity++;
+                if (facing == "left")
+                {
+                    newLocation.X -= 5;
+                }
+                else if (facing == "right")
+                {
+                    newLocation.X += 5;
+                }
             }
             if (!isFalling && jumpCooldown == 0)
             {
@@ -67,7 +71,7 @@ namespace Platformer
             location = newLocation;
         }
 
-        public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
             Rectangle sourceRectangle = new Rectangle(currentFrame * 100, 0, 100, 100);
             if (facing == "left")
@@ -78,6 +82,12 @@ namespace Platformer
             {
                 spriteBatch.Draw(rightFacingTexture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
             }
+        }
+
+        public override void LoadTextures(ContentManager content)
+        {
+            this.leftFacingTexture = content.Load<Texture2D>("slime-facing-left");
+            this.rightFacingTexture = content.Load<Texture2D>("slime-facing-right");
         }
 
 
@@ -91,6 +101,8 @@ namespace Platformer
             {
                 facing = "right";
             }
+            isFalling = true;
+            verticalVelocity = -10;
         }
     }
 }

@@ -6,23 +6,25 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
 
 namespace Platformer
 {
     class Location
     {
         public Tile[][] tiles;
-        public Insect[] insects = new Insect[1];
-        public Slime[] slimes = new Slime[1];
+        public Enemy[] enemies = new Enemy[3];
         public int height, width;
         public int offsetX, offsetY, screenGridWidth, screenGridHeight;
         public Player player;
+        private ContentManager content;
 
-        public Location(Player player, int screenGridWidth, int screenGridHeight)
+        public Location(Player player, int screenGridWidth, int screenGridHeight, ContentManager content)
         {
             this.player = player;
             this.screenGridWidth = screenGridWidth;
             this.screenGridHeight = screenGridHeight;
+            this.content = content;
             player.SetLocation(this);
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -37,8 +39,10 @@ namespace Platformer
                     }
                 }
             }
-            insects[0].Draw(spriteBatch, offsetX, offsetY);
-            slimes[0].Draw(spriteBatch, offsetX, offsetY);
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Draw(spriteBatch, offsetX, offsetY);
+            }
             player.Draw(spriteBatch, offsetX, offsetY);
         }
         public void SetTextures(Texture2D brickWall, Texture2D insectRightFacing, Texture2D insectLeftFacing, Texture2D door, Texture2D slimeLeftFacing, Texture2D slimeRightFacing)
@@ -53,14 +57,18 @@ namespace Platformer
                     }
                 }
             }
-            insects[0].SetTexture(insectRightFacing, insectLeftFacing);
-            slimes[0].SetTextures(slimeLeftFacing, slimeRightFacing);
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.LoadTextures(content);
+            }
         }
         public void Update(KeyboardState state)
         {
             player.Update(state, tiles);
-            insects[0].Update(tiles);
-            slimes[0].Update(tiles);
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Update(tiles);
+            }
             if ((player.location.X - offsetX) > (screenGridWidth * 50) - 500)
             {
                 if (offsetX + (screenGridWidth * 50) < tiles.Length * 50)
