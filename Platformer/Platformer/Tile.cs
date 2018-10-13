@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace Platformer
 {
@@ -22,9 +23,12 @@ namespace Platformer
             this.isTextured = isTextured;
             location = new Vector2(x * 50, y * 50);
         }
-        public void SetTexture(Texture2D texture)
+        public void LoadTextures(ContentManager content)
         {
-            this.texture = texture;
+            if (isTextured)
+            {
+                texture = content.Load<Texture2D>("brick-wall");
+            }
         }
         public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {

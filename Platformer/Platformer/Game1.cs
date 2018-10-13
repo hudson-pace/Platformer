@@ -15,9 +15,8 @@ namespace Platformer
         SpriteBatch spriteBatch;
 
         private Player player = new Player(new Vector2(100, 100));
-        //private Insect insect = new Insect(new Vector2(100, 600));
-        private Location testArea;
-        private int screenGridWidth, screenGridHeight;
+        private Location currentLocation;
+        private int screenGridWidth, screenGridHeight, screenWidth, screenHeight;
 
         public Game1()
         {
@@ -26,10 +25,12 @@ namespace Platformer
             graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
 
+            screenWidth = (int)(graphics.PreferredBackBufferWidth);
+            screenHeight = (int)(graphics.PreferredBackBufferHeight);
             screenGridWidth = (int)(graphics.PreferredBackBufferWidth / 50) + 1;
             screenGridHeight = (int)(graphics.PreferredBackBufferHeight / 50) + 1;
 
-            testArea = new TestArea(player, screenGridWidth, screenGridHeight, Content);
+            currentLocation = new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, Content);
 
 
 
@@ -65,9 +66,7 @@ namespace Platformer
             player.SetTexture(Content.Load<Texture2D>("player-facing-right"), Content.Load<Texture2D>("player-facing-left"),
                 Content.Load<Texture2D>("player-facing-right"), Content.Load<Texture2D>("sword"), Content.Load<Texture2D>("blue-ball"));
 
-            testArea.SetTextures(Content.Load<Texture2D>("brick-wall"), Content.Load<Texture2D>("insect-guy-facing-right"), 
-                Content.Load<Texture2D>("insect-guy-facing-left"), Content.Load<Texture2D>("door"), Content.Load<Texture2D>("slime-facing-left"), 
-                Content.Load<Texture2D>("slime-facing-right"));
+            currentLocation.SetTextures();
 
         }
 
@@ -96,7 +95,7 @@ namespace Platformer
 
             //insect.Update(testArea.tiles);
             //player.Update(state, testArea.tiles);
-            testArea.Update(state);
+            currentLocation.Update(state);
 
             base.Update(gameTime);
         }
@@ -115,7 +114,7 @@ namespace Platformer
 
             //insect.Draw(spriteBatch);
             //player.Draw(spriteBatch);
-            testArea.Draw(spriteBatch);
+            currentLocation.Draw(spriteBatch);
 
             spriteBatch.End();
 
