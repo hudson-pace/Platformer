@@ -13,17 +13,19 @@ namespace Platformer
     class Location
     {
         public Tile[][] tiles;
-        public Enemy[] enemies = new Enemy[3];
+        protected List<Enemy> enemies = new List<Enemy>();
         public int height, width;
-        public int offsetX, offsetY, screenGridWidth, screenGridHeight;
+        public int offsetX, offsetY, screenGridWidth, screenGridHeight, screenWidth, screenHeight;
         public Player player;
         private ContentManager content;
 
-        public Location(Player player, int screenGridWidth, int screenGridHeight, ContentManager content)
+        public Location(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, ContentManager content)
         {
             this.player = player;
             this.screenGridWidth = screenGridWidth;
             this.screenGridHeight = screenGridHeight;
+            this.screenWidth = screenWidth;
+            this.screenHeight = screenHeight;
             this.content = content;
             player.SetLocation(this);
         }
@@ -39,49 +41,66 @@ namespace Platformer
                     }
                 }
             }
-            foreach (Enemy enemy in enemies)
-            {
-                enemy.Draw(spriteBatch, offsetX, offsetY);
-            }
+            enemies.ForEach(enemy => enemy.Draw(spriteBatch, offsetX, offsetY));
             player.Draw(spriteBatch, offsetX, offsetY);
         }
-        public void SetTextures(Texture2D brickWall, Texture2D insectRightFacing, Texture2D insectLeftFacing, Texture2D door, Texture2D slimeLeftFacing, Texture2D slimeRightFacing)
+        public void SetTextures()
         {
-            for (int i = 0; i < tiles.Length; i++)
+            foreach(Tile[] tileRow in tiles)
             {
-                for (int j = 0; j < tiles[i].Length; j++)
+                foreach(Tile tile in tileRow)
                 {
-                    if (tiles[i][j].isTextured)
-                    {
-                        tiles[i][j].SetTexture(brickWall);
-                    }
+                    tile.LoadTextures(content);
                 }
             }
-            foreach (Enemy enemy in enemies)
-            {
-                enemy.LoadTextures(content);
-            }
+            enemies.ForEach(enemy => enemy.LoadTextures(content));
         }
         public void Update(KeyboardState state)
         {
             player.Update(state, tiles);
-            foreach (Enemy enemy in enemies)
+            enemies.ForEach(enemy => enemy.Update(tiles));
+
+            if ((player.location.X - offsetX) > screenWidth - 500)
             {
-                enemy.Update(tiles);
-            }
-            if ((player.location.X - offsetX) > (screenGridWidth * 50) - 500)
-            {
-                if (offsetX + (screenGridWidth * 50) < tiles.Length * 50)
-                {
-                    offsetX += (int)(player.location.X - offsetX - ((screenGridWidth * 50) - 500));
+                offsetX += (int)(player.location.X - offsetX - (screenWidth - 500));
+                if (offsetX > ((tiles.Length - 1) * 50) - screenWidth) {
+                    offsetX = ((tiles.Length - 1) * 50) - screenWidth;
                 }
             }
             else if ((player.location.X - offsetX) < 500)
             {
                 offsetX -= (int)(500 - player.location.X + offsetX);
-                if (offsetX < 0)
+                if (offsetX < 50)
                 {
-                    offsetX = 0;
+                    offsetX = 50;
+                }
+            }
+        }
+
+        public void AddBorder()
+        {
+            tiles = new Tile[width][];
+            for (int i = 0; i < width; i++)
+            {
+                tiles[i] = new Tile[height];
+                for (int j = 0; j < height; j++)
+                {
+                    if (j == height - 1)
+                    {
+                        tiles[i][j] = new Tile(i, j, true, true);
+                    }
+                    else if (j == 0)
+                    {
+                        tiles[i][j] = new Tile(i, j, true, false);
+                    }
+                    else if (i == 0 || i == width - 1)
+                    {
+                        tiles[i][j] = new Tile(i, j, true, false);
+                    }
+                    else
+                    {
+                        tiles[i][j] = new Tile(i, j, false, false);
+                    }
                 }
             }
         }

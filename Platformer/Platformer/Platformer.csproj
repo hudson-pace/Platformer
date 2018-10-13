@@ -48,13 +48,14 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Insect.cs" />
+    <Compile Include="Locations\HuntingGrounds.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Slime.cs" />
-    <Compile Include="TestArea.cs" />
+    <Compile Include="Locations\TestArea.cs" />
     <Compile Include="Tile.cs" />
   </ItemGroup>
   <ItemGroup>

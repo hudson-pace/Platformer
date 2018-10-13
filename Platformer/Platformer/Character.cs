@@ -98,7 +98,6 @@ namespace Platformer
                 {
                     isFalling = true;
                     verticalVelocity = 0;
-                    Console.WriteLine("ye");
                 }
             }
 

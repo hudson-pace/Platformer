@@ -8,36 +8,22 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
-namespace Platformer
+namespace Platformer.Locations
 {
     class TestArea : Location
     {
-        public TestArea(Player player, int screenGridWidth, int screenGridHeight, ContentManager content) : base(player, screenGridWidth, screenGridHeight, content)
+        public TestArea(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, ContentManager content) 
+            : base(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, content)
         {
-            enemies[0] = new Insect(new Vector2(100, 600));
-            enemies[1] = new Slime(new Vector2(700, 400), player);
-            enemies[2] = new Slime(new Vector2(1000, 300), player);
+            enemies.Add(new Insect(new Vector2(100, 600)));
+            enemies.Add(new Slime(new Vector2(700, 400), player));
+            enemies.Add(new Slime(new Vector2(1000, 300), player));
             height = 15;
             width = 30;
             offsetX = 0;
             offsetY = 0;
-            tiles = new Tile[width][];
-
-            for (int i = 0; i < width; i++)
-            {
-                tiles[i] = new Tile[height];
-                for (int j = 0; j < height; j++)
-                {
-                    if (i == 0 || i == width - 1 || j == 0 || j == height - 1)
-                    {
-                        tiles[i][j] = new Tile(i, j, true, true);
-                    }
-                    else
-                    {
-                        tiles[i][j] = new Tile(i, j, false, false);
-                    }
-                }
-            }
+            AddBorder();
+            
 
             tiles[3][3] = new Tile(3, 3, true, true);
             tiles[6][6] = new Tile(6, 6, true, true);
