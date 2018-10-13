@@ -75,6 +75,23 @@ namespace Platformer
                     offsetX = 50;
                 }
             }
+
+            if ((player.location.Y - offsetY) > screenHeight - 300)
+            {
+                offsetY += (int)(player.location.Y - offsetY - (screenHeight - 300));
+                if (offsetY > ((tiles[0].Length - 1) * 50) - screenHeight)
+                {
+                    offsetY = ((tiles[0].Length - 1) * 50) - screenHeight;
+                }
+            }
+            else if ((player.location.Y - offsetY) < 300)
+            {
+                offsetY -= (int)(300 - player.location.Y + offsetY);
+                if (offsetY < 50)
+                {
+                    offsetY = 50;
+                }
+            }
         }
 
         public void AddBorder()
@@ -85,15 +102,7 @@ namespace Platformer
                 tiles[i] = new Tile[height];
                 for (int j = 0; j < height; j++)
                 {
-                    if (j == height - 1)
-                    {
-                        tiles[i][j] = new Tile(i, j, true, true);
-                    }
-                    else if (j == 0)
-                    {
-                        tiles[i][j] = new Tile(i, j, true, false);
-                    }
-                    else if (i == 0 || i == width - 1)
+                    if ((j == height - 1) || (j == 0) || (i == 0) || (i == width - 1))
                     {
                         tiles[i][j] = new Tile(i, j, true, false);
                     }
