@@ -12,15 +12,16 @@ namespace Platformer
 {
     class Tile
     {
-        public bool isBarrier, isTextured;
+        public bool isBarrier, isTextured, isEnemyBarrier;
 
         private Texture2D texture;
         private Vector2 location;
 
-        public Tile(int x, int y, bool isBarrier, bool isTextured)
+        public Tile(int x, int y, bool isBarrier, bool isTextured, bool isEnemyBarrier)
         {
             this.isBarrier = isBarrier;
             this.isTextured = isTextured;
+            this.isEnemyBarrier = isEnemyBarrier;
             location = new Vector2(x * 50, y * 50);
         }
         public void LoadTextures(ContentManager content)

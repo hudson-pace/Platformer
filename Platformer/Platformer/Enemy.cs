@@ -11,6 +11,10 @@ namespace Platformer
 {
     abstract class Enemy : Character
     {
+        public Enemy()
+        {
+            isEnemy = true;
+        }
         abstract public void Update(Tile[][] tiles);
         abstract public void Draw(SpriteBatch spritebatch, int offsetX, int offsetY);
         abstract public void LoadTextures(ContentManager content);

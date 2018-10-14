@@ -67,7 +67,7 @@ namespace Platformer
             }
 
 
-            bool[] collisions = Collide(tiles);
+            Collisions.CollideWithTiles(tiles, this);
             location = newLocation;
         }
 

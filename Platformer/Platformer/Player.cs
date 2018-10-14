@@ -22,13 +22,13 @@ namespace Platformer
         private string facing = "right";
         private string swingFacing = "right";
         private int projectileCooldown = 0;
-        private Projectile projectile = null;
 
 
 
         public Player(Vector2 location)
         {
             this.location = location;
+            isEnemy = false;
             height = 80;
             width = 55;
         }
@@ -89,11 +89,11 @@ namespace Platformer
             {
                 if (swingFacing == "right")
                 {
-                    projectile = new Projectile(new Vector2(location.X + (width / 2) - (Projectile.WIDTH / 2), location.Y + (height / 2) - (Projectile.HEIGHT / 2)), projectileTexture, 10);
+                    currentLocation.AddProjectile(new Projectile(new Vector2(location.X + (width / 2) - (30 / 2), location.Y + (height / 2) - (30 / 2)), projectileTexture, 10));
                 }
                 else if (swingFacing == "left")
                 {
-                    projectile = new Projectile(new Vector2(location.X + (width / 2) - (Projectile.WIDTH / 2), location.Y + (height / 2) - (Projectile.HEIGHT / 2)), projectileTexture, -10);
+                    currentLocation.AddProjectile(new Projectile(new Vector2(location.X + (width / 2) - (30 / 2), location.Y + (height / 2) - (30 / 2)), projectileTexture, -10));
                 }
                 projectileCooldown = 60;
             }
@@ -130,15 +130,11 @@ namespace Platformer
                 verticalVelocity++;
             }
 
-            Collide(tiles);
+            Collisions.CollideWithTiles(tiles, this);
             location.X = newLocation.X;
             location.Y = newLocation.Y;
             previousFPressed = state.IsKeyDown(Keys.F);
 
-            if (projectile != null)
-            {
-                projectile.Update();
-            }
         }
         public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
@@ -153,11 +149,6 @@ namespace Platformer
             else if (swingFacing == "left")
             {
                 spriteBatch.Draw(normalFacingLeftTexture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
-            }
-
-            if (projectile != null)
-            {
-                projectile.Draw(spriteBatch, offsetX, offsetY);
             }
         }
     }
