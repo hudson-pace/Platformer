@@ -31,6 +31,7 @@ namespace Platformer
             isEnemy = false;
             height = 80;
             width = 55;
+            hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
 
         public void SetTexture(Texture2D normalFacingRightTexture, Texture2D normalFacingLeftTexture, Texture2D squishedTexture, Texture2D swordTexture, Texture2D projectileTexture)
@@ -131,8 +132,8 @@ namespace Platformer
             }
 
             Collisions.CollideWithTiles(tiles, this);
-            location.X = newLocation.X;
-            location.Y = newLocation.Y;
+            location = newLocation;
+            hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             previousFPressed = state.IsKeyDown(Keys.F);
 
         }

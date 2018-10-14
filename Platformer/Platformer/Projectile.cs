@@ -24,6 +24,7 @@ namespace Platformer
             verticalVelocity = 0;
             isFalling = false;
             canFall = false;
+            hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
 
         public bool Update(Tile[][] tiles)
@@ -35,6 +36,7 @@ namespace Platformer
                 return true;
             }
             location = newLocation;
+            hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             return false;
         }
 

@@ -20,6 +20,8 @@ namespace Platformer
             this.location = location;
             width = 60;
             height = 100;
+            hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
+            health = 50;
         }
 
         public override void Update(Tile[][] tiles)
@@ -46,6 +48,7 @@ namespace Platformer
                 }
             }
             location = newLocation;
+            hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
 
         }
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)

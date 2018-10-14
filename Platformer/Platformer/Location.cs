@@ -73,6 +73,26 @@ namespace Platformer
                     projectilesToRemove.Add(projectile);
                 }
             });
+            projectiles.ForEach(projectile =>
+            {
+                Enemy enemyToRemove = null;
+                foreach (Enemy enemy in enemies)
+                {
+                    if (Collisions.EntityCollisions(projectile, enemy))
+                    {
+                        projectilesToRemove.Add(projectile);
+                        if (enemy.GetHit())
+                        {
+                            enemyToRemove = enemy;
+                        }
+                        break;
+                    }
+                }
+                if (enemyToRemove != null)
+                {
+                    enemies.Remove(enemyToRemove);
+                }
+            });
 
             projectilesToRemove.ForEach(projectile => projectiles.Remove(projectile));
 

@@ -93,5 +93,14 @@ namespace Platformer
 
             return collided;
         }
+
+        public static bool EntityCollisions(Entity entity1, Entity entity2)
+        {
+            if (entity1.hitBox.Intersects(entity2.hitBox))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
