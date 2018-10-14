@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Platformer
 {
-    class Location
+    abstract class Location
     {
         public Tile[][] tiles;
         protected List<Enemy> enemies = new List<Enemy>();
@@ -18,7 +18,7 @@ namespace Platformer
         public int height, width;
         public int offsetX, offsetY, screenGridWidth, screenGridHeight, screenWidth, screenHeight;
         public Player player;
-        private ContentManager content;
+        protected ContentManager content;
 
         public Location(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, ContentManager content)
         {
@@ -46,17 +46,7 @@ namespace Platformer
             projectiles.ForEach(projectile => projectile.Draw(spriteBatch, offsetX, offsetY));
             player.Draw(spriteBatch, offsetX, offsetY);
         }
-        public void SetTextures()
-        {
-            foreach(Tile[] tileRow in tiles)
-            {
-                foreach(Tile tile in tileRow)
-                {
-                    tile.LoadTextures(content);
-                }
-            }
-            enemies.ForEach(enemy => enemy.LoadTextures(content));
-        }
+        abstract public void LoadTextures();
         public void AddProjectile(Projectile projectile)
         {
             projectiles.Add(projectile);

@@ -18,7 +18,6 @@ namespace Platformer
         }
         abstract public void Update(Tile[][] tiles);
         abstract public void Draw(SpriteBatch spritebatch, int offsetX, int offsetY);
-        abstract public void LoadTextures(ContentManager content);
         public bool GetHit()
         {
             state = "hurt";

@@ -13,7 +13,7 @@ namespace Platformer
     class Insect : Enemy
     {
         private string facing = "right";
-        private Texture2D rightFacing, leftFacing;
+        private static Texture2D rightFacing, leftFacing;
 
         public Insect(Vector2 location)
         {
@@ -62,10 +62,10 @@ namespace Platformer
                 spriteBatch.Draw(leftFacing, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
             }
         }
-        public override void LoadTextures(ContentManager content)
+        public static void LoadTextures(ContentManager content)
         {
-            this.rightFacing = content.Load<Texture2D>("insect-guy-facing-right");
-            this.leftFacing = content.Load<Texture2D>("insect-guy-facing-left");
+            rightFacing = content.Load<Texture2D>("insect-guy-facing-right");
+            leftFacing = content.Load<Texture2D>("insect-guy-facing-left");
         }
     }
 }
