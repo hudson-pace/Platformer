@@ -10,7 +10,7 @@ namespace Platformer
     class Entity
     {
         public Vector2 location, newLocation;
-        public int width, height, verticalVelocity;
+        public int width, height, verticalVelocity, horizontalVelocity;
         public int squishCounter = 0;
         public bool isFalling = true, isEnemy;
         public bool canFall = true;

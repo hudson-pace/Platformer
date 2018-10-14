@@ -12,7 +12,6 @@ namespace Platformer
     class Projectile : Entity
     {
         public Texture2D texture;
-        public int horizontalVelocity;
 
         public Projectile(Vector2 location, Texture2D texture, int horizontalVelocity)
         {

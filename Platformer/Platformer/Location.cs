@@ -71,7 +71,12 @@ namespace Platformer
                     if (Collisions.EntityCollisions(projectile, enemy))
                     {
                         projectilesToRemove.Add(projectile);
-                        if (enemy.GetHit())
+                        String direction = "left";
+                        if (projectile.horizontalVelocity > 0)
+                        {
+                            direction = "right";
+                        }
+                        if (enemy.GetHit(direction))
                         {
                             enemyToRemove = enemy;
                         }

@@ -18,6 +18,7 @@ namespace Platformer
         private int jumpCooldown;
         private int currentFrame = 0;
         private int frameCounter = 0;
+        private static Random random = new Random();
 
         public Slime(Vector2 location, Player player)
         {
@@ -58,19 +59,11 @@ namespace Platformer
             {
                 newLocation.Y += verticalVelocity;
                 verticalVelocity++;
-                if (facing == "left")
-                {
-                    newLocation.X -= 5;
-                }
-                else if (facing == "right")
-                {
-                    newLocation.X += 5;
-                }
+                newLocation.X += horizontalVelocity;
             }
             if (!isFalling && jumpCooldown == 0)
             {
                 Jump();
-                jumpCooldown = 100;
             }
             else if (!isFalling && jumpCooldown > 0)
             {
@@ -138,6 +131,13 @@ namespace Platformer
             }
             isFalling = true;
             verticalVelocity = -10;
+            verticalVelocity = random.Next(-13, -9);
+            horizontalVelocity = random.Next(4, 6);
+            if (facing == "left")
+            {
+                horizontalVelocity *= -1;
+            }
+            jumpCooldown = random.Next(7, 13) * 10;
         }
     }
 }

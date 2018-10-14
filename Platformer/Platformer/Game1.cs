@@ -63,8 +63,9 @@ namespace Platformer
 
             // TODO: use this.Content to load your game content here
 
-            player.SetTexture(Content.Load<Texture2D>("player-facing-right"), Content.Load<Texture2D>("player-facing-left"),
-                Content.Load<Texture2D>("player-facing-right"), Content.Load<Texture2D>("sword"), Content.Load<Texture2D>("blue-ball"));
+            player.SetTexture(Content.Load<Texture2D>("player-facing-right"), Content.Load<Texture2D>("player-facing-left"), Content.Load<Texture2D>("player-facing-right"),
+                Content.Load<Texture2D>("sword"), Content.Load<Texture2D>("blue-ball"), Content.Load<Texture2D>("megaman-running-left"), 
+                Content.Load<Texture2D>("megaman-running-right"));
 
             currentLocation.LoadTextures();
 

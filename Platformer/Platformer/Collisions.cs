@@ -74,6 +74,8 @@ namespace Platformer
                         entity.isFalling = false;
                         entity.state = "squished";
                         entity.squishCounter = 8;
+                        entity.verticalVelocity = 0;
+                        entity.horizontalVelocity = 0;
                         collided = true;
                         break;
                     }
