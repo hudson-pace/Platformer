@@ -12,16 +12,16 @@ namespace Platformer
 {
     class Player : Character
     {
-        private Texture2D normalFacingRightTexture, normalFacingLeftTexture, squishedTexture, swordTexture, projectileTexture;
+        private Texture2D normalFacingRightTexture, normalFacingLeftTexture, squishedTexture, swordTexture, projectileTexture, runningLeft, runningRight;
         private Location currentLocation;
-        private bool previousFPressed = false;
+        private bool previousFPressed = false, previousAPressed = false, previousDPressed = false;
         private bool swingingSword = false;
         private float angle = 0;
         private Vector2 swordLocation;
         private Rectangle swordSource;
         private string facing = "right";
         private string swingFacing = "right";
-        private int projectileCooldown = 0;
+        private int projectileCooldown = 0, textureChangeCounter = 0, currentTextureState;
 
 
 
@@ -29,18 +29,21 @@ namespace Platformer
         {
             this.location = location;
             isEnemy = false;
-            height = 80;
-            width = 55;
+            height = 100;
+            width = 100;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
 
-        public void SetTexture(Texture2D normalFacingRightTexture, Texture2D normalFacingLeftTexture, Texture2D squishedTexture, Texture2D swordTexture, Texture2D projectileTexture)
+        public void SetTexture(Texture2D normalFacingRightTexture, Texture2D normalFacingLeftTexture, Texture2D squishedTexture, Texture2D swordTexture, 
+            Texture2D projectileTexture, Texture2D runningLeft, Texture2D runningRight)
         {
             this.normalFacingRightTexture = normalFacingRightTexture;
             this.normalFacingLeftTexture = normalFacingLeftTexture;
             this.squishedTexture = squishedTexture;
             this.swordTexture = swordTexture;
             this.projectileTexture = projectileTexture;
+            this.runningLeft = runningLeft;
+            this.runningRight = runningRight;
             swordSource = new Rectangle(0, 0, swordTexture.Width, swordTexture.Height);
         }
 
@@ -63,16 +66,52 @@ namespace Platformer
                 }
             }
 
-            if (state.IsKeyDown(Keys.A))
+            if (!previousAPressed && !previousDPressed)
             {
-                newLocation.X -= 4;
-                facing = "left";
+                textureChangeCounter = 5;
+                currentTextureState = 1;
             }
-            if (state.IsKeyDown(Keys.D))
+            if (!(state.IsKeyDown(Keys.A) && state.IsKeyDown(Keys.D)))
             {
-                newLocation.X += 4;
-                facing = "right";
+                if (state.IsKeyDown(Keys.A))
+                {
+                    if (previousAPressed)
+                    {
+                        textureChangeCounter--;
+
+                    }
+                    previousAPressed = true;
+                    previousDPressed = false;
+                    newLocation.X -= 4;
+                    facing = "left";
+                }
+                if (state.IsKeyDown(Keys.D))
+                {
+                    if (previousDPressed)
+                    {
+                        textureChangeCounter--;
+                    }
+                    previousAPressed = false;
+                    previousDPressed = true;
+                    newLocation.X += 4;
+                    facing = "right";
+                }
+                if (textureChangeCounter <= 0)
+                {
+                    currentTextureState++;
+                    if (currentTextureState > 2)
+                    {
+                        currentTextureState = 0;
+                    }
+                    textureChangeCounter = 5;
+                }
+                if (!state.IsKeyDown(Keys.A) && !state.IsKeyDown(Keys.D))
+                {
+                    textureChangeCounter = 5;
+                    currentTextureState = 1;
+                }
             }
+            
 
 
 
@@ -143,14 +182,17 @@ namespace Platformer
             {
                 spriteBatch.Draw(swordTexture, new Vector2(swordLocation.X - offsetX, swordLocation.Y - offsetY), swordSource, Color.White, angle, new Vector2(0, swordTexture.Height), 1.0f, SpriteEffects.None, 1);
             }
+
+            Rectangle sourceRectangle = new Rectangle(currentTextureState * 100, 0, 100, 100);
+            Texture2D texture = runningLeft;
             if (swingFacing == "right")
             {
-                spriteBatch.Draw(normalFacingRightTexture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
+                texture = runningRight;
             }
-            else if (swingFacing == "left")
-            {
-                spriteBatch.Draw(normalFacingLeftTexture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
-            }
+
+            spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
+
+            //Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
         }
     }
 }
