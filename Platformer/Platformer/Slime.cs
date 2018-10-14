@@ -13,7 +13,7 @@ namespace Platformer
     class Slime : Enemy
     {
         private string facing = "left";
-        private Texture2D leftFacingTexture, rightFacingTexture;
+        private Texture2D leftFacingTexture, rightFacingTexture, leftFacingHurtTexture, rightFacingHurtTexture;
         private Player player;
         private int jumpCooldown;
         private int currentFrame = 0;
@@ -26,6 +26,8 @@ namespace Platformer
             jumpCooldown = 50;
             width = 100;
             height = 100;
+            hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
+            health = 100;
         }
 
         public override void Update(Tile[][] tiles)
@@ -43,6 +45,15 @@ namespace Platformer
                 currentFrame = 0;
             }
 
+            if (state == "hurt")
+            {
+                hurtCounter--;
+                if (hurtCounter <= 0)
+                {
+                    hurtCounter = 0;
+                    state = "normal";
+                }
+            }
             if (isFalling)
             {
                 newLocation.Y += verticalVelocity;
@@ -69,25 +80,50 @@ namespace Platformer
 
             Collisions.CollideWithTiles(tiles, this);
             location = newLocation;
+            hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
 
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
             Rectangle sourceRectangle = new Rectangle(currentFrame * 100, 0, 100, 100);
+            Texture2D texture;
             if (facing == "left")
             {
-                spriteBatch.Draw(leftFacingTexture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
+                if (state == "hurt")
+                {
+                    texture = leftFacingHurtTexture;
+                }
+                else
+                {
+                    texture = leftFacingTexture;
+                }
             }
             else if (facing == "right")
             {
-                spriteBatch.Draw(rightFacingTexture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
+                if (state == "hurt")
+                {
+                    texture = rightFacingHurtTexture;
+                }
+                else
+                {
+                    texture = rightFacingTexture;
+                }
             }
+            else
+            {
+                texture = leftFacingTexture;
+            }
+
+            spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
         }
 
         public override void LoadTextures(ContentManager content)
         {
-            this.leftFacingTexture = content.Load<Texture2D>("slime-facing-left");
-            this.rightFacingTexture = content.Load<Texture2D>("slime-facing-right");
+            leftFacingTexture = content.Load<Texture2D>("slime-facing-left");
+            rightFacingTexture = content.Load<Texture2D>("slime-facing-right");
+            leftFacingHurtTexture = content.Load<Texture2D>("slime-facing-left-hurt");
+            rightFacingHurtTexture = content.Load<Texture2D>("slime-facing-right-hurt");
+
         }
 
 
