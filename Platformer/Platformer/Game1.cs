@@ -66,7 +66,7 @@ namespace Platformer
             player.SetTexture(Content.Load<Texture2D>("player-facing-right"), Content.Load<Texture2D>("player-facing-left"),
                 Content.Load<Texture2D>("player-facing-right"), Content.Load<Texture2D>("sword"), Content.Load<Texture2D>("blue-ball"));
 
-            currentLocation.SetTextures();
+            currentLocation.LoadTextures();
 
         }
 

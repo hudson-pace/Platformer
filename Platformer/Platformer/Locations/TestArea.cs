@@ -46,6 +46,10 @@ namespace Platformer.Locations
             tiles[25][18] = new Tile(25, 19, false, false, true);
         }
 
-
+        public override void LoadTextures()
+        {
+            Tile.LoadTextures(content);
+            Slime.LoadTextures(content);
+        }
     }
 }

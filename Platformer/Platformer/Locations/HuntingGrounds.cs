@@ -35,5 +35,9 @@ namespace Platformer.Locations
                 tiles[2][i + 3] = new Tile(2, i + 3, true, true, true);
             }
         }
+        override public void LoadTextures()
+        {
+            Tile.LoadTextures(content);
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace Platformer
     {
         public bool isBarrier, isTextured, isEnemyBarrier;
 
-        private Texture2D texture;
+        private static Texture2D texture;
         private Vector2 location;
 
         public Tile(int x, int y, bool isBarrier, bool isTextured, bool isEnemyBarrier)
@@ -24,12 +24,9 @@ namespace Platformer
             this.isEnemyBarrier = isEnemyBarrier;
             location = new Vector2(x * 50, y * 50);
         }
-        public void LoadTextures(ContentManager content)
+        public static void LoadTextures(ContentManager content)
         {
-            if (isTextured)
-            {
-                texture = content.Load<Texture2D>("brick-wall");
-            }
+            texture = content.Load<Texture2D>("brick-wall");
         }
         public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {

@@ -44,6 +44,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BusinessMan.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="Collisions.cs" />
     <Compile Include="Enemy.cs" />

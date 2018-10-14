@@ -13,7 +13,7 @@ namespace Platformer
     class Slime : Enemy
     {
         private string facing = "left";
-        private Texture2D leftFacingTexture, rightFacingTexture, leftFacingHurtTexture, rightFacingHurtTexture;
+        private static Texture2D leftFacingTexture, rightFacingTexture, leftFacingHurtTexture, rightFacingHurtTexture;
         private Player player;
         private int jumpCooldown;
         private int currentFrame = 0;
@@ -117,7 +117,7 @@ namespace Platformer
             spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
         }
 
-        public override void LoadTextures(ContentManager content)
+        public static void LoadTextures(ContentManager content)
         {
             leftFacingTexture = content.Load<Texture2D>("slime-facing-left");
             rightFacingTexture = content.Load<Texture2D>("slime-facing-right");
@@ -125,7 +125,6 @@ namespace Platformer
             rightFacingHurtTexture = content.Load<Texture2D>("slime-facing-right-hurt");
 
         }
-
 
         public void Jump()
         {
