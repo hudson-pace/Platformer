@@ -34,8 +34,7 @@ namespace Platformer
             {
                 newLocation.X -= 2;
             }
-            bool[] collisions = Collide(tiles);
-            if (collisions[0])
+            if (Collisions.CollideWithTiles(tiles, this))
             {
                 if (facing == "right")
                 {
@@ -46,7 +45,6 @@ namespace Platformer
                     facing = "right";
                 }
             }
-
             location = newLocation;
 
         }

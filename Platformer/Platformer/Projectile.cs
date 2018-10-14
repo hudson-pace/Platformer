@@ -9,24 +9,33 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Platformer
 {
-    class Projectile
+    class Projectile : Entity
     {
-        public Vector2 location;
         public Texture2D texture;
-        public int velocity;
-        public static int HEIGHT = 30;
-        public static int WIDTH = 30;
+        public int horizontalVelocity;
 
-        public Projectile(Vector2 location, Texture2D texture, int velocity)
+        public Projectile(Vector2 location, Texture2D texture, int horizontalVelocity)
         {
             this.location = location;
-            this.velocity = velocity;
+            this.horizontalVelocity = horizontalVelocity;
             this.texture = texture;
+            height = 30;
+            width = 30;
+            verticalVelocity = 0;
+            isFalling = false;
+            canFall = false;
         }
 
-        public void Update()
+        public bool Update(Tile[][] tiles)
         {
-            this.location.X += this.velocity;
+            newLocation = location;
+            newLocation.X += horizontalVelocity;
+            if (Collisions.CollideWithTiles(tiles, this))
+            {
+                return true;
+            }
+            location = newLocation;
+            return false;
         }
 
         public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)

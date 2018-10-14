@@ -30,7 +30,7 @@ namespace Platformer
             screenGridWidth = (int)(graphics.PreferredBackBufferWidth / 50) + 1;
             screenGridHeight = (int)(graphics.PreferredBackBufferHeight / 50) + 1;
 
-            currentLocation = new Locations.HuntingGrounds(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, Content);
+            currentLocation = new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, Content);
 
 
 

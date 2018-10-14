@@ -14,6 +14,7 @@ namespace Platformer
     {
         public Tile[][] tiles;
         protected List<Enemy> enemies = new List<Enemy>();
+        protected List<Projectile> projectiles = new List<Projectile>();
         public int height, width;
         public int offsetX, offsetY, screenGridWidth, screenGridHeight, screenWidth, screenHeight;
         public Player player;
@@ -42,6 +43,7 @@ namespace Platformer
                 }
             }
             enemies.ForEach(enemy => enemy.Draw(spriteBatch, offsetX, offsetY));
+            projectiles.ForEach(projectile => projectile.Draw(spriteBatch, offsetX, offsetY));
             player.Draw(spriteBatch, offsetX, offsetY);
         }
         public void SetTextures()
@@ -55,10 +57,25 @@ namespace Platformer
             }
             enemies.ForEach(enemy => enemy.LoadTextures(content));
         }
+        public void AddProjectile(Projectile projectile)
+        {
+            projectiles.Add(projectile);
+        }
         public void Update(KeyboardState state)
         {
             player.Update(state, tiles);
             enemies.ForEach(enemy => enemy.Update(tiles));
+
+            List<Projectile> projectilesToRemove = new List<Projectile>();
+            projectiles.ForEach(projectile => {
+                if (projectile.Update(tiles))
+                {
+                    projectilesToRemove.Add(projectile);
+                }
+            });
+
+            projectilesToRemove.ForEach(projectile => projectiles.Remove(projectile));
+
 
             if ((player.location.X - offsetX) > screenWidth - 500)
             {
@@ -104,11 +121,11 @@ namespace Platformer
                 {
                     if ((j == height - 1) || (j == 0) || (i == 0) || (i == width - 1))
                     {
-                        tiles[i][j] = new Tile(i, j, true, false);
+                        tiles[i][j] = new Tile(i, j, true, false, true);
                     }
                     else
                     {
-                        tiles[i][j] = new Tile(i, j, false, false);
+                        tiles[i][j] = new Tile(i, j, false, false, false);
                     }
                 }
             }

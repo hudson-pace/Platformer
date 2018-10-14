@@ -45,7 +45,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Character.cs" />
+    <Compile Include="Collisions.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="Entity.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Insect.cs" />
     <Compile Include="Locations\HuntingGrounds.cs" />
@@ -57,6 +59,7 @@
     <Compile Include="Slime.cs" />
     <Compile Include="Locations\TestArea.cs" />
     <Compile Include="Tile.cs" />
+    <Compile Include="Tiles\EnemyBarrier.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
