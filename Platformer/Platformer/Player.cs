@@ -15,13 +15,12 @@ namespace Platformer
         private Texture2D normalFacingRightTexture, normalFacingLeftTexture, squishedTexture, swordTexture, projectileTexture, runningLeft, runningRight;
         private Location currentLocation;
         private bool previousFPressed = false, previousAPressed = false, previousDPressed = false;
+        public bool swordIsActive = false;
         private bool swingingSword = false;
-        private float angle = 0;
-        private Vector2 swordLocation;
-        private Rectangle swordSource;
+        public Rectangle swordHitBox;
         private string facing = "right";
-        private string swingFacing = "right";
-        private int projectileCooldown = 0, textureChangeCounter = 0, currentTextureState;
+        public string swingFacing = "right";
+        private int projectileCooldown = 0, textureChangeCounter = 0, currentTextureState = 1, swordTextureChangeCounter = 5, currentSwordTextureState = 0, swordOffset;
 
 
 
@@ -32,6 +31,7 @@ namespace Platformer
             height = 100;
             width = 100;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
+            swordHitBox = new Rectangle((int)location.X + width, (int)location.Y, swordOffset, height);
         }
 
         public void SetTexture(Texture2D normalFacingRightTexture, Texture2D normalFacingLeftTexture, Texture2D squishedTexture, Texture2D swordTexture, 
@@ -44,7 +44,7 @@ namespace Platformer
             this.projectileTexture = projectileTexture;
             this.runningLeft = runningLeft;
             this.runningRight = runningRight;
-            swordSource = new Rectangle(0, 0, swordTexture.Width, swordTexture.Height);
+            this.swordOffset = 30;
         }
 
         public void SetLocation(Location currentLocation)
@@ -148,19 +148,20 @@ namespace Platformer
             }
             if (swingingSword)
             {
-                swordLocation = new Vector2(location.X + (width / 2), location.Y + (height / 2));
-                if (swingFacing == "right")
+                swordTextureChangeCounter--;
+                if (swordTextureChangeCounter < 0)
                 {
-                    angle += .11f;
-                }
-                else if (swingFacing == "left")
-                {
-                    angle -= .11f;
-                }
-                if (angle >= 2 || angle <= -2)
-                {
-                    angle = 0;
-                    swingingSword = false;
+                    swordTextureChangeCounter = 5;
+                    currentSwordTextureState++;
+                    if (currentSwordTextureState == 1)
+                    {
+                        swordIsActive = true;
+                    }
+                    if (currentSwordTextureState >= 2)
+                    {
+                        swingingSword = false;
+                        currentSwordTextureState = 0;
+                    }
                 }
             }
 
@@ -173,26 +174,44 @@ namespace Platformer
             Collisions.CollideWithTiles(tiles, this);
             location = newLocation;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
+            if (facing == "left")
+            {
+                swordHitBox = new Rectangle((int)location.X - swordOffset, (int)location.Y, swordOffset, height);
+            }
+            else if (facing == "right")
+            {
+                swordHitBox = new Rectangle((int)location.X + width, (int)location.Y, swordOffset, height);
+            }
             previousFPressed = state.IsKeyDown(Keys.F);
 
         }
         public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
+            Rectangle sourceRectangle;
+            Texture2D texture;
+
             if (swingingSword)
             {
-                spriteBatch.Draw(swordTexture, new Vector2(swordLocation.X - offsetX, swordLocation.Y - offsetY), swordSource, Color.White, angle, new Vector2(0, swordTexture.Height), 1.0f, SpriteEffects.None, 1);
+                int textureRow = 0;
+                int textureOffset = 0;
+                if (swingFacing == "left")
+                {
+                    textureRow = 1;
+                    textureOffset = swordOffset;
+                }
+                sourceRectangle = new Rectangle(currentSwordTextureState * 130, textureRow * 100, 130, 100);
+                texture = swordTexture;
+                spriteBatch.Draw(texture, new Vector2(location.X - offsetX - textureOffset, location.Y - offsetY), sourceRectangle, Color.White);
             }
 
-            Rectangle sourceRectangle = new Rectangle(currentTextureState * 100, 0, 100, 100);
-            Texture2D texture = runningLeft;
+            sourceRectangle = new Rectangle(currentTextureState * 100, 0, 100, 100);
+            texture = runningLeft;
             if (swingFacing == "right")
             {
                 texture = runningRight;
             }
 
             spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
-
-            //Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
         }
     }
 }
