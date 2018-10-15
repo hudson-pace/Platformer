@@ -68,7 +68,7 @@ namespace Platformer
                 Enemy enemyToRemove = null;
                 foreach (Enemy enemy in enemies)
                 {
-                    if (Collisions.EntityCollisions(projectile, enemy))
+                    if (Collisions.EntityCollisions(projectile.hitBox, enemy.hitBox))
                     {
                         projectilesToRemove.Add(projectile);
                         String direction = "left";
@@ -90,6 +90,27 @@ namespace Platformer
             });
 
             projectilesToRemove.ForEach(projectile => projectiles.Remove(projectile));
+
+            if (player.swordIsActive)
+            {
+                Enemy enemyToRemove = null;
+                foreach (Enemy enemy in enemies)
+                {
+                    if (Collisions.EntityCollisions(player.swordHitBox, enemy.hitBox))
+                    {
+                        if(enemy.GetHit(player.swingFacing))
+                        {
+                            enemyToRemove = enemy;
+                        }
+                        break;
+                    }
+                }
+                player.swordIsActive = false;
+                if (enemyToRemove != null)
+                {
+                    enemies.Remove(enemyToRemove);
+                }
+            }
 
 
             if ((player.location.X - offsetX) > screenWidth - 500)
