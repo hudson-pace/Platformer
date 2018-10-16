@@ -62,7 +62,12 @@
     <Compile Include="Slime.cs" />
     <Compile Include="Locations\TestArea.cs" />
     <Compile Include="Tile.cs" />
+    <Compile Include="Tiles\BrickWall.cs" />
+    <Compile Include="Tiles\Dirt.cs" />
+    <Compile Include="Tiles\Empty.cs" />
     <Compile Include="Tiles\EnemyBarrier.cs" />
+    <Compile Include="Tiles\Grass.cs" />
+    <Compile Include="Tiles\InvisibleBarrier.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

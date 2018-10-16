@@ -25,20 +25,20 @@ namespace Platformer.Locations
 
             for (int i = 1; i < 58; i++)
             {
-                tiles[i][28] = new Tile(i, 28, true, true, true);
+                tiles[i][28] = new Tiles.BrickWall(i, 28);
             }
             for (int i = 22; i > 5; i-= 6)
             {
                 for (int j = 5; j < 26; j++)
                 {
-                    tiles[j][i] = new Tile(j, i, true, true, true);
+                    tiles[j][i] = new Tiles.BrickWall(j, i);
                 }
-                tiles[2][i + 3] = new Tile(2, i + 3, true, true, true);
+                tiles[2][i + 3] = new Tiles.BrickWall(2, i + 3);
             }
         }
         override public void LoadTextures(ContentManager content)
         {
-            Tile.LoadTextures(content);
+            Tiles.BrickWall.LoadTextures(content);
         }
     }
 }

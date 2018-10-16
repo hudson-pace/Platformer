@@ -7,13 +7,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Platformer.Tiles
 {
-    class EnemyBarrier : Tile
+    class Empty : Tile
     {
-        public EnemyBarrier(int x, int y) : base(x, y, false, false, true)
+        public Empty(int x, int y) : base(x, y, false, false, false)
         {
 
         }
-        public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
         }
     }
