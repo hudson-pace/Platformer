@@ -12,17 +12,24 @@ namespace Platformer
     abstract class Enemy : Entity
     {
         public int health;
+        public Location currentLocation;
         public List<Item> drops = new List<Item>();
-        public Enemy()
+        public Enemy(Location currentLocation)
         {
+            this.currentLocation = currentLocation;
             isEnemy = true;
         }
-        public bool GetHit(String direction)
+        public void GetHit(String direction)
         {
             health -= 15;
             if (health <= 0)
             {
-                return true;
+                active = false;
+                drops.ForEach(drop =>
+                {
+                    drop.SetLocation(location);
+                    currentLocation.AddEntity(drop);
+                });
             }
 
             state = "hurt";
@@ -45,9 +52,6 @@ namespace Platformer
                 verticalVelocity -= 3;
             }
             isFalling = true;
-
-
-            return false;
         }
     }
 }

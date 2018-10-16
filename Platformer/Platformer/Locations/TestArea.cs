@@ -15,8 +15,8 @@ namespace Platformer.Locations
         public TestArea(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice) 
             : base(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, graphicsDevice)
         {
-            enemies.Add(new Slime(new Vector2(700, 400), player));
-            enemies.Add(new Slime(new Vector2(1000, 300), player));
+            enemies.Add(new Slime(new Vector2(700, 400), player, this));
+            enemies.Add(new Slime(new Vector2(1000, 300), player, this));
             entities.Add(new BusinessMan(new Vector2(300, 200)));
             height = 20;
             width = 30;

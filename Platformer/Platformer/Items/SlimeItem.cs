@@ -14,6 +14,8 @@ namespace Platformer.Items
     {
         private static Texture2D texture;
         private int currentYOffset = -3;
+        private int yOffsetCounter = 0;
+        private int yOffsetDirection = 1;
         public SlimeItem()
         {
             height = 30;
@@ -28,17 +30,22 @@ namespace Platformer.Items
         {
             if (isFalling)
             {
-                newLocation.Y += horizontalVelocity;
-                horizontalVelocity++;
+                newLocation.Y += verticalVelocity;
+                verticalVelocity++;
                 Collisions.CollideWithTiles(tiles, this);
                 location = newLocation;
             }
             else
             {
-                currentYOffset++;
-                if (currentYOffset > 2)
+                yOffsetCounter++;
+                if (yOffsetCounter > 5)
                 {
-                    currentYOffset = -3;
+                    yOffsetCounter = 0;
+                    currentYOffset += yOffsetDirection;
+                    if (currentYOffset > 1 || currentYOffset < -5)
+                    {
+                        yOffsetDirection *= -1;
+                    }
                 }
             }
         }

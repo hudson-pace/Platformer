@@ -19,8 +19,8 @@ namespace Platformer
         {
             this.location = location;
             newLocation = location;
-            height = 80;
-            width = 55;
+            height = 100;
+            width = 100;
         }
 
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
