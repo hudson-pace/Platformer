@@ -15,11 +15,10 @@ namespace Platformer
         public Tile[][] tiles;
         protected List<Enemy> enemies = new List<Enemy>();
         protected List<Projectile> projectiles = new List<Projectile>();
-        protected List<Projectile> projectilesToRemove = new List<Projectile>();
         protected List<Entity> entities = new List<Entity>();
+        public Player player;
         public int height, width;
         public int offsetX, offsetY, screenGridWidth, screenGridHeight, screenWidth, screenHeight;
-        public Player player;
         private DialogBox dialogBox;
         private GraphicsDevice graphicsDevice;
 
@@ -81,10 +80,6 @@ namespace Platformer
         {
             projectiles.Add(projectile);
         }
-        public void RemoveProjectile(Projectile projectile)
-        {
-            projectilesToRemove.Add(projectile);
-        }
         public void AddEntity(Entity entity)
         {
             entities.Add(entity);
@@ -93,61 +88,40 @@ namespace Platformer
         {
             player.Update(state, tiles);
             enemies.ForEach(enemy => enemy.Update(state, tiles));
+            projectiles.ForEach(projectile => projectile.Update(state, tiles, enemies));
+            entities.ForEach(entity => entity.Update(state, tiles));
 
-            projectiles.ForEach(projectile => projectile.Update(state, tiles));
-            projectilesToRemove.Clear();
-            projectiles.ForEach(projectile =>
+            Enemy[] enemyTempList = new Enemy[enemies.Count];
+            enemies.CopyTo(enemyTempList);
+            enemies.Clear();
+            foreach(Enemy enemy in enemyTempList)
             {
-                Enemy enemyToRemove = null;
-                foreach (Enemy enemy in enemies)
+                if (enemy.active)
                 {
-                    if (Collisions.EntityCollisions(projectile.hitBox, enemy.hitBox))
-                    {
-                        projectilesToRemove.Add(projectile);
-                        String direction = "left";
-                        if (projectile.horizontalVelocity > 0)
-                        {
-                            direction = "right";
-                        }
-                        if (enemy.GetHit(direction))
-                        {
-                            enemyToRemove = enemy;
-                            foreach (Item item in enemy.drops)
-                            {
-                                item.SetLocation(enemy.location);
-                                entities.Add(item);
-                            }
-                        }
-                        break;
-                    }
+                    enemies.Add(enemy);
                 }
-                if (enemyToRemove != null)
+            }
+            Projectile[] projectileTempList = new Projectile[projectiles.Count];
+            projectiles.CopyTo(projectileTempList);
+            projectiles.Clear();
+            foreach(Projectile projectile in projectileTempList)
+            {
+                if (projectile.active)
                 {
-                    enemies.Remove(enemyToRemove);
+                    projectiles.Add(projectile);
                 }
-            });
-
-            projectilesToRemove.ForEach(projectile => projectiles.Remove(projectile));
+            };
 
             if (player.swordIsActive)
             {
-                Enemy enemyToRemove = null;
                 foreach (Enemy enemy in enemies)
                 {
                     if (Collisions.EntityCollisions(player.swordHitBox, enemy.hitBox))
                     {
-                        if(enemy.GetHit(player.swingFacing))
-                        {
-                            enemyToRemove = enemy;
-                        }
-                        break;
+                        enemy.GetHit(player.swingFacing);
                     }
                 }
                 player.swordIsActive = false;
-                if (enemyToRemove != null)
-                {
-                    enemies.Remove(enemyToRemove);
-                }
             }
 
 

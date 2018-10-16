@@ -16,7 +16,7 @@ namespace Platformer
         private string facing = "right";
         private static Texture2D rightFacing, leftFacing;
 
-        public Insect(Vector2 location)
+        public Insect(Vector2 location, Location currentLocation) : base(currentLocation)
         {
             this.location = location;
             width = 60;

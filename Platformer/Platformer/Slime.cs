@@ -21,7 +21,7 @@ namespace Platformer
         private int frameCounter = 0;
         private static Random random = new Random();
 
-        public Slime(Vector2 location, Player player)
+        public Slime(Vector2 location, Player player, Location currentLocation) : base(currentLocation)
         {
             this.location = location;
             this.player = player;

@@ -17,6 +17,7 @@ namespace Platformer
         public int squishCounter = 0;
         public bool isFalling = true, isEnemy;
         public bool canFall = true;
+        public bool active = true;
         public string state = "normal";
         public int hurtCounter = 0;
         public Rectangle hitBox;

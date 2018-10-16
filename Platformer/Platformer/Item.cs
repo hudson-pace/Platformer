@@ -9,6 +9,10 @@ namespace Platformer
 {
     abstract class Item : Entity
     {
+        public Item()
+        {
+            verticalVelocity = -10;
+        }
         abstract public void SetLocation(Vector2 location);
     }
 }
