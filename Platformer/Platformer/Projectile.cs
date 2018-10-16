@@ -6,18 +6,21 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Platformer
 {
     class Projectile : Entity
     {
         public Texture2D texture;
+        private Location currentLocation;
 
-        public Projectile(Vector2 location, Texture2D texture, int horizontalVelocity)
+        public Projectile(Vector2 location, Texture2D texture, int horizontalVelocity, Location currentLocation)
         {
             this.location = location;
             this.horizontalVelocity = horizontalVelocity;
             this.texture = texture;
+            this.currentLocation = currentLocation;
             height = 30;
             width = 30;
             verticalVelocity = 0;
@@ -26,20 +29,19 @@ namespace Platformer
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
 
-        public bool Update(Tile[][] tiles)
+        override public void Update(KeyboardState state, Tile[][] tiles)
         {
             newLocation = location;
             newLocation.X += horizontalVelocity;
             if (Collisions.CollideWithTiles(tiles, this))
             {
-                return true;
+                currentLocation.RemoveProjectile(this);
             }
             location = newLocation;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
-            return false;
         }
 
-        public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
             spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
         }

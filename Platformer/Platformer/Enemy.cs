@@ -9,15 +9,14 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Platformer
 {
-    abstract class Enemy : Character
+    abstract class Enemy : Entity
     {
         public int health;
+        public List<Item> drops = new List<Item>();
         public Enemy()
         {
             isEnemy = true;
         }
-        abstract public void Update(Tile[][] tiles);
-        abstract public void Draw(SpriteBatch spritebatch, int offsetX, int offsetY);
         public bool GetHit(String direction)
         {
             health -= 15;

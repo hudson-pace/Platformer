@@ -5,14 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace Platformer.Locations
 {
     class HuntingGrounds : Location
     {
-        public HuntingGrounds(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, ContentManager content) 
-            : base(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, content)
+        public HuntingGrounds(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice) 
+            : base(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, graphicsDevice)
         {
             height = 30;
             width = 60;
@@ -35,7 +36,7 @@ namespace Platformer.Locations
                 tiles[2][i + 3] = new Tile(2, i + 3, true, true, true);
             }
         }
-        override public void LoadTextures()
+        override public void LoadTextures(ContentManager content)
         {
             Tile.LoadTextures(content);
         }

@@ -30,7 +30,7 @@ namespace Platformer
             screenGridWidth = (int)(graphics.PreferredBackBufferWidth / 50) + 1;
             screenGridHeight = (int)(graphics.PreferredBackBufferHeight / 50) + 1;
 
-            currentLocation = new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, Content);
+            currentLocation = new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
 
 
 
@@ -63,11 +63,9 @@ namespace Platformer
 
             // TODO: use this.Content to load your game content here
 
-            player.SetTexture(Content.Load<Texture2D>("player-facing-right"), Content.Load<Texture2D>("player-facing-left"), Content.Load<Texture2D>("player-facing-right"),
-                Content.Load<Texture2D>("sword"), Content.Load<Texture2D>("blue-ball"), Content.Load<Texture2D>("megaman-running-left"), 
-                Content.Load<Texture2D>("megaman-running-right"));
+            Player.LoadTextures(Content);
 
-            currentLocation.LoadTextures();
+            currentLocation.LoadTextures(Content);
 
         }
 

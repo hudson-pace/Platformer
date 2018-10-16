@@ -15,20 +15,44 @@ namespace Platformer
         public Tile[][] tiles;
         protected List<Enemy> enemies = new List<Enemy>();
         protected List<Projectile> projectiles = new List<Projectile>();
+        protected List<Projectile> projectilesToRemove = new List<Projectile>();
+        protected List<Entity> entities = new List<Entity>();
         public int height, width;
         public int offsetX, offsetY, screenGridWidth, screenGridHeight, screenWidth, screenHeight;
         public Player player;
-        protected ContentManager content;
+        private DialogBox dialogBox;
+        private GraphicsDevice graphicsDevice;
 
-        public Location(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, ContentManager content)
+        public Location(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice)
         {
             this.player = player;
             this.screenGridWidth = screenGridWidth;
             this.screenGridHeight = screenGridHeight;
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
-            this.content = content;
             player.SetLocation(this);
+            this.graphicsDevice = graphicsDevice;
+        }
+        public void CreateDialog(string text)
+        {
+            dialogBox = new DialogBox("hello", screenWidth, screenHeight);
+            dialogBox.CreateTextures(graphicsDevice);
+        }
+        public void CloseDialog()
+        {
+            if (dialogBox != null)
+            {
+                dialogBox.Close();
+                dialogBox = null;
+            }
+        }
+        public bool HasOpenDialog()
+        {
+            if (dialogBox != null)
+            {
+                return true;
+            }
+            return false;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -42,27 +66,36 @@ namespace Platformer
                     }
                 }
             }
+            entities.ForEach(entity => entity.Draw(spriteBatch, offsetX, offsetY));
             enemies.ForEach(enemy => enemy.Draw(spriteBatch, offsetX, offsetY));
             projectiles.ForEach(projectile => projectile.Draw(spriteBatch, offsetX, offsetY));
             player.Draw(spriteBatch, offsetX, offsetY);
+            if (dialogBox != null)
+            {
+                dialogBox.Draw(spriteBatch);
+            }
         }
-        abstract public void LoadTextures();
+
+        abstract public void LoadTextures(ContentManager content);
         public void AddProjectile(Projectile projectile)
         {
             projectiles.Add(projectile);
         }
+        public void RemoveProjectile(Projectile projectile)
+        {
+            projectilesToRemove.Add(projectile);
+        }
+        public void AddEntity(Entity entity)
+        {
+            entities.Add(entity);
+        }
         public void Update(KeyboardState state)
         {
             player.Update(state, tiles);
-            enemies.ForEach(enemy => enemy.Update(tiles));
+            enemies.ForEach(enemy => enemy.Update(state, tiles));
 
-            List<Projectile> projectilesToRemove = new List<Projectile>();
-            projectiles.ForEach(projectile => {
-                if (projectile.Update(tiles))
-                {
-                    projectilesToRemove.Add(projectile);
-                }
-            });
+            projectiles.ForEach(projectile => projectile.Update(state, tiles));
+            projectilesToRemove.Clear();
             projectiles.ForEach(projectile =>
             {
                 Enemy enemyToRemove = null;
@@ -79,6 +112,11 @@ namespace Platformer
                         if (enemy.GetHit(direction))
                         {
                             enemyToRemove = enemy;
+                            foreach (Item item in enemy.drops)
+                            {
+                                item.SetLocation(enemy.location);
+                                entities.Add(item);
+                            }
                         }
                         break;
                     }
