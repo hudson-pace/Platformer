@@ -83,7 +83,7 @@ namespace Platformer
             {
                 if (state.IsKeyDown(Keys.A))
                 {
-                    if (previousAPressed)
+                    if (previousAPressed && !isFalling)
                     {
                         textureChangeCounter--;
 
@@ -95,7 +95,7 @@ namespace Platformer
                 }
                 if (state.IsKeyDown(Keys.D))
                 {
-                    if (previousDPressed)
+                    if (previousDPressed && !isFalling)
                     {
                         textureChangeCounter--;
                     }

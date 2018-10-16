@@ -119,6 +119,7 @@ namespace Platformer
                     if (Collisions.EntityCollisions(player.swordHitBox, enemy.hitBox))
                     {
                         enemy.GetHit(player.swingFacing);
+                        break;
                     }
                 }
                 player.swordIsActive = false;

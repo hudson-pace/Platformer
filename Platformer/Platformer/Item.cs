@@ -11,7 +11,7 @@ namespace Platformer
     {
         public Item()
         {
-            verticalVelocity = -10;
+            verticalVelocity = -3;
         }
         abstract public void SetLocation(Vector2 location);
     }
