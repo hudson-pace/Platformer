@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Input;
 
 namespace Platformer
 {
@@ -24,7 +25,7 @@ namespace Platformer
             health = 50;
         }
 
-        public override void Update(Tile[][] tiles)
+        override public void Update(KeyboardState state, Tile[][] tiles)
         {
             newLocation = location;
 

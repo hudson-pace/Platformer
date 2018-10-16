@@ -12,11 +12,12 @@ namespace Platformer.Locations
 {
     class TestArea : Location
     {
-        public TestArea(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, ContentManager content) 
-            : base(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, content)
+        public TestArea(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice) 
+            : base(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, graphicsDevice)
         {
             enemies.Add(new Slime(new Vector2(700, 400), player));
             enemies.Add(new Slime(new Vector2(1000, 300), player));
+            entities.Add(new BusinessMan(new Vector2(300, 200)));
             height = 20;
             width = 30;
             offsetX = 0;
@@ -46,10 +47,11 @@ namespace Platformer.Locations
             tiles[25][18] = new Tile(25, 19, false, false, true);
         }
 
-        public override void LoadTextures()
+        public override void LoadTextures(ContentManager content)
         {
             Tile.LoadTextures(content);
             Slime.LoadTextures(content);
+            BusinessMan.LoadTextures(content);
         }
     }
 }

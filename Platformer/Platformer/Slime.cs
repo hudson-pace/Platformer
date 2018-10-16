@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace Platformer
 {
@@ -29,9 +30,10 @@ namespace Platformer
             height = 100;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             health = 100;
+            drops.Add(new Items.SlimeItem());
         }
 
-        public override void Update(Tile[][] tiles)
+        public override void Update(KeyboardState state, Tile[][] tiles)
         {
             newLocation = location;
 
@@ -46,13 +48,13 @@ namespace Platformer
                 currentFrame = 0;
             }
 
-            if (state == "hurt")
+            if (this.state == "hurt")
             {
                 hurtCounter--;
                 if (hurtCounter <= 0)
                 {
                     hurtCounter = 0;
-                    state = "normal";
+                    this.state = "normal";
                 }
             }
             if (isFalling)
@@ -116,7 +118,7 @@ namespace Platformer
             rightFacingTexture = content.Load<Texture2D>("slime-facing-right");
             leftFacingHurtTexture = content.Load<Texture2D>("slime-facing-left-hurt");
             rightFacingHurtTexture = content.Load<Texture2D>("slime-facing-right-hurt");
-
+            Items.SlimeItem.LoadTextures(content);
         }
 
         public void Jump()

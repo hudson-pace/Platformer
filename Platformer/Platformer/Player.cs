@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace Platformer
 {
-    class Player : Character
+    class Player : Entity
     {
-        private Texture2D normalFacingRightTexture, normalFacingLeftTexture, squishedTexture, swordTexture, projectileTexture, runningLeft, runningRight;
+        private static Texture2D swordTexture, projectileTexture, runningLeft, runningRight;
         private Location currentLocation;
-        private bool previousFPressed = false, previousAPressed = false, previousDPressed = false;
+        private bool previousFPressed = false, previousAPressed = false, previousDPressed = false, previousQPressed = false;
         public bool swordIsActive = false;
         private bool swingingSword = false;
         public Rectangle swordHitBox;
@@ -26,6 +27,7 @@ namespace Platformer
 
         public Player(Vector2 location)
         {
+            swordOffset = 30;
             this.location = location;
             isEnemy = false;
             height = 100;
@@ -33,18 +35,13 @@ namespace Platformer
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             swordHitBox = new Rectangle((int)location.X + width, (int)location.Y, swordOffset, height);
         }
-
-        public void SetTexture(Texture2D normalFacingRightTexture, Texture2D normalFacingLeftTexture, Texture2D squishedTexture, Texture2D swordTexture, 
-            Texture2D projectileTexture, Texture2D runningLeft, Texture2D runningRight)
+        public static void LoadTextures(ContentManager content)
         {
-            this.normalFacingRightTexture = normalFacingRightTexture;
-            this.normalFacingLeftTexture = normalFacingLeftTexture;
-            this.squishedTexture = squishedTexture;
-            this.swordTexture = swordTexture;
-            this.projectileTexture = projectileTexture;
-            this.runningLeft = runningLeft;
-            this.runningRight = runningRight;
-            this.swordOffset = 30;
+            swordTexture = content.Load<Texture2D>("sword");
+            projectileTexture = content.Load<Texture2D>("blue-ball");
+            runningLeft = content.Load<Texture2D>("megaman-running-left");
+            runningRight = content.Load<Texture2D>("megaman-running-right");
+
         }
 
         public void SetLocation(Location currentLocation)
@@ -53,7 +50,7 @@ namespace Platformer
         }
 
 
-        public void Update(KeyboardState state, Tile[][] tiles)
+        override public void Update(KeyboardState state, Tile[][] tiles)
         {
             newLocation = location;
 
@@ -65,7 +62,18 @@ namespace Platformer
                     this.state = "normal";
                 }
             }
-
+            if (state.IsKeyDown(Keys.Q) && previousQPressed == false)
+            {
+                if (currentLocation.HasOpenDialog())
+                {
+                    currentLocation.CloseDialog();
+                }
+                else
+                {
+                    currentLocation.CreateDialog("hello");
+                }
+            }
+            previousQPressed = state.IsKeyDown(Keys.Q);
             if (!previousAPressed && !previousDPressed)
             {
                 textureChangeCounter = 5;
@@ -129,11 +137,11 @@ namespace Platformer
             {
                 if (swingFacing == "right")
                 {
-                    currentLocation.AddProjectile(new Projectile(new Vector2(location.X + (width / 2) - (30 / 2), location.Y + (height / 2) - (30 / 2)), projectileTexture, 10));
+                    currentLocation.AddProjectile(new Projectile(new Vector2(location.X + (width / 2) - (30 / 2), location.Y + (height / 2) - (30 / 2)), projectileTexture, 10, currentLocation));
                 }
                 else if (swingFacing == "left")
                 {
-                    currentLocation.AddProjectile(new Projectile(new Vector2(location.X + (width / 2) - (30 / 2), location.Y + (height / 2) - (30 / 2)), projectileTexture, -10));
+                    currentLocation.AddProjectile(new Projectile(new Vector2(location.X + (width / 2) - (30 / 2), location.Y + (height / 2) - (30 / 2)), projectileTexture, -10, currentLocation));
                 }
                 projectileCooldown = 60;
             }
@@ -185,7 +193,7 @@ namespace Platformer
             previousFPressed = state.IsKeyDown(Keys.F);
 
         }
-        public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
             Rectangle sourceRectangle;
             Texture2D texture;
