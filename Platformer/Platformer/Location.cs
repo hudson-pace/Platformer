@@ -170,11 +170,11 @@ namespace Platformer
                 {
                     if ((j == height - 1) || (j == 0) || (i == 0) || (i == width - 1))
                     {
-                        tiles[i][j] = new Tile(i, j, true, false, true);
+                        tiles[i][j] = new Tiles.InvisibleBarrier(i, j);
                     }
                     else
                     {
-                        tiles[i][j] = new Tile(i, j, false, false, false);
+                        tiles[i][j] = new Tiles.Empty(i, j);
                     }
                 }
             }
