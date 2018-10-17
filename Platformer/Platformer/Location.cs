@@ -16,6 +16,7 @@ namespace Platformer
         protected List<Enemy> enemies = new List<Enemy>();
         protected List<Projectile> projectiles = new List<Projectile>();
         protected List<Entity> entities = new List<Entity>();
+        protected List<Spawner> spawners = new List<Spawner>();
         public Player player;
         public int height, width;
         public int offsetX, offsetY, screenGridWidth, screenGridHeight, screenWidth, screenHeight;
@@ -84,12 +85,17 @@ namespace Platformer
         {
             entities.Add(entity);
         }
+        public void AddEnemy(Enemy enemy)
+        {
+            enemies.Add(enemy);
+        }
         public void Update(KeyboardState state)
         {
             player.Update(state, tiles);
             enemies.ForEach(enemy => enemy.Update(state, tiles));
             projectiles.ForEach(projectile => projectile.Update(state, tiles, enemies));
             entities.ForEach(entity => entity.Update(state, tiles));
+            spawners.ForEach(spawner => spawner.Update());
 
             Enemy[] enemyTempList = new Enemy[enemies.Count];
             enemies.CopyTo(enemyTempList);

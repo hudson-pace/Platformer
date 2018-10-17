@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 
-namespace Platformer
+namespace Platformer.Enemies
 {
     class Insect : Enemy
     {
@@ -23,6 +23,11 @@ namespace Platformer
             height = 100;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             health = 50;
+        }
+
+        public override Enemy Create(Vector2 location, Location currentLocation)
+        {
+            return new Insect(location, currentLocation);
         }
 
         override public void Update(KeyboardState state, Tile[][] tiles)
