@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework;
 
 namespace Platformer
 {
@@ -19,6 +20,7 @@ namespace Platformer
             this.currentLocation = currentLocation;
             isEnemy = true;
         }
+        abstract public Enemy Create(Vector2 location, Location currentLocation);
         public void GetHit(String direction)
         {
             health -= 15;
