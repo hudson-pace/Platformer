@@ -229,3 +229,10 @@
 /processorParam:TextureFormat=Color
 /build:drip-hurt.png
 
+#begin NPCText.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:NPCText.spritefont
+
