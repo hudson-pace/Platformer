@@ -23,7 +23,7 @@ namespace Platformer
         }
         public void Update()
         {
-            if (spawnInterval < 200)
+            if (spawnInterval < 600)
             {
                 spawnInterval++;
             }

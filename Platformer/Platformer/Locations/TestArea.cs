@@ -76,8 +76,9 @@ namespace Platformer.Locations
 
         }
 
-        public override void LoadTextures(ContentManager content)
+        override public void LoadTextures(ContentManager content)
         {
+            DialogBox.LoadTextures(content);
             Tiles.BrickWall.LoadTextures(content);
             Tiles.Grass.LoadTextures(content);
             Tiles.Dirt.LoadTextures(content);
