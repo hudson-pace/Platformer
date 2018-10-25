@@ -14,9 +14,10 @@ namespace Platformer.Enemies
     {
         private static Texture2D regularTexture, hurtTexture;
 
-        public SlimeDrip(Vector2 location, Player player, Location currentLocation) : base(currentLocation)
+        public SlimeDrip(Vector2 location, Player player, Location currentLocation)
         {
             this.location = location;
+            newLocation = location;
             this.currentLocation = currentLocation;
             this.player = player;
             jumpCooldown = 20;
@@ -35,6 +36,7 @@ namespace Platformer.Enemies
         {
             regularTexture = content.Load<Texture2D>("drip");
             hurtTexture = content.Load<Texture2D>("drip-hurt");
+            Items.SlimeItem.LoadTextures(content);
         }
 
         override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)

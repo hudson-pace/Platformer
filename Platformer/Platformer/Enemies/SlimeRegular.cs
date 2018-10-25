@@ -15,9 +15,10 @@ namespace Platformer.Enemies
         
         private static Texture2D leftFacingTexture, rightFacingTexture, leftFacingHurtTexture, rightFacingHurtTexture;
 
-        public SlimeRegular(Vector2 location, Player player, Location currentLocation) : base(currentLocation)
+        public SlimeRegular(Vector2 location, Player player, Location currentLocation)
         {
             this.location = location;
+            newLocation = location;
             this.currentLocation = currentLocation;
             this.player = player;
             jumpCooldown = 80;
