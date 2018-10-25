@@ -15,13 +15,15 @@ namespace Platformer
         public Tile[][] tiles;
         protected List<Enemy> enemies = new List<Enemy>();
         protected List<Projectile> projectiles = new List<Projectile>();
-        protected List<Entity> entities = new List<Entity>();
         protected List<Spawner> spawners = new List<Spawner>();
+        protected List<NPC> NPCList = new List<NPC>();
+        protected List<Item> items = new List<Item>();
         public Player player;
         public int height, width;
         public int offsetX, offsetY, screenGridWidth, screenGridHeight, screenWidth, screenHeight;
         private DialogBox dialogBox;
         private GraphicsDevice graphicsDevice;
+        private bool previousQPressed = false;
 
         public Location(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice)
         {
@@ -66,10 +68,11 @@ namespace Platformer
                     }
                 }
             }
-            entities.ForEach(entity => entity.Draw(spriteBatch, offsetX, offsetY));
+            NPCList.ForEach(npc => npc.Draw(spriteBatch, offsetX, offsetY));
             enemies.ForEach(enemy => enemy.Draw(spriteBatch, offsetX, offsetY));
             projectiles.ForEach(projectile => projectile.Draw(spriteBatch, offsetX, offsetY));
             player.Draw(spriteBatch, offsetX, offsetY);
+            items.ForEach(item => item.Draw(spriteBatch, offsetX, offsetY));
             if (dialogBox != null)
             {
                 dialogBox.Draw(spriteBatch);
@@ -81,9 +84,9 @@ namespace Platformer
         {
             projectiles.Add(projectile);
         }
-        public void AddEntity(Entity entity)
+        public void AddItem(Item item)
         {
-            entities.Add(entity);
+            items.Add(item);
         }
         public void AddEnemy(Enemy enemy)
         {
@@ -94,8 +97,45 @@ namespace Platformer
             player.Update(state, tiles);
             enemies.ForEach(enemy => enemy.Update(state, tiles));
             projectiles.ForEach(projectile => projectile.Update(state, tiles, enemies));
-            entities.ForEach(entity => entity.Update(state, tiles));
             spawners.ForEach(spawner => spawner.Update());
+            NPCList.ForEach(npc => npc.Update(state, tiles));
+            items.ForEach(item => item.Update(state, tiles));
+
+            if (state.IsKeyDown(Keys.Q) && !previousQPressed)
+            {
+                if (HasOpenDialog())
+                {
+                    CloseDialog();
+                }
+                else
+                {
+                    foreach(NPC character in NPCList)
+                    {
+                        if (Collisions.EntityCollisions(player.hitBox, character.hitBox))
+                        {
+                            CreateDialog(character.greeting);
+                            break;
+                        }
+                    }
+                }
+            }
+            previousQPressed = state.IsKeyDown(Keys.Q);
+
+            Item[] itemTempList = new Item[items.Count];
+            items.CopyTo(itemTempList);
+            items.Clear();
+            foreach (Item item in itemTempList)
+            {
+                if (Collisions.EntityCollisions(item.hitBox, player.hitBox) && item.canBePickedUp)
+                {
+                    player.AddToInventory(item, 1);
+                    Console.WriteLine("hit");
+                }
+                else
+                {
+                    items.Add(item);
+                }
+            }
 
             Enemy[] enemyTempList = new Enemy[enemies.Count];
             enemies.CopyTo(enemyTempList);

@@ -236,3 +236,10 @@
 /processorParam:TextureFormat=Compressed
 /build:NPCText.spritefont
 
+#begin ItemText.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:ItemText.spritefont
+

@@ -35,25 +35,6 @@ namespace Platformer
             containerTexture.SetData(new[] { color });
             textFieldTexture = new Texture2D(graphicsDevice, textField.Width, textField.Height);
             Color[] data = new Color[textField.Width * textField.Height];
-            /*for (int i = 0; i < textField.Height; i++)
-            {
-                for (int j = 0; j < textField.Width; j++)
-                {
-                    if (i == 0)//j == 0 || j == textField.Height - 1 || i == 0 || i == textField.Width - 1)
-                    {
-                        data[(i * textField.Height) + j] = Color.Black;
-                    }
-                    else
-                    {
-                        data[(i * textField.Height) + j] = Color.White;
-                    }
-                }
-            }
-            textFieldTexture.SetData(data);*/
-            //for (int i = 0; i < data.Length; i++)
-            //{
-            //    data[i] = Color.White;
-            //}
             for (int i = 0; i < textFieldTexture.Height; i++)
             {
                 for (int j = 0; j < textFieldTexture.Width; j++)

@@ -15,13 +15,14 @@ namespace Platformer
     {
         private static Texture2D swordTexture, projectileTexture, runningLeft, runningRight;
         private Location currentLocation;
-        private bool previousFPressed = false, previousAPressed = false, previousDPressed = false, previousQPressed = false;
+        private bool previousFPressed = false, previousAPressed = false, previousDPressed = false;
         public bool swordIsActive = false;
         private bool swingingSword = false;
         public Rectangle swordHitBox;
         private string facing = "right";
         public string swingFacing = "right";
         private int projectileCooldown = 0, textureChangeCounter = 0, currentTextureState = 1, swordTextureChangeCounter = 5, currentSwordTextureState = 0, swordOffset;
+        private Inventory inventory = new Inventory();
 
 
 
@@ -41,7 +42,12 @@ namespace Platformer
             projectileTexture = content.Load<Texture2D>("blue-ball");
             runningLeft = content.Load<Texture2D>("megaman-running-left");
             runningRight = content.Load<Texture2D>("megaman-running-right");
+            Inventory.LoadTextures(content);
+        }
 
+        public void AddToInventory(Item item, int count)
+        {
+            inventory.AddToInventory(item, count);
         }
 
         public void SetLocation(Location currentLocation)
@@ -62,18 +68,6 @@ namespace Platformer
                     this.state = "normal";
                 }
             }
-            if (state.IsKeyDown(Keys.Q) && previousQPressed == false)
-            {
-                if (currentLocation.HasOpenDialog())
-                {
-                    currentLocation.CloseDialog();
-                }
-                else
-                {
-                    currentLocation.CreateDialog("hello");
-                }
-            }
-            previousQPressed = state.IsKeyDown(Keys.Q);
             if (!previousAPressed && !previousDPressed)
             {
                 textureChangeCounter = 5;
@@ -220,6 +214,8 @@ namespace Platformer
             }
 
             spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
+
+            inventory.Draw(spriteBatch);
         }
     }
 }
