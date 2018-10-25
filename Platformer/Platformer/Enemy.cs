@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace Platformer
 {
@@ -15,12 +16,30 @@ namespace Platformer
         public int health;
         public Location currentLocation;
         public List<Item> drops = new List<Item>();
-        public Enemy(Location currentLocation)
+        protected Player player;
+
+        public Enemy()
         {
-            this.currentLocation = currentLocation;
             isEnemy = true;
         }
         abstract public Enemy Create(Vector2 location, Location currentLocation);
+
+        override public void Update(KeyboardState state, Tile[][] tiles)
+        {
+            if (this.state == "hurt")
+            {
+                hurtCounter--;
+                if (hurtCounter <= 0)
+                {
+                    hurtCounter = 0;
+                    this.state = "normal";
+                }
+            }
+
+            Collisions.CollideWithTiles(tiles, this);
+            location = newLocation;
+            hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
+        }
         public void GetHit(String direction)
         {
             health -= 15;

@@ -14,20 +14,15 @@ namespace Platformer.Enemies
     abstract class Slime : Enemy
     {
         protected string facing = "left";
-        protected Player player;
         protected int jumpCooldown, cooldownCounter;
         protected int currentFrame = 0;
         protected int frameCounter = 0;
         protected static Random random = new Random();
         protected float jumpHeight;
 
-        public Slime(Location currentLocation) : base(currentLocation)
-        {
-        }
-
         public override void Update(KeyboardState state, Tile[][] tiles)
         {
-            newLocation = location;
+            
 
             frameCounter++;
             if (frameCounter > 8)
@@ -40,15 +35,7 @@ namespace Platformer.Enemies
                 currentFrame = 0;
             }
 
-            if (this.state == "hurt")
-            {
-                hurtCounter--;
-                if (hurtCounter <= 0)
-                {
-                    hurtCounter = 0;
-                    this.state = "normal";
-                }
-            }
+            
             if (isFalling)
             {
                 newLocation.Y += verticalVelocity;
@@ -64,10 +51,8 @@ namespace Platformer.Enemies
                 cooldownCounter--;
             }
 
+            base.Update(state, tiles);
 
-            Collisions.CollideWithTiles(tiles, this);
-            location = newLocation;
-            hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
 
         public void Jump()
