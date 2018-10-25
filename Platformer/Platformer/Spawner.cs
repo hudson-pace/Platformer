@@ -10,6 +10,7 @@ namespace Platformer
     class Spawner
     {
         private List<Enemy> enemyList;
+        private List<Enemy> currentAliveList;
         private Vector2 location;
         private int spawnInterval;
         private Location currentLocation;
@@ -20,6 +21,19 @@ namespace Platformer
             this.enemyList = enemyList;
             this.currentLocation = currentLocation;
             spawnInterval = 0;
+            currentAliveList = new List<Enemy>();
+        }
+        public void RemoveEnemy(Enemy enemy)
+        {
+            foreach (Enemy e in currentAliveList)
+            {
+                if (enemy.name == e.name)
+                {
+                    enemy = e;
+                    break;
+                }
+            }
+            currentAliveList.Remove(enemy);
         }
         public void Update()
         {
@@ -32,8 +46,27 @@ namespace Platformer
                 spawnInterval = 0;
                 foreach(Enemy enemy in enemyList)
                 {
-                    currentLocation.AddEnemy(enemy.Create(location, currentLocation));
+                    bool found = false;
+                    Enemy temp = null;
+                    foreach(Enemy enemy2 in currentAliveList)
+                    {
+                        if (enemy == enemy2)
+                        {
+                            found = true;
+                            temp = enemy2;
+                            break;
+                        }
+                    }
+                    if (found)
+                    {
+                        currentAliveList.Remove(temp);
+                    }
+                    if (!found)
+                    {
+                        currentLocation.AddEnemy(enemy.Create(location, currentLocation, this));
+                    }
                 }
+                currentAliveList = new List<Enemy>(enemyList);
             }
         }
     }

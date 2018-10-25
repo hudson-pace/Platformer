@@ -49,6 +49,7 @@
     <Compile Include="InventoryItem.cs" />
     <Compile Include="Items\ShellFragment.cs" />
     <Compile Include="Items\SnailGoop.cs" />
+    <Compile Include="Locations\SlimeCity.cs" />
     <Compile Include="NPCs\BusinessMan.cs" />
     <Compile Include="Collisions.cs" />
     <Compile Include="DialogBox.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Tiles\EnemyBarrier.cs" />
     <Compile Include="Tiles\Grass.cs" />
     <Compile Include="Tiles\InvisibleBarrier.cs" />
+    <Compile Include="Tiles\SlimeBlock.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

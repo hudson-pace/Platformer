@@ -15,7 +15,7 @@ namespace Platformer.Enemies
         private static Texture2D textureRegular, textureHurt, textureRegularRight, textureHurtRight;
         private string facing;
         private int checkFacingCounter;
-        public Snail(Vector2 location, Player player, Location currentLocation)
+        public Snail(Vector2 location, Player player, Location currentLocation, Spawner spawner)
         {
             this.location = location;
             newLocation = location;
@@ -29,6 +29,8 @@ namespace Platformer.Enemies
             drops.Add(new Items.ShellFragment());
             facing = "left";
             checkFacingCounter = 40;
+            this.spawner = spawner;
+            name = "snail";
         }
 
 
@@ -66,9 +68,9 @@ namespace Platformer.Enemies
             base.Update(state, tiles);
         }
 
-        public override Enemy Create(Vector2 location, Location currentLocation)
+        public override Enemy Create(Vector2 location, Location currentLocation, Spawner spawner)
         {
-            return new Snail(location, player, currentLocation);
+            return new Snail(location, player, currentLocation, spawner);
         }
 
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
