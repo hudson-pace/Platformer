@@ -17,12 +17,14 @@ namespace Platformer
         public Location currentLocation;
         public List<Item> drops = new List<Item>();
         protected Player player;
+        protected Spawner spawner = null;
+        public string name;
 
         public Enemy()
         {
             isEnemy = true;
         }
-        abstract public Enemy Create(Vector2 location, Location currentLocation);
+        abstract public Enemy Create(Vector2 location, Location currentLocation, Spawner spawner);
 
         override public void Update(KeyboardState state, Tile[][] tiles)
         {
@@ -51,6 +53,10 @@ namespace Platformer
                     drop.SetLocation(location);
                     currentLocation.AddItem(drop);
                 });
+                if (spawner != null)
+                {
+                    spawner.RemoveEnemy(this);
+                }
             }
 
             state = "hurt";

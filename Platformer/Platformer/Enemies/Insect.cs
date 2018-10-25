@@ -16,7 +16,7 @@ namespace Platformer.Enemies
         private string facing = "right";
         private static Texture2D rightFacing, leftFacing;
 
-        public Insect(Vector2 location, Location currentLocation)
+        public Insect(Vector2 location, Location currentLocation, Spawner spawner)
         {
             this.location = location;
             this.currentLocation = currentLocation;
@@ -24,11 +24,13 @@ namespace Platformer.Enemies
             height = 100;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             health = 50;
+            this.spawner = spawner;
+            name = "insect";
         }
 
-        public override Enemy Create(Vector2 location, Location currentLocation)
+        public override Enemy Create(Vector2 location, Location currentLocation, Spawner spawner)
         {
-            return new Insect(location, currentLocation);
+            return new Insect(location, currentLocation, spawner);
         }
 
         override public void Update(KeyboardState state, Tile[][] tiles)

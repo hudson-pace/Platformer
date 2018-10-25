@@ -37,7 +37,7 @@ namespace Platformer
         }
         public void CreateDialog(string text)
         {
-            dialogBox = new DialogBox("hello", screenWidth, screenHeight);
+            dialogBox = new DialogBox(text, screenWidth, screenHeight);
             dialogBox.CreateTextures(graphicsDevice);
         }
         public void CloseDialog()

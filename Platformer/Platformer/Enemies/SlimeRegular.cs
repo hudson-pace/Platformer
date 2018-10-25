@@ -15,7 +15,7 @@ namespace Platformer.Enemies
         
         private static Texture2D leftFacingTexture, rightFacingTexture, leftFacingHurtTexture, rightFacingHurtTexture;
 
-        public SlimeRegular(Vector2 location, Player player, Location currentLocation)
+        public SlimeRegular(Vector2 location, Player player, Location currentLocation, Spawner spawner)
         {
             this.location = location;
             newLocation = location;
@@ -28,11 +28,13 @@ namespace Platformer.Enemies
             health = 100;
             drops.Add(new Items.SlimeItem());
             jumpHeight = 1f;
+            this.spawner = spawner;
+            name = "slimeRegular";
         }
 
-        public override Enemy Create(Vector2 location, Location currentLocation)
+        public override Enemy Create(Vector2 location, Location currentLocation, Spawner spawner)
         {
-            return new SlimeRegular(location, player, currentLocation);
+            return new SlimeRegular(location, player, currentLocation, spawner);
         }
 
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
