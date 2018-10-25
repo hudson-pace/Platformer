@@ -53,14 +53,6 @@ namespace Platformer
                         direction = "right";
                     }
                     enemy.GetHit(direction);
-                    if (enemy.active == false)
-                    {
-                        foreach (Item item in enemy.drops)
-                        {
-                            item.SetLocation(enemy.location);
-                            currentLocation.AddEntity(item);
-                        }
-                    }
                     break;
                 }
             }

@@ -44,7 +44,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="BusinessMan.cs" />
+    <Compile Include="Inventory.cs" />
+    <Compile Include="InventoryItem.cs" />
+    <Compile Include="NPCs\BusinessMan.cs" />
     <Compile Include="Collisions.cs" />
     <Compile Include="DialogBox.cs" />
     <Compile Include="Enemies\SlimeDrip.cs" />
@@ -57,6 +59,7 @@
     <Compile Include="Items\SlimeItem.cs" />
     <Compile Include="Locations\HuntingGrounds.cs" />
     <Compile Include="Location.cs" />
+    <Compile Include="NPC.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Projectile.cs" />

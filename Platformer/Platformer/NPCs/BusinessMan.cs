@@ -9,9 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 
-namespace Platformer
+namespace Platformer.NPCs
 {
-    class BusinessMan : Entity
+    class BusinessMan : NPC
     {
         private static Texture2D texture;
 
@@ -21,6 +21,8 @@ namespace Platformer
             newLocation = location;
             height = 100;
             width = 100;
+            greeting = "Hello there, friend!";
+            hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
 
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)

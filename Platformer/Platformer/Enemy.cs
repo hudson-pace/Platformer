@@ -30,7 +30,7 @@ namespace Platformer
                 drops.ForEach(drop =>
                 {
                     drop.SetLocation(location);
-                    currentLocation.AddEntity(drop);
+                    currentLocation.AddItem(drop);
                 });
             }
 

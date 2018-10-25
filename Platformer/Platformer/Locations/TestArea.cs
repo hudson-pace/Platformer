@@ -18,7 +18,7 @@ namespace Platformer.Locations
             enemies.Add(new Enemies.SlimeRegular(new Vector2(1100, 400), player, this));
             enemies.Add(new Enemies.SlimeRegular(new Vector2(1000, 300), player, this));
             enemies.Add(new Enemies.SlimeDrip(new Vector2(600, 300), player, this));
-            entities.Add(new BusinessMan(new Vector2(300, 200)));
+            NPCList.Add(new NPCs.BusinessMan(new Vector2(300, 200)));
             List<Enemy> enemyList = new List<Enemy>();
             enemyList.Add(new Enemies.SlimeDrip(new Vector2(51, 51), player, this));
             enemyList.Add(new Enemies.SlimeRegular(new Vector2(0, 0), player, this));
@@ -84,7 +84,7 @@ namespace Platformer.Locations
             Tiles.Dirt.LoadTextures(content);
             Enemies.SlimeRegular.LoadTextures(content);
             Enemies.SlimeDrip.LoadTextures(content);
-            BusinessMan.LoadTextures(content);
+            NPCs.BusinessMan.LoadTextures(content);
         }
     }
 }
