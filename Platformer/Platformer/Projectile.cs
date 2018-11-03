@@ -29,7 +29,7 @@ namespace Platformer
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
 
-        override public void Update(KeyboardState state, Tile[][] tiles)
+        public void Update(KeyboardState state, Tile[][] tiles)
         {
             newLocation = location;
             newLocation.X += horizontalVelocity;

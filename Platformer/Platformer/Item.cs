@@ -34,7 +34,7 @@ namespace Platformer
         {
             return location;
         }
-        override public void Update(KeyboardState state, Tile[][] tiles)
+        public void Update(KeyboardState state, Tile[][] tiles)
         {
             if (pickUpCounter > 0)
             {

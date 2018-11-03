@@ -92,13 +92,12 @@ namespace Platformer
         {
             enemies.Add(enemy);
         }
-        public void Update(KeyboardState state)
+        public void Update(KeyboardState state, MouseState mouseState)
         {
-            player.Update(state, tiles);
+            player.Update(state, tiles, mouseState);
             enemies.ForEach(enemy => enemy.Update(state, tiles));
             projectiles.ForEach(projectile => projectile.Update(state, tiles, enemies));
             spawners.ForEach(spawner => spawner.Update());
-            NPCList.ForEach(npc => npc.Update(state, tiles));
             items.ForEach(item => item.Update(state, tiles));
 
             if (state.IsKeyDown(Keys.Q) && !previousQPressed)

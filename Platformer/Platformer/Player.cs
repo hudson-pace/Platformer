@@ -15,7 +15,7 @@ namespace Platformer
     {
         private static Texture2D swordTexture, projectileTexture, megamanTexture;
         private Location currentLocation;
-        private bool previousFPressed = false, previousAPressed = false, previousDPressed = false;
+        private bool previousFPressed = false, previousAPressed = false, previousDPressed = false, previousIPressed = false;
         public bool swordIsActive = false;
         private bool swingingSword = false;
         public Rectangle swordHitBox;
@@ -60,7 +60,7 @@ namespace Platformer
         }
 
 
-        override public void Update(KeyboardState state, Tile[][] tiles)
+        public void Update(KeyboardState state, Tile[][] tiles, MouseState mouseState)
         {
             newLocation = location;
             if (invulnerableTimer > 0)
@@ -77,6 +77,11 @@ namespace Platformer
                 }
             }
 
+            if (!previousIPressed && state.IsKeyDown(Keys.I))
+            {
+                inventory.Toggle();
+            }
+            previousIPressed = state.IsKeyDown(Keys.I);
             if (!previousAPressed && !previousDPressed)
             {
                 textureChangeCounter = 5;
@@ -194,6 +199,10 @@ namespace Platformer
             }
             previousFPressed = state.IsKeyDown(Keys.F);
 
+            if (inventory.GetIsActive())
+            {
+                inventory.Update(mouseState);
+            }
         }
         override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {

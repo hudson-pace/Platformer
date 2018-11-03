@@ -26,7 +26,7 @@ namespace Platformer
         }
         abstract public Enemy Create(Vector2 location, Location currentLocation, Spawner spawner);
 
-        override public void Update(KeyboardState state, Tile[][] tiles)
+        virtual public void Update(KeyboardState state, Tile[][] tiles)
         {
             if (this.state == "hurt")
             {

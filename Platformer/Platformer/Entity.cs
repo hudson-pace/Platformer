@@ -22,6 +22,5 @@ namespace Platformer
         public int hurtCounter = 0;
         public Rectangle hitBox;
         abstract public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY);
-        abstract public void Update(KeyboardState state, Tile[][] tiles);
     }
 }
