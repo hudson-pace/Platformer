@@ -129,7 +129,6 @@ namespace Platformer
                 if (Collisions.EntityCollisions(item.hitBox, player.hitBox) && item.canBePickedUp)
                 {
                     player.AddToInventory(item, 1);
-                    Console.WriteLine("hit");
                 }
                 else
                 {
@@ -145,6 +144,13 @@ namespace Platformer
                 if (enemy.active)
                 {
                     enemies.Add(enemy);
+                    if (!player.invulnerable)
+                    {
+                        if (Collisions.EntityCollisions(player.hitBox, enemy.hitBox))
+                        {
+                            player.GetHit("left", 10);
+                        }
+                    }
                 }
             }
             Projectile[] projectileTempList = new Projectile[projectiles.Count];

@@ -72,7 +72,6 @@ namespace Platformer
                     {
                         entity.newLocation.Y = (newBottomGridY * 50) - entity.height;
                         entity.isFalling = false;
-                        entity.state = "squished";
                         entity.squishCounter = 8;
                         entity.verticalVelocity = 0;
                         entity.horizontalVelocity = 0;
