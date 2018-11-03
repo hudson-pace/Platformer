@@ -14,7 +14,7 @@ namespace Platformer
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private Player player = new Player(new Vector2(100, 100));
+        private Player player;
         private Location currentLocation;
         private int screenGridWidth, screenGridHeight, screenWidth, screenHeight;
 
@@ -30,7 +30,8 @@ namespace Platformer
             screenGridWidth = (int)(graphics.PreferredBackBufferWidth / 50) + 1;
             screenGridHeight = (int)(graphics.PreferredBackBufferHeight / 50) + 1;
 
-            currentLocation = new Locations.SlimeCity(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
+            player = new Player(new Vector2(100, 100), GraphicsDevice);
+            currentLocation = new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
 
 
 
