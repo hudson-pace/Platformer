@@ -12,13 +12,17 @@ namespace Platformer
     {
         private int count;
         private Item item;
-        public Vector2 location;
+        private Rectangle hitBox;
         public InventoryItem(Item item, int count, Vector2 location)
         {
             this.item = item;
             this.count = count;
-            this.location = location;
+            this.hitBox = new Rectangle((int)location.X, (int)location.Y, 50, 50);
             item.SetLocation(location);
+        }
+        public Rectangle GetHitBox()
+        {
+            return hitBox;
         }
         public Item getItem()
         {
@@ -31,6 +35,12 @@ namespace Platformer
         public void setCount(int count)
         {
             this.count = count;
+        }
+        public void setLocation(Vector2 location)
+        {
+            hitBox.X = (int)location.X;
+            hitBox.Y = (int)location.Y;
+            item.SetLocation(location);
         }
         public void Draw(SpriteBatch spriteBatch)
         {

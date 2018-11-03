@@ -33,6 +33,8 @@ namespace Platformer
             player = new Player(new Vector2(100, 100), GraphicsDevice);
             currentLocation = new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
 
+            IsMouseVisible = true;
+
 
 
 
@@ -95,7 +97,7 @@ namespace Platformer
 
             //insect.Update(testArea.tiles);
             //player.Update(state, testArea.tiles);
-            currentLocation.Update(state);
+            currentLocation.Update(state, Mouse.GetState());
 
             base.Update(gameTime);
         }
