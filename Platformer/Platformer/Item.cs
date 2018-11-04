@@ -16,6 +16,7 @@ namespace Platformer
         private int yOffsetDirection = 1;
         public bool canBePickedUp;
         private int pickUpCounter;
+        private int probability;
         public Item()
         {
             verticalVelocity = -3;
@@ -23,6 +24,10 @@ namespace Platformer
             width = 30;
             canBePickedUp = false;
             pickUpCounter = 80;
+        }
+        public Item(int probability) : this()
+        {
+            this.probability = probability;
         }
         public void SetLocation(Vector2 location)
         {
@@ -33,6 +38,14 @@ namespace Platformer
         public Vector2 GetLocation()
         {
             return location;
+        }
+        public void SetProbability(int probability)
+        {
+            this.probability = probability;
+        }
+        public int GetProbability()
+        {
+            return probability;
         }
         public void Update(KeyboardState state, Tile[][] tiles)
         {

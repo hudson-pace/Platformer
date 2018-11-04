@@ -48,6 +48,7 @@
     <Compile Include="Inventory.cs" />
     <Compile Include="InventoryItem.cs" />
     <Compile Include="Items\ShellFragment.cs" />
+    <Compile Include="Items\SlimeTail.cs" />
     <Compile Include="Items\SnailGoop.cs" />
     <Compile Include="Locations\SlimeCity.cs" />
     <Compile Include="NPCs\BusinessMan.cs" />
