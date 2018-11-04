@@ -13,6 +13,7 @@ namespace Platformer
         private int count;
         private Item item;
         private Rectangle hitBox;
+        private bool hovering = false;
         public InventoryItem(Item item, int count, Vector2 location)
         {
             this.item = item;
@@ -36,6 +37,14 @@ namespace Platformer
         {
             this.count = count;
         }
+        public bool GetHovering()
+        {
+            return hovering;
+        }
+        public void SetHovering(bool hovering)
+        {
+            this.hovering = hovering;
+        }
         public void setLocation(Vector2 location)
         {
             hitBox.X = (int)location.X;
@@ -44,7 +53,7 @@ namespace Platformer
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            item.Draw(spriteBatch, 0, 0);
+            item.Draw(spriteBatch, -10, -10);
         }
     }
 }

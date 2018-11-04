@@ -25,7 +25,7 @@ namespace Platformer.Enemies
             height = 40;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             health = 40;
-            drops.Add(new Items.SlimeItem());
+            drops.Add(new Items.SlimeItem(100));
             jumpHeight = .5f;
             this.spawner = spawner;
             name = "slimeDrip";

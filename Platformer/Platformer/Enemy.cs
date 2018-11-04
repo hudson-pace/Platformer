@@ -19,6 +19,7 @@ namespace Platformer
         protected Player player;
         protected Spawner spawner = null;
         public string name;
+        private static Random random = new Random();
 
         public Enemy()
         {
@@ -50,8 +51,11 @@ namespace Platformer
                 active = false;
                 drops.ForEach(drop =>
                 {
-                    drop.SetLocation(location);
-                    currentLocation.AddItem(drop);
+                    if (random.Next(0, 99) < drop.GetProbability())
+                    {
+                        drop.SetLocation(location);
+                        currentLocation.AddItem(drop);
+                    }
                 });
                 if (spawner != null)
                 {

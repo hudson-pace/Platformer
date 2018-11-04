@@ -13,7 +13,11 @@ namespace Platformer.Items
     {
         private static Texture2D texture;
 
-        public SnailGoop()
+        public SnailGoop() : base()
+        {
+            itemName = "snailGoop";
+        }
+        public SnailGoop(int probability) : base(probability)
         {
             itemName = "snailGoop";
         }

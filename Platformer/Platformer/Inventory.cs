@@ -32,7 +32,7 @@ namespace Platformer
             container.Y = 0;
             for(int i = 0; i < inventoryItems.Count; i++)
             {
-                inventoryItems[i].setLocation(new Vector2(container.X + 10 + 10 + ((i % 5) * 50), container.Y + 40 + 10 + ((i / 5) * 50)));
+                inventoryItems[i].setLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
             }
         }
 
@@ -49,7 +49,7 @@ namespace Platformer
                     return;
                 }
             }
-            inventoryItems.Add(new InventoryItem(item, count, new Vector2((inventoryItems.Count * 60) + 10, 10)));
+            inventoryItems.Add(new InventoryItem(item, count, new Vector2(container.X + 10 + ((inventoryItems.Count % 5) * 50), container.Y + 40 + ((inventoryItems.Count / 5) * 50))));
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -59,18 +59,26 @@ namespace Platformer
             spriteBatch.Draw(containerTexture, container, color);
 
             int itemCount = inventoryItems.Count;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 7; i++)
             {
-                for (int j = 0; j < 7; j++)
+                for (int j = 0; j < 5; j++)
                 {
-                    spriteBatch.Draw(itemSlotTexture, new Vector2(10 + (container.X + (i * 50)), 40 + (container.Y + (j * 50))), color);
+                    Texture2D texture = itemSlotTexture;
+                    if (((i * 5) + j) < itemCount)
+                    {
+                        if (inventoryItems[(i * 5) + j].GetHovering())
+                        {
+                            texture = selectedItemSlotTexture;
+                        }
+                    }
+                    spriteBatch.Draw(texture, new Vector2(10 + (container.X + (j * 50)), 40 + (container.Y + (i * 50))), color);
                 }
             }
 
             foreach (InventoryItem item in inventoryItems)
             {
                 item.Draw(spriteBatch);
-                spriteBatch.DrawString(font, item.getCount() + "", new Vector2(item.GetHitBox().X + item.getItem().width, item.GetHitBox().Y + item.getItem().height), Color.Black);
+                spriteBatch.DrawString(font, item.getCount() + "", new Vector2(item.GetHitBox().X + item.getItem().width + 10, item.GetHitBox().Y + item.getItem().height + 6), Color.Black);
             }
         }
         public static void LoadTextures(ContentManager content)
@@ -125,10 +133,18 @@ namespace Platformer
                 }
                 for (int i = 0; i < inventoryItems.Count; i++)
                 {
-                    inventoryItems[i].setLocation(new Vector2(container.X + 10 + 10 + ((i % 5) * 50), container.Y + 40 + 10 + ((i / 5) * 50)));
+                    inventoryItems[i].setLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
                 }
             }
 
+            foreach(InventoryItem item in inventoryItems)
+            {
+                item.SetHovering(false);
+                if (item.GetHitBox().Contains(mouseState.Position))
+                {
+                    item.SetHovering(true);
+                }
+            }
             previousMouseState = mouseState;
         }
     }

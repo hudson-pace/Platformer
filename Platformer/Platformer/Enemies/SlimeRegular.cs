@@ -26,7 +26,9 @@ namespace Platformer.Enemies
             height = 100;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             health = 100;
-            drops.Add(new Items.SlimeItem());
+            drops.Add(new Items.SlimeItem(80));
+            drops.Add(new Items.SlimeItem(20));
+            drops.Add(new Items.SlimeTail(40));
             jumpHeight = 1f;
             this.spawner = spawner;
             name = "slimeRegular";
@@ -78,6 +80,7 @@ namespace Platformer.Enemies
             leftFacingHurtTexture = content.Load<Texture2D>("slime-facing-left-hurt");
             rightFacingHurtTexture = content.Load<Texture2D>("slime-facing-right-hurt");
             Items.SlimeItem.LoadTextures(content);
+            Items.SlimeTail.LoadTextures(content);
         }
 
         

@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Content;
+
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace Platformer.Items
 {
-    class ShellFragment : Item
+    class SlimeTail : Item
     {
         private static Texture2D texture;
 
-        public ShellFragment() : base()
+        public SlimeTail() : base()
         {
-            itemName = "shellFragment";
+            itemName = "slimeTail";
         }
-        public ShellFragment(int probability) : base(probability)
+        public SlimeTail(int probability) : base(probability)
         {
-            itemName = "shellFragment";
+            itemName = "slimeTail";
         }
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
@@ -27,7 +28,7 @@ namespace Platformer.Items
         }
         public static void LoadTextures(ContentManager content)
         {
-            texture = content.Load<Texture2D>("shell-fragment");
+            texture = content.Load<Texture2D>("slime-tail");
         }
     }
 }
