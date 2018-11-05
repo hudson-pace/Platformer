@@ -20,9 +20,11 @@ namespace Platformer
         private bool isActive = false, dragging = false, draggingItem = false;
         private InventoryItem selectedItem;
         private MouseState previousMouseState;
+        private Player player;
 
-        public Inventory()
+        public Inventory(Player player)
         {
+            this.player = player;
             container = new Rectangle(0, 0, 270, 400);
         }
 
@@ -33,7 +35,7 @@ namespace Platformer
             container.Y = 0;
             for(int i = 0; i < inventoryItems.Count; i++)
             {
-                inventoryItems[i].setLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
+                inventoryItems[i].SetLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
             }
         }
 
@@ -41,24 +43,32 @@ namespace Platformer
         {
             return isActive;
         }
-        public void AddToInventory(Item item, int count)
+        public void AddToInventory(Item item)
         {
             foreach (InventoryItem i in inventoryItems)
             {
-                if (i.getItem().itemName == item.itemName) {
-                    i.setCount(i.getCount() + count);
+                if (i.GetItem().itemName == item.itemName) {
+                    i.GetItem().SetCount(i.GetItem().GetCount() + item.GetCount());
                     return;
                 }
             }
-            //inventoryItems.Sort();
-            inventoryItems.Add(new InventoryItem(item, count, new Vector2(container.X + 10 + ((inventoryItems.Count % 5) * 50), container.Y + 40 + ((inventoryItems.Count / 5) * 50))));
+            inventoryItems.Add(new InventoryItem(item, new Vector2(container.X + 10 + ((inventoryItems.Count % 5) * 50), container.Y + 40 + ((inventoryItems.Count / 5) * 50))));
+            ReSort();
+        }
+        public void ReSort()
+        {
+            inventoryItems.Sort();
+            for (int i = 0; i < inventoryItems.Count; i++)
+            {
+                inventoryItems[i].SetLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
+            }
         }
         public void RemoveFromInventory(InventoryItem item)
         {
             inventoryItems.Remove(item);
             for (int i = 0; i < inventoryItems.Count; i++)
             {
-                inventoryItems[i].setLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
+                inventoryItems[i].SetLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
             }
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -88,7 +98,7 @@ namespace Platformer
             foreach (InventoryItem item in inventoryItems)
             {
                 item.Draw(spriteBatch);
-                spriteBatch.DrawString(font, item.getCount() + "", new Vector2(item.GetHitBox().X + item.getItem().width + 10, item.GetHitBox().Y + item.getItem().height + 6), Color.Black);
+                spriteBatch.DrawString(font, item.GetItem().GetCount() + "", new Vector2(item.GetHitBox().X + item.GetItem().width + 10, item.GetHitBox().Y + item.GetItem().height + 6), Color.Black);
             }
             if (selectedItem != null)
             {
@@ -147,7 +157,7 @@ namespace Platformer
                 }
                 for (int i = 0; i < inventoryItems.Count; i++)
                 {
-                    inventoryItems[i].setLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
+                    inventoryItems[i].SetLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
                 }
             }
 
@@ -174,12 +184,22 @@ namespace Platformer
 
             if (draggingItem)
             {
-                selectedItem.setLocation(new Vector2(mouseState.Position.X - 25, mouseState.Position.Y - 25));
+                selectedItem.SetLocation(new Vector2(mouseState.Position.X - 25, mouseState.Position.Y - 25));
                 if (mouseState.LeftButton != ButtonState.Pressed)
                 {
-                    inventoryItems.Add(selectedItem);
-                    int index = inventoryItems.Count - 1;
-                    selectedItem.setLocation(new Vector2(container.X + 10 + ((index % 5) * 50), container.Y + 40 + ((index / 5) * 50)));
+                    if (container.Contains(mouseState.Position))
+                    {
+                        AddToInventory(selectedItem.GetItem());
+                    }
+                    else
+                    {
+                        Item drop = selectedItem.GetItem();
+                        drop.ResetPickUpCounter();
+                        drop.SetLocation(player.location);
+                        player.getCurrentLocation().AddItem(drop);
+                    }
+
+
                     selectedItem = null;
                     draggingItem = false;
                 }

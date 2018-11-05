@@ -17,15 +17,18 @@ namespace Platformer
         public bool canBePickedUp;
         private int pickUpCounter;
         private int probability;
-        public Item()
+        private int count;
+        protected int id;
+        public Item(int count)
         {
+            this.count = count;
             verticalVelocity = -3;
             height = 30;
             width = 30;
             canBePickedUp = false;
             pickUpCounter = 80;
         }
-        public Item(int probability) : this()
+        public Item(int count, int probability) : this(count)
         {
             this.probability = probability;
         }
@@ -34,6 +37,14 @@ namespace Platformer
             this.location = location;
             this.hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             newLocation = location;
+        }
+        public void SetCount(int count)
+        {
+            this.count = count;
+        }
+        public int GetCount()
+        {
+            return count;
         }
         public Vector2 GetLocation()
         {
@@ -46,6 +57,16 @@ namespace Platformer
         public int GetProbability()
         {
             return probability;
+        }
+        public int GetId()
+        {
+            return id;
+        }
+        public void ResetPickUpCounter()
+        {
+            pickUpCounter = 80;
+            canBePickedUp = false;
+            isFalling = true;
         }
         public void Update(KeyboardState state, Tile[][] tiles)
         {
@@ -79,9 +100,5 @@ namespace Platformer
                 }
             }
         }
-
-        
-
-        
     }
 }

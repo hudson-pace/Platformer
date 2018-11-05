@@ -52,9 +52,10 @@ namespace Platformer
         {
             // TODO: Add your initialization logic here
 
-            player.AddToInventory(new Items.ShellFragment(), 2);
-            player.AddToInventory(new Items.SlimeItem(), 2);
-            player.AddToInventory(new Items.SlimeTail(), 2);
+            player.AddToInventory(new Items.ShellFragment(2));
+            player.AddToInventory(new Items.SlimeItem(2));
+            player.AddToInventory(new Items.SlimeTail(2));
+            player.AddToInventory(new Items.SnailGoop(2));
 
             base.Initialize();
         }
@@ -117,11 +118,7 @@ namespace Platformer
             // TODO: Add your drawing code here
 
             spriteBatch.Begin();
-
-            //insect.Draw(spriteBatch);
-            //player.Draw(spriteBatch);
             currentLocation.Draw(spriteBatch);
-
             spriteBatch.End();
 
             base.Draw(gameTime);

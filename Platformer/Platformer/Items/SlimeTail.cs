@@ -14,11 +14,12 @@ namespace Platformer.Items
     {
         private static Texture2D texture;
 
-        public SlimeTail() : base()
+        public SlimeTail(int count) : base(count)
         {
             itemName = "slimeTail";
+            id = 3;
         }
-        public SlimeTail(int probability) : base(probability)
+        public SlimeTail(int count, int probability) : base(count, probability)
         {
             itemName = "slimeTail";
         }
