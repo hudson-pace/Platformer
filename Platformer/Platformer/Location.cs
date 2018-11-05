@@ -18,6 +18,7 @@ namespace Platformer
         protected List<Spawner> spawners = new List<Spawner>();
         protected List<NPC> NPCList = new List<NPC>();
         protected List<Item> items = new List<Item>();
+        protected List<Portal> portals = new List<Portal>();
         public Player player;
         public int height, width;
         public int offsetX, offsetY, screenGridWidth, screenGridHeight, screenWidth, screenHeight;
@@ -32,7 +33,7 @@ namespace Platformer
             this.screenGridHeight = screenGridHeight;
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
-            player.SetLocation(this);
+            //player.SetLocation(this);
             this.graphicsDevice = graphicsDevice;
         }
         public void CreateDialog(string text)
@@ -56,6 +57,11 @@ namespace Platformer
             }
             return false;
         }
+
+        public List<Portal> GetPortals()
+        {
+            return portals;
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             for (int i = (int)(offsetX / 50); i < tiles.Length && i < screenGridWidth + (int)(offsetX / 50) + 1; i++)
@@ -68,6 +74,7 @@ namespace Platformer
                     }
                 }
             }
+            portals.ForEach(portal => portal.Draw(spriteBatch, offsetX, offsetY));
             NPCList.ForEach(npc => npc.Draw(spriteBatch, offsetX, offsetY));
             enemies.ForEach(enemy => enemy.Draw(spriteBatch, offsetX, offsetY));
             projectiles.ForEach(projectile => projectile.Draw(spriteBatch, offsetX, offsetY));

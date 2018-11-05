@@ -51,11 +51,9 @@ namespace Platformer
             InventoryItem item = obj as InventoryItem;
             if (GetItem().GetId() < item.GetItem().GetId())
             {
-                Console.WriteLine("0");
                 return -1;
                 
             }
-            Console.WriteLine("1");
             return 1;
         }
     }

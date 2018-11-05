@@ -196,7 +196,7 @@ namespace Platformer
                         Item drop = selectedItem.GetItem();
                         drop.ResetPickUpCounter();
                         drop.SetLocation(player.location);
-                        player.getCurrentLocation().AddItem(drop);
+                        player.GetCurrentLocation().AddItem(drop);
                     }
 
 
@@ -204,9 +204,6 @@ namespace Platformer
                     draggingItem = false;
                 }
             }
-
-
-
             previousMouseState = mouseState;
         }
     }

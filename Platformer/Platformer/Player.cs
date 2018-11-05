@@ -15,6 +15,7 @@ namespace Platformer
     {
         private static Texture2D swordTexture, projectileTexture, megamanTexture;
         private Location currentLocation;
+        private Location slimeCity;
         private bool previousFPressed = false, previousAPressed = false, previousDPressed = false, previousIPressed = false;
         public bool swordIsActive = false;
         private bool swingingSword = false;
@@ -54,13 +55,12 @@ namespace Platformer
         {
             inventory.AddToInventory(item);
         }
-
         public void SetLocation(Location currentLocation)
         {
             this.currentLocation = currentLocation;
         }
 
-        public Location getCurrentLocation()
+        public Location GetCurrentLocation()
         {
             return currentLocation;
         }
@@ -132,7 +132,17 @@ namespace Platformer
             }
             
 
-
+            if (state.IsKeyDown(Keys.E))
+            {
+                foreach(Portal portal in currentLocation.GetPortals())
+                {
+                    if (Collisions.EntityCollisions(hitBox, portal.hitBox))
+                    {
+                        currentLocation = portal.GetDestination();
+                        location = portal.GetPositionDestination();
+                    }
+                }
+            }
 
             if (state.IsKeyDown(Keys.Space) && !isFalling)
             {
