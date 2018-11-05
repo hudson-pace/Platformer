@@ -8,16 +8,14 @@ using Microsoft.Xna.Framework;
 
 namespace Platformer
 {
-    class InventoryItem
+    class InventoryItem : IComparable
     {
-        private int count;
         private Item item;
         private Rectangle hitBox;
         private bool hovering = false;
-        public InventoryItem(Item item, int count, Vector2 location)
+        public InventoryItem(Item item, Vector2 location)
         {
             this.item = item;
-            this.count = count;
             this.hitBox = new Rectangle((int)location.X, (int)location.Y, 50, 50);
             item.SetLocation(location);
         }
@@ -25,17 +23,9 @@ namespace Platformer
         {
             return hitBox;
         }
-        public Item getItem()
+        public Item GetItem()
         {
             return item;
-        }
-        public int getCount()
-        {
-            return count;
-        }
-        public void setCount(int count)
-        {
-            this.count = count;
         }
         public bool GetHovering()
         {
@@ -45,7 +35,7 @@ namespace Platformer
         {
             this.hovering = hovering;
         }
-        public void setLocation(Vector2 location)
+        public void SetLocation(Vector2 location)
         {
             hitBox.X = (int)location.X;
             hitBox.Y = (int)location.Y;
@@ -54,6 +44,19 @@ namespace Platformer
         public void Draw(SpriteBatch spriteBatch)
         {
             item.Draw(spriteBatch, -10, -10);
+        }
+
+        public int CompareTo(object obj)
+        {
+            InventoryItem item = obj as InventoryItem;
+            if (GetItem().GetId() < item.GetItem().GetId())
+            {
+                Console.WriteLine("0");
+                return -1;
+                
+            }
+            Console.WriteLine("1");
+            return 1;
         }
     }
 }

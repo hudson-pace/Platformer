@@ -22,7 +22,7 @@ namespace Platformer
         private string facing = "right";
         public string swingFacing = "right";
         private int projectileCooldown = 0, textureChangeCounter = 0, currentTextureState = 1, swordTextureChangeCounter = 5, currentSwordTextureState = 0, swordOffset;
-        private Inventory inventory = new Inventory();
+        private Inventory inventory;
         private int health;
         private int invulnerableTimer = 0;
         public bool invulnerable = false;
@@ -31,6 +31,7 @@ namespace Platformer
 
         public Player(Vector2 location, GraphicsDevice graphicsDevice)
         {
+            inventory = new Inventory(this);
             swordOffset = 30;
             this.location = location;
             isEnemy = false;
@@ -49,9 +50,9 @@ namespace Platformer
             Inventory.LoadTextures(content);
         }
 
-        public void AddToInventory(Item item, int count)
+        public void AddToInventory(Item item)
         {
-            inventory.AddToInventory(item, count);
+            inventory.AddToInventory(item);
         }
 
         public void SetLocation(Location currentLocation)
@@ -59,7 +60,10 @@ namespace Platformer
             this.currentLocation = currentLocation;
         }
 
-
+        public Location getCurrentLocation()
+        {
+            return currentLocation;
+        }
         public void Update(KeyboardState state, Tile[][] tiles, MouseState mouseState)
         {
             newLocation = location;

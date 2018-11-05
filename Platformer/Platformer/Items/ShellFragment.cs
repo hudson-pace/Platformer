@@ -13,11 +13,12 @@ namespace Platformer.Items
     {
         private static Texture2D texture;
 
-        public ShellFragment() : base()
+        public ShellFragment(int count) : base(count)
         {
             itemName = "shellFragment";
+            id = 1;
         }
-        public ShellFragment(int probability) : base(probability)
+        public ShellFragment(int count, int probability) : base(count, probability)
         {
             itemName = "shellFragment";
         }

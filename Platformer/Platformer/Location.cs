@@ -71,8 +71,8 @@ namespace Platformer
             NPCList.ForEach(npc => npc.Draw(spriteBatch, offsetX, offsetY));
             enemies.ForEach(enemy => enemy.Draw(spriteBatch, offsetX, offsetY));
             projectiles.ForEach(projectile => projectile.Draw(spriteBatch, offsetX, offsetY));
-            player.Draw(spriteBatch, offsetX, offsetY);
             items.ForEach(item => item.Draw(spriteBatch, offsetX, offsetY));
+            player.Draw(spriteBatch, offsetX, offsetY);
             if (dialogBox != null)
             {
                 dialogBox.Draw(spriteBatch);
@@ -127,7 +127,7 @@ namespace Platformer
             {
                 if (Collisions.EntityCollisions(item.hitBox, player.hitBox) && item.canBePickedUp)
                 {
-                    player.AddToInventory(item, 1);
+                    player.AddToInventory(item);
                 }
                 else
                 {
