@@ -23,7 +23,7 @@ namespace Platformer.Items
         }
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
-            spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
+            spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY + currentYOffset), Color.White);
         }
         public static void LoadTextures(ContentManager content)
         {

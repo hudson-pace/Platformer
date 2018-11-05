@@ -52,6 +52,10 @@ namespace Platformer
         {
             // TODO: Add your initialization logic here
 
+            player.AddToInventory(new Items.ShellFragment(), 2);
+            player.AddToInventory(new Items.SlimeItem(), 2);
+            player.AddToInventory(new Items.SlimeTail(), 2);
+
             base.Initialize();
         }
 

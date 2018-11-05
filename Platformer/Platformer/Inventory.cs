@@ -17,7 +17,8 @@ namespace Platformer
         private static SpriteFont font;
         private Rectangle container;
         private Color color = new Color(55, 220, 225, 240);
-        private bool isActive = false, dragging = false;
+        private bool isActive = false, dragging = false, draggingItem = false;
+        private InventoryItem selectedItem;
         private MouseState previousMouseState;
 
         public Inventory()
@@ -49,7 +50,16 @@ namespace Platformer
                     return;
                 }
             }
+            //inventoryItems.Sort();
             inventoryItems.Add(new InventoryItem(item, count, new Vector2(container.X + 10 + ((inventoryItems.Count % 5) * 50), container.Y + 40 + ((inventoryItems.Count / 5) * 50))));
+        }
+        public void RemoveFromInventory(InventoryItem item)
+        {
+            inventoryItems.Remove(item);
+            for (int i = 0; i < inventoryItems.Count; i++)
+            {
+                inventoryItems[i].setLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
+            }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -79,6 +89,10 @@ namespace Platformer
             {
                 item.Draw(spriteBatch);
                 spriteBatch.DrawString(font, item.getCount() + "", new Vector2(item.GetHitBox().X + item.getItem().width + 10, item.GetHitBox().Y + item.getItem().height + 6), Color.Black);
+            }
+            if (selectedItem != null)
+            {
+                selectedItem.Draw(spriteBatch);
             }
         }
         public static void LoadTextures(ContentManager content)
@@ -115,7 +129,7 @@ namespace Platformer
         public void Update(MouseState mouseState)
         {
             Rectangle topMenu = new Rectangle(container.X, container.Y, container.Width, 40);
-            if (mouseState.LeftButton == ButtonState.Pressed && topMenu.Contains(mouseState.Position))
+            if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton != ButtonState.Pressed && topMenu.Contains(mouseState.Position))
             {
                 dragging = true;
             }
@@ -137,14 +151,42 @@ namespace Platformer
                 }
             }
 
+            if (!draggingItem)
+            {
+                selectedItem = null;
+            }
+
             foreach(InventoryItem item in inventoryItems)
             {
                 item.SetHovering(false);
                 if (item.GetHitBox().Contains(mouseState.Position))
                 {
                     item.SetHovering(true);
+                    if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton != ButtonState.Pressed)
+                    {
+                        selectedItem = item;
+                        draggingItem = true;
+                    }
                 }
             }
+
+            RemoveFromInventory(selectedItem);
+
+            if (draggingItem)
+            {
+                selectedItem.setLocation(new Vector2(mouseState.Position.X - 25, mouseState.Position.Y - 25));
+                if (mouseState.LeftButton != ButtonState.Pressed)
+                {
+                    inventoryItems.Add(selectedItem);
+                    int index = inventoryItems.Count - 1;
+                    selectedItem.setLocation(new Vector2(container.X + 10 + ((index % 5) * 50), container.Y + 40 + ((index / 5) * 50)));
+                    selectedItem = null;
+                    draggingItem = false;
+                }
+            }
+
+
+
             previousMouseState = mouseState;
         }
     }
