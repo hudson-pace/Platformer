@@ -17,7 +17,7 @@ namespace Platformer
         public bool canBePickedUp;
         private int pickUpCounter;
         private int probability;
-        private int count;
+        private int count { get; set; }
         protected int id;
         public Item(int count)
         {

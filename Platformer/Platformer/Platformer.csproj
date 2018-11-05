@@ -66,6 +66,7 @@
     <Compile Include="Location.cs" />
     <Compile Include="NPC.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Portal.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Projectile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
