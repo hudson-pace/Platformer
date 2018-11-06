@@ -15,8 +15,8 @@ namespace Platformer
     {
         private static Texture2D swordTexture, projectileTexture, megamanTexture;
         private Location currentLocation;
-        private Location slimeCity;
         private bool previousFPressed = false, previousAPressed = false, previousDPressed = false, previousIPressed = false;
+        private KeyboardState previousKeyboardState;
         public bool swordIsActive = false;
         private bool swingingSword = false;
         public Rectangle swordHitBox;
@@ -29,44 +29,53 @@ namespace Platformer
         public bool invulnerable = false;
 
 
-
-        public Player(Vector2 location, GraphicsDevice graphicsDevice)
+        public Player(Vector2 location)
         {
-            inventory = new Inventory(this);
-            swordOffset = 30;
             this.location = location;
-            isEnemy = false;
+
+            inventory = new Inventory(this);
+            hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
+            swordHitBox = new Rectangle((int)location.X + width, (int)location.Y, swordOffset, height);
+
+            swordOffset = 30;
             height = 100;
             width = 100;
             health = 100;
-            hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
-            swordHitBox = new Rectangle((int)location.X + width, (int)location.Y, swordOffset, height);
-            inventory.CreateTextures(graphicsDevice);
         }
-        public static void LoadTextures(ContentManager content)
+
+        public static void LoadTextures(ContentManager content, GraphicsDevice graphicsDevice)
         {
             swordTexture = content.Load<Texture2D>("sword");
             projectileTexture = content.Load<Texture2D>("blue-ball");
             megamanTexture = content.Load<Texture2D>("megaman");
             Inventory.LoadTextures(content);
+            Inventory.CreateTextures(graphicsDevice);
         }
 
         public void AddToInventory(Item item)
         {
             inventory.AddToInventory(item);
         }
-        public void SetLocation(Location currentLocation)
+
+        public void Travel(Location destination, Vector2 position)
         {
-            this.currentLocation = currentLocation;
+            if (this.currentLocation != destination)
+            {
+                // TODO: unload content from previous location, and load from new one.
+                this.currentLocation = destination;
+            }
+            this.location = position;
+            isFalling = true;
         }
 
         public Location GetCurrentLocation()
         {
             return currentLocation;
         }
-        public void Update(KeyboardState state, Tile[][] tiles, MouseState mouseState)
+        public void Update(KeyboardState keyboardState, Tile[][] tiles, MouseState mouseState)
         {
             newLocation = location;
+
             if (invulnerableTimer > 0)
             {
                 invulnerableTimer--;
@@ -81,19 +90,27 @@ namespace Platformer
                 }
             }
 
-            if (!previousIPressed && state.IsKeyDown(Keys.I))
+            if (!previousKeyboardState.IsKeyDown(Keys.I) && keyboardState.IsKeyDown(Keys.I))
             {
                 inventory.Toggle();
             }
-            previousIPressed = state.IsKeyDown(Keys.I);
-            if (!previousAPressed && !previousDPressed)
+            if (!(keyboardState.IsKeyDown(Keys.A) ^ keyboardState.IsKeyDown(Keys.D))) // if both or neither are pressed
             {
                 textureChangeCounter = 5;
                 currentTextureState = 1;
             }
-            if (!(state.IsKeyDown(Keys.A) && state.IsKeyDown(Keys.D)))
+            else
             {
-                if (state.IsKeyDown(Keys.A))
+                if (textureChangeCounter <= 0)
+                {
+                    currentTextureState++;
+                    if (currentTextureState > 2)
+                    {
+                        currentTextureState = 0;
+                    }
+                    textureChangeCounter = 5;
+                }
+                if (keyboardState.IsKeyDown(Keys.A))
                 {
                     if (previousAPressed && !isFalling)
                     {
@@ -104,7 +121,7 @@ namespace Platformer
                     newLocation.X -= 4;
                     facing = "left";
                 }
-                if (state.IsKeyDown(Keys.D))
+                if (keyboardState.IsKeyDown(Keys.D))
                 {
                     if (previousDPressed && !isFalling)
                     {
@@ -115,36 +132,13 @@ namespace Platformer
                     newLocation.X += 4;
                     facing = "right";
                 }
-                if (textureChangeCounter <= 0)
-                {
-                    currentTextureState++;
-                    if (currentTextureState > 2)
-                    {
-                        currentTextureState = 0;
-                    }
-                    textureChangeCounter = 5;
-                }
-                if (!state.IsKeyDown(Keys.A) && !state.IsKeyDown(Keys.D))
-                {
-                    textureChangeCounter = 5;
-                    currentTextureState = 1;
-                }
             }
-            
 
-            if (state.IsKeyDown(Keys.E))
+            if (keyboardState.IsKeyDown(Keys.LeftControl))
             {
-                foreach(Portal portal in currentLocation.GetPortals())
-                {
-                    if (Collisions.EntityCollisions(hitBox, portal.hitBox))
-                    {
-                        currentLocation = portal.GetDestination();
-                        location = portal.GetPositionDestination();
-                    }
-                }
+                Console.WriteLine(location.X + ", " + location.Y);
             }
-
-            if (state.IsKeyDown(Keys.Space) && !isFalling)
+            if (keyboardState.IsKeyDown(Keys.Space) && !isFalling)
             {
                 isFalling = true;
                 verticalVelocity = -20;
@@ -154,7 +148,7 @@ namespace Platformer
             {
                 projectileCooldown--;
             }
-            if (state.IsKeyDown(Keys.J) && projectileCooldown == 0)
+            if (keyboardState.IsKeyDown(Keys.J) && projectileCooldown == 0)
             {
                 if (swingFacing == "right")
                 {
@@ -166,7 +160,7 @@ namespace Platformer
                 }
                 projectileCooldown = 60;
             }
-            if (previousFPressed == false && state.IsKeyDown(Keys.F) && swingingSword == false)
+            if (previousFPressed == false && keyboardState.IsKeyDown(Keys.F) && swingingSword == false)
             {
                 swingingSword = true;
                 swingFacing = facing;
@@ -200,9 +194,10 @@ namespace Platformer
                 verticalVelocity++;
             }
 
+            newHitBox = new Rectangle((int)newLocation.X, (int)newLocation.Y, width, height);
             Collisions.CollideWithTiles(tiles, this);
             location = newLocation;
-            hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
+            hitBox = newHitBox;
             if (facing == "left")
             {
                 swordHitBox = new Rectangle((int)location.X - swordOffset, (int)location.Y, swordOffset, height);
@@ -211,12 +206,25 @@ namespace Platformer
             {
                 swordHitBox = new Rectangle((int)location.X + width, (int)location.Y, swordOffset, height);
             }
-            previousFPressed = state.IsKeyDown(Keys.F);
+            previousFPressed = keyboardState.IsKeyDown(Keys.F);
 
             if (inventory.GetIsActive())
             {
                 inventory.Update(mouseState);
             }
+
+            if (keyboardState.IsKeyDown(Keys.E) && !previousKeyboardState.IsKeyDown(Keys.E))
+            {
+                foreach (Portal portal in currentLocation.GetPortals())
+                {
+                    if (Collisions.EntityCollisions(hitBox, portal.hitBox))
+                    {
+                        Travel(portal.GetDestination(), portal.GetPositionDestination());
+                    }
+                }
+            }
+
+            previousKeyboardState = keyboardState;
         }
         override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {

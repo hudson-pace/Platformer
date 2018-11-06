@@ -74,6 +74,10 @@ namespace Platformer.Locations
             tiles[33][i - 8] = new Tiles.SlimeBlock(33, i - 8, 5);
         }
 
+        public override void AddPortals()
+        {
+            portals.Add(new Portal(new Vector2(100, 1250), Game1.testArea, new Vector2(1300, 900)));
+        }
         override public void LoadTextures(ContentManager content)
         {
             DialogBox.LoadTextures(content);

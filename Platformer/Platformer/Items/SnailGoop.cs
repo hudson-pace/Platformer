@@ -21,6 +21,7 @@ namespace Platformer.Items
         public SnailGoop(int count, int probability) : base(count, probability)
         {
             itemName = "snailGoop";
+            id = 4;
         }
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
