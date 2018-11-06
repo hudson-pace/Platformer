@@ -20,6 +20,7 @@ namespace Platformer
         protected Spawner spawner = null;
         public string name;
         private static Random random = new Random();
+        public int howMany;
 
         public Enemy()
         {
