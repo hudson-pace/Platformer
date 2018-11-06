@@ -36,6 +36,7 @@ namespace Platformer
             //player.SetLocation(this);
             this.graphicsDevice = graphicsDevice;
         }
+        public abstract void AddPortals();
         public void CreateDialog(string text)
         {
             dialogBox = new DialogBox(text, screenWidth, screenHeight);

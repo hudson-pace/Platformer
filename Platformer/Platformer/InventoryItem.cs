@@ -52,7 +52,6 @@ namespace Platformer
             if (GetItem().GetId() < item.GetItem().GetId())
             {
                 return -1;
-                
             }
             return 1;
         }

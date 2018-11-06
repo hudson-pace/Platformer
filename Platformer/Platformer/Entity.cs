@@ -15,12 +15,12 @@ namespace Platformer
         public Vector2 location, newLocation;
         public int width, height, verticalVelocity, horizontalVelocity;
         public int squishCounter = 0;
-        public bool isFalling = true, isEnemy;
+        public bool isFalling = true, isEnemy = false;
         public bool canFall = true;
         public bool active = true;
         public string state = "normal";
         public int hurtCounter = 0;
-        public Rectangle hitBox;
+        public Rectangle hitBox, newHitBox;
         abstract public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY);
     }
 }

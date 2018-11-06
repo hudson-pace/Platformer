@@ -21,6 +21,7 @@ namespace Platformer.Items
         public ShellFragment(int count, int probability) : base(count, probability)
         {
             itemName = "shellFragment";
+            id = 1;
         }
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {

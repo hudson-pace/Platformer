@@ -22,6 +22,7 @@ namespace Platformer.Items
         public SlimeItem(int count, int probability) : base(count, probability)
         {
             itemName = "slime";
+            id = 2;
         }
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {

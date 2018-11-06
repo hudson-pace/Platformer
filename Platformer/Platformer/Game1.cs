@@ -9,11 +9,11 @@ namespace Platformer
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    class Game1 : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        private Location slimeCity;
+        public static Location slimeCity, testArea;
 
         private Player player;
         private int screenGridWidth, screenGridHeight, screenWidth, screenHeight;
@@ -30,9 +30,12 @@ namespace Platformer
             screenGridWidth = (int)(graphics.PreferredBackBufferWidth / 50) + 1;
             screenGridHeight = (int)(graphics.PreferredBackBufferHeight / 50) + 1;
 
-            player = new Player(new Vector2(100, 100), GraphicsDevice);
-            player.SetLocation(new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice));
+            player = new Player(new Vector2(100, 100));
+            testArea = new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
             slimeCity = new Locations.SlimeCity(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
+            testArea.AddPortals();
+            slimeCity.AddPortals();
+            player.Travel(testArea, new Vector2(100, 100));
 
             IsMouseVisible = true;
 
@@ -53,10 +56,10 @@ namespace Platformer
         {
             // TODO: Add your initialization logic here
 
-            player.AddToInventory(new Items.ShellFragment(2));
+            /*player.AddToInventory(new Items.ShellFragment(2));
             player.AddToInventory(new Items.SlimeItem(2));
             player.AddToInventory(new Items.SlimeTail(2));
-            player.AddToInventory(new Items.SnailGoop(2));
+            player.AddToInventory(new Items.SnailGoop(2));*/
 
             base.Initialize();
         }
@@ -72,7 +75,7 @@ namespace Platformer
 
             // TODO: use this.Content to load your game content here
 
-            Player.LoadTextures(Content);
+            Player.LoadTextures(Content, GraphicsDevice);
 
             player.GetCurrentLocation().LoadTextures(Content);
             slimeCity.LoadTextures(Content);

@@ -16,7 +16,7 @@ namespace Platformer
         private static Texture2D containerTexture, itemSlotTexture, selectedItemSlotTexture;
         private static SpriteFont font;
         private Rectangle container;
-        private Color color = new Color(55, 220, 225, 240);
+        private static Color color = new Color(55, 220, 225, 240);
         private bool isActive = false, dragging = false, draggingItem = false;
         private InventoryItem selectedItem;
         private MouseState previousMouseState;
@@ -109,7 +109,7 @@ namespace Platformer
         {
             font = content.Load<SpriteFont>("ItemText");
         }
-        public void CreateTextures(GraphicsDevice graphicsDevice)
+        public static void CreateTextures(GraphicsDevice graphicsDevice)
         {
             containerTexture = new Texture2D(graphicsDevice, 1, 1);
             

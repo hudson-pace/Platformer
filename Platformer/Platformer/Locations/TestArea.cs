@@ -22,7 +22,6 @@ namespace Platformer.Locations
             enemyList.Add(new Enemies.SlimeRegular(new Vector2(0, 0), player, this, null));
             enemyList.Add(new Enemies.Snail(new Vector2(50, 50), player, this, null));
             spawners.Add(new Spawner(new Vector2(600, 300), enemyList, this));
-            portals.Add(new Portal(new Vector2(1000, 550), new Locations.SlimeCity(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, graphicsDevice), new Vector2(50, 50)));
             height = 22;
             width = 30;
             offsetX = 0;
@@ -76,6 +75,13 @@ namespace Platformer.Locations
 
         }
 
+        public override void AddPortals()
+        {
+            portals.Add(new Portal(new Vector2(1300, 850), Game1.slimeCity, new Vector2(100, 1300)));
+
+            portals.Add(new Portal(new Vector2(100, 800), this, new Vector2(100, 400)));
+            portals.Add(new Portal(new Vector2(100, 350), this, new Vector2(100, 850)));
+        }
         override public void LoadTextures(ContentManager content)
         {
             Portal.LoadContent(content);

@@ -11,8 +11,6 @@ namespace Platformer
     {
         public static bool CollideWithTiles(Tile[][] tiles, Entity entity)
         {
-            bool collided = false;
-
             int oldLeftGridX = (int)(entity.location.X / 50);
             int newLeftGridX = (int)(entity.newLocation.X / 50);
             int oldRightGridX = (int)((entity.location.X + entity.width - 1) / 50);
@@ -22,6 +20,9 @@ namespace Platformer
             int oldBottomGridY = (int)((entity.location.Y + entity.height - 1) / 50);
             int newBottomGridY = (int)((entity.newLocation.Y + entity.height - 1) / 50);
 
+
+            bool collided = false;          
+            
             if (newLeftGridX < oldLeftGridX)
             {
                 for (int i = newTopGridY; i <= newBottomGridY; i++)

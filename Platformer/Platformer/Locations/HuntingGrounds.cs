@@ -36,6 +36,11 @@ namespace Platformer.Locations
                 tiles[2][i + 3] = new Tiles.BrickWall(2, i + 3);
             }
         }
+
+        public override void AddPortals()
+        {
+            throw new NotImplementedException();
+        }
         override public void LoadTextures(ContentManager content)
         {
             DialogBox.LoadTextures(content);
