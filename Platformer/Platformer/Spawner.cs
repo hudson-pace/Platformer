@@ -10,30 +10,38 @@ namespace Platformer
     class Spawner
     {
         private List<Enemy> enemyList;
-        private List<Enemy> currentAliveList;
         private Vector2 location;
         private int spawnInterval;
         private Location currentLocation;
+        private List<Enemy> deadEnemies;
 
         public Spawner(Vector2 location, List<Enemy> enemyList, Location currentLocation)
         {
             this.location = location;
-            this.enemyList = enemyList;
+            this.enemyList = new List<Enemy>();
+            deadEnemies = new List<Enemy>();
+            MakeEnemyList(enemyList);
             this.currentLocation = currentLocation;
             spawnInterval = 0;
-            currentAliveList = new List<Enemy>();
+            
+        }
+        public void MakeEnemyList(List<Enemy> enemiesToAdd)
+        {
+            foreach (Enemy enemy in enemiesToAdd)
+            {
+                for (int i = 0; i < enemy.howMany; i++)
+                {
+                    enemyList.Add(enemy.Create(location, currentLocation, this));
+                }
+            }
+            foreach (Enemy enemy in enemyList)
+            {
+                deadEnemies.Add(enemy);
+            }
         }
         public void RemoveEnemy(Enemy enemy)
         {
-            foreach (Enemy e in currentAliveList)
-            {
-                if (enemy.name == e.name)
-                {
-                    enemy = e;
-                    break;
-                }
-            }
-            currentAliveList.Remove(enemy);
+            deadEnemies.Add(enemy);
         }
         public void Update()
         {
@@ -44,29 +52,11 @@ namespace Platformer
             else
             {
                 spawnInterval = 0;
-                foreach(Enemy enemy in enemyList)
+                foreach(Enemy enemy in deadEnemies)
                 {
-                    bool found = false;
-                    Enemy temp = null;
-                    foreach(Enemy enemy2 in currentAliveList)
-                    {
-                        if (enemy == enemy2)
-                        {
-                            found = true;
-                            temp = enemy2;
-                            break;
-                        }
-                    }
-                    if (found)
-                    {
-                        currentAliveList.Remove(temp);
-                    }
-                    if (!found)
-                    {
-                        currentLocation.AddEnemy(enemy.Create(location, currentLocation, this));
-                    }
+                    currentLocation.AddEnemy(enemy.Create(location, currentLocation, this));
                 }
-                currentAliveList = new List<Enemy>(enemyList);
+                deadEnemies.Clear();
             }
         }
     }

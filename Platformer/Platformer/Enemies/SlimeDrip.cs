@@ -14,7 +14,7 @@ namespace Platformer.Enemies
     {
         private static Texture2D regularTexture, hurtTexture;
 
-        public SlimeDrip(Vector2 location, Player player, Location currentLocation, Spawner spawner)
+        public SlimeDrip(Vector2 location, Player player, Location currentLocation, Spawner spawner, int howMany)
         {
             this.location = location;
             newLocation = location;
@@ -29,10 +29,11 @@ namespace Platformer.Enemies
             jumpHeight = .5f;
             this.spawner = spawner;
             name = "slimeDrip";
+            this.howMany = howMany;
         }
         override public Enemy Create(Vector2 location, Location currentLocation, Spawner spawner)
         {
-            return new SlimeDrip(location, player, currentLocation, spawner);
+            return new SlimeDrip(location, player, currentLocation, spawner, 0);
         }
         public static void LoadTextures(ContentManager content)
         {

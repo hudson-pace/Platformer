@@ -22,14 +22,12 @@ namespace Platformer.Locations
             AddBorder();
 
             int i = height - 2;
-            for (int j = 2; j < width - 2; j++) {
-                tiles[j][i] = new Tiles.SlimeBlock(j, i, 3);
+            for (int j = 1; j < width - 1; j++) {
+                tiles[j][i] = new Tiles.SlimeBlock(j, i, 10);
             }
-            tiles[1][i] = new Tiles.SlimeBlock(1, i, 1);
-            tiles[width - 2][i] = new Tiles.SlimeBlock(width - 2, i, 2);
 
-            tiles[16][i] = new Tiles.SlimeBlock(16, i, 8);
-            tiles[17][i] = new Tiles.SlimeBlock(17, i, 8);
+            tiles[16][i] = new Tiles.SlimeBlock(16, i, 12);
+            tiles[17][i] = new Tiles.SlimeBlock(17, i, 12);
             tiles[16][i - 1] = new Tiles.SlimeBlock(16, i - 1, 11);
             tiles[17][i - 1] = new Tiles.SlimeBlock(17, i - 1, 9);
             tiles[16][i - 2] = new Tiles.SlimeBlock(16, i - 2, 4);
@@ -72,6 +70,17 @@ namespace Platformer.Locations
             tiles[31][i - 8] = new Tiles.SlimeBlock(31, i - 8, 4);
             tiles[32][i - 8] = new Tiles.SlimeBlock(32, i - 8, 10);
             tiles[33][i - 8] = new Tiles.SlimeBlock(33, i - 8, 5);
+
+            tiles[6][i] = new Tiles.SlimeBlock(6, i, 12);
+            tiles[7][i] = new Tiles.SlimeBlock(7, i, 12);
+            tiles[6][i - 1] = new Tiles.SlimeBlock(6, i - 1, 11);
+            tiles[7][i - 1] = new Tiles.SlimeBlock(7, i - 1, 9);
+            tiles[6][i - 2] = new Tiles.SlimeBlock(6, i - 2, 4);
+            tiles[7][i - 2] = new Tiles.SlimeBlock(7, i - 2, 5);
+
+            List<Enemy> enemyList = new List<Enemy>();
+            enemyList.Add(new Enemies.SlimeDrip(new Vector2(0, 0), player, this, null, 5));
+            spawners.Add(new Spawner(new Vector2(450, (i - 1) * 50), enemyList, this));
         }
 
         public override void AddPortals()
