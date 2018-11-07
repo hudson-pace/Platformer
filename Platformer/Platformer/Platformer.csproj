@@ -66,6 +66,7 @@
     <Compile Include="Location.cs" />
     <Compile Include="NPC.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PlayerInfoBar.cs" />
     <Compile Include="Portal.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Projectile.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Tiles\Grass.cs" />
     <Compile Include="Tiles\InvisibleBarrier.cs" />
     <Compile Include="Tiles\Plant.cs" />
+    <Compile Include="Tiles\PortalTile.cs" />
     <Compile Include="Tiles\SlimeBlock.cs" />
     <Compile Include="Tiles\UpdatableTile.cs" />
   </ItemGroup>

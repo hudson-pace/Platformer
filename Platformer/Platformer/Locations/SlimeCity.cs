@@ -85,7 +85,7 @@ namespace Platformer.Locations
 
         public override void AddPortals()
         {
-            portals.Add(new Portal(new Vector2(100, 1250), Game1.testArea, new Vector2(1300, 900)));
+            portals.Add(new Portal(new Vector2(100, 1250), Game1.testArea, new Vector2(1300, 900), this));
         }
         override public void LoadTextures(ContentManager content)
         {
