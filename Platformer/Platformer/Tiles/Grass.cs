@@ -9,12 +9,20 @@ using Microsoft.Xna.Framework;
 
 namespace Platformer.Tiles
 {
-    class Grass : Tile
+    class Grass : UpdatableTile
     {
+        private static Random random = new Random();
         private static Texture2D texture;
-        public Grass(int x, int y) : base(x, y, true, true, true)
+        private int baseGrowthTime, growthTime, growthTimer;
+        private bool growing;
+        public Grass(int x, int y, Location currentLocation) : base(x, y, currentLocation, true, true, true)
         {
-
+            name = "grass";
+            baseGrowthTime = 200;
+            growthTime = random.Next(10, 16) * baseGrowthTime;
+            growthTimer = 0;
+            updatable = true;
+            growing = true;
         }
         public static void LoadTextures(ContentManager content)
         {
@@ -23,6 +31,21 @@ namespace Platformer.Tiles
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
             spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
+        }
+        override public void Update()
+        {
+            if (growing)
+            {
+                growthTimer++;
+                if ((growthTimer > growthTime) && (random.Next(1, 10000) == 1))
+                {
+                    if (currentLocation.tiles[x][y - 1].GetName() == "empty")
+                    {
+                        currentLocation.tiles[x][y - 1] = new Plant(x, y - 1, currentLocation);
+                    }
+                    growing = false;
+                }
+            }
         }
     }
 }

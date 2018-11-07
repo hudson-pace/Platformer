@@ -224,6 +224,7 @@ namespace Platformer
                 }
             }
 
+
             previousKeyboardState = keyboardState;
         }
         override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)

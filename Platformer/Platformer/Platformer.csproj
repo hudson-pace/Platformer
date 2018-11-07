@@ -80,7 +80,9 @@
     <Compile Include="Tiles\EnemyBarrier.cs" />
     <Compile Include="Tiles\Grass.cs" />
     <Compile Include="Tiles\InvisibleBarrier.cs" />
+    <Compile Include="Tiles\Plant.cs" />
     <Compile Include="Tiles\SlimeBlock.cs" />
+    <Compile Include="Tiles\UpdatableTile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

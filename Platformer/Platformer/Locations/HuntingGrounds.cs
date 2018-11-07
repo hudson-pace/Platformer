@@ -25,15 +25,15 @@ namespace Platformer.Locations
 
             for (int i = 1; i < 58; i++)
             {
-                tiles[i][28] = new Tiles.BrickWall(i, 28);
+                tiles[i][28] = new Tiles.BrickWall(i, 28, this);
             }
             for (int i = 22; i > 5; i-= 6)
             {
                 for (int j = 5; j < 26; j++)
                 {
-                    tiles[j][i] = new Tiles.BrickWall(j, i);
+                    tiles[j][i] = new Tiles.BrickWall(j, i, this);
                 }
-                tiles[2][i + 3] = new Tiles.BrickWall(2, i + 3);
+                tiles[2][i + 3] = new Tiles.BrickWall(2, i + 3, this);
             }
         }
 

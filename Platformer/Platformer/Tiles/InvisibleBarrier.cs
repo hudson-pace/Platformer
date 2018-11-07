@@ -9,9 +9,10 @@ namespace Platformer.Tiles
 {
     class InvisibleBarrier : Tile
     {
-        public InvisibleBarrier(int x, int y) : base(x, y, true, false, true)
+        public InvisibleBarrier(int x, int y, Location currentLocation) : base(x, y, currentLocation, true, false, true)
         {
-
+            name = "invisibleBarrier";
+            updatable = false;
         }
         override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {

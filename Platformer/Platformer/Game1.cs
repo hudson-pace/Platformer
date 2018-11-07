@@ -16,7 +16,8 @@ namespace Platformer
         public static Location slimeCity, testArea;
 
         private Player player;
-        private int screenGridWidth, screenGridHeight, screenWidth, screenHeight;
+        private int screenGridWidth, screenGridHeight, screenWidth, screenHeight, time;
+        private SpriteFont font;
 
         public Game1()
         {
@@ -80,6 +81,8 @@ namespace Platformer
             player.GetCurrentLocation().LoadTextures(Content);
             slimeCity.LoadTextures(Content);
 
+            font = Content.Load<SpriteFont>("NPCText");
+
         }
 
         /// <summary>
@@ -109,6 +112,12 @@ namespace Platformer
             //player.Update(state, testArea.tiles);
             player.GetCurrentLocation().Update(state, Mouse.GetState());
 
+
+            time++;
+            if (time > 2000)
+            {
+                time = 0;
+            }
             base.Update(gameTime);
         }
 
@@ -118,13 +127,25 @@ namespace Platformer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            if (time < 1600)
+            {
+                GraphicsDevice.Clear(Color.CornflowerBlue);
+            }
+            else
+            {
+                GraphicsDevice.Clear(Color.DarkBlue);
+            }
 
             // TODO: Add your drawing code here
 
             spriteBatch.Begin();
             player.GetCurrentLocation().Draw(spriteBatch);
+
+
+            spriteBatch.DrawString(font, "time: " + time, new Vector2(10, 10), Color.White);
             spriteBatch.End();
+
+
 
             base.Draw(gameTime);
         }

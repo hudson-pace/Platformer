@@ -12,9 +12,10 @@ namespace Platformer.Tiles
     class BrickWall : Tile
     {
         private static Texture2D texture;
-        public BrickWall(int x, int y) : base(x, y, true, true, true)
+        public BrickWall(int x, int y, Location currentLocation) : base(x, y, currentLocation, true, true, true)
         {
-
+            name = "brickWall";
+            updatable = false;
         }
         public static void LoadTextures(ContentManager content)
         {
