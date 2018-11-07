@@ -13,14 +13,26 @@ namespace Platformer
     {
         public Rectangle hitBox;
         private static Texture2D texture;
-        private Location destination;
+        private Location destination, currentLocation;
         private Vector2 positionDestination;
 
-        public Portal(Vector2 position, Location destination, Vector2 positionDestination)
+        public Portal(Vector2 position, Location destination, Vector2 positionDestination, Location currentLocation)
         {
             this.hitBox = new Rectangle((int)position.X, (int)position.Y, 100, 150);
             this.destination = destination;
             this.positionDestination = positionDestination;
+            this.currentLocation = currentLocation;
+
+            Tile[][] tiles = currentLocation.tiles;
+            int x = (int)(position.X / 50);
+            int y = (int)(position.Y / 50);
+
+            tiles[x][y] = new Tiles.PortalTile(x, y, currentLocation);
+            tiles[x][y + 1] = new Tiles.PortalTile(x, y + 1, currentLocation);
+            tiles[x][y + 2] = new Tiles.PortalTile(x, y + 2, currentLocation);
+            tiles[x + 1][y] = new Tiles.PortalTile(x + 1, y, currentLocation);
+            tiles[x + 1][y + 1] = new Tiles.PortalTile(x + 1, y + 1, currentLocation);
+            tiles[x + 1][y + 2] = new Tiles.PortalTile(x + 1, y + 2, currentLocation);
         }
         public Location GetDestination()
         {

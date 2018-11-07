@@ -24,23 +24,29 @@ namespace Platformer
         public string swingFacing = "right";
         private int projectileCooldown = 0, textureChangeCounter = 0, currentTextureState = 1, swordTextureChangeCounter = 5, currentSwordTextureState = 0, swordOffset;
         private Inventory inventory;
-        private int health;
+        private int health, maxHealth;
         private int invulnerableTimer = 0;
         public bool invulnerable = false;
+        private PlayerInfoBar playerInfoBar;
+        private int screenWidth, screenHeight;
 
 
-        public Player(Vector2 location)
+        public Player(Vector2 location, int screenWidth, int screenHeight)
         {
             this.location = location;
+            this.screenWidth = screenWidth;
+            this.screenHeight = screenHeight;
 
             inventory = new Inventory(this);
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             swordHitBox = new Rectangle((int)location.X + width, (int)location.Y, swordOffset, height);
+            playerInfoBar = new PlayerInfoBar(this, screenWidth, screenHeight);
 
             swordOffset = 30;
             height = 100;
             width = 100;
-            health = 100;
+            maxHealth = 100;
+            health = maxHealth;
         }
 
         public static void LoadTextures(ContentManager content, GraphicsDevice graphicsDevice)
@@ -50,6 +56,8 @@ namespace Platformer
             megamanTexture = content.Load<Texture2D>("megaman");
             Inventory.LoadTextures(content);
             Inventory.CreateTextures(graphicsDevice);
+            PlayerInfoBar.CreateTextures(graphicsDevice);
+            PlayerInfoBar.LoadTextures(content);
         }
 
         public void AddToInventory(Item item)
@@ -68,6 +76,14 @@ namespace Platformer
             isFalling = true;
         }
 
+        public int GetMaxHealth()
+        {
+            return maxHealth;
+        }
+        public int GetHealth()
+        {
+            return health;
+        }
         public Location GetCurrentLocation()
         {
             return currentLocation;
@@ -224,6 +240,7 @@ namespace Platformer
                 }
             }
 
+            playerInfoBar.Update();
 
             previousKeyboardState = keyboardState;
         }
@@ -260,7 +277,8 @@ namespace Platformer
             sourceRectangle = new Rectangle(currentTextureState * 100, sourceY, 100, 100);
 
             spriteBatch.Draw(megamanTexture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
-            
+
+            playerInfoBar.Draw(spriteBatch);
             if (inventory.GetIsActive())
             {
                 inventory.Draw(spriteBatch);
