@@ -24,11 +24,11 @@ namespace Platformer
         public string swingFacing = "right";
         private int projectileCooldown = 0, textureChangeCounter = 0, currentTextureState = 1, swordTextureChangeCounter = 5, currentSwordTextureState = 0, swordOffset;
         private Inventory inventory;
-        private int health, maxHealth;
+        private int health, maxHealth, mana, maxMana;
         private int invulnerableTimer = 0;
         public bool invulnerable = false;
         private PlayerInfoBar playerInfoBar;
-        private int screenWidth, screenHeight;
+        private int screenWidth, screenHeight, manaRegenCooldown;
 
 
         public Player(Vector2 location, int screenWidth, int screenHeight)
@@ -47,6 +47,8 @@ namespace Platformer
             width = 100;
             maxHealth = 100;
             health = maxHealth;
+            maxMana = 50;
+            mana = maxMana;
         }
 
         public static void LoadTextures(ContentManager content, GraphicsDevice graphicsDevice)
@@ -83,6 +85,14 @@ namespace Platformer
         public int GetHealth()
         {
             return health;
+        }
+        public int GetMaxMana()
+        {
+            return maxMana;
+        }
+        public int GetMana()
+        {
+            return mana;
         }
         public Location GetCurrentLocation()
         {
@@ -164,7 +174,7 @@ namespace Platformer
             {
                 projectileCooldown--;
             }
-            if (keyboardState.IsKeyDown(Keys.J) && projectileCooldown == 0)
+            if (keyboardState.IsKeyDown(Keys.J) && projectileCooldown == 0 && mana >= 25)
             {
                 if (swingFacing == "right")
                 {
@@ -175,6 +185,7 @@ namespace Platformer
                     currentLocation.AddProjectile(new Projectile(new Vector2(location.X + (width / 2) - (30 / 2), location.Y + (height / 2) - (30 / 2)), projectileTexture, -10, currentLocation));
                 }
                 projectileCooldown = 60;
+                mana -= 25;
             }
             if (previousFPressed == false && keyboardState.IsKeyDown(Keys.F) && swingingSword == false)
             {
@@ -238,6 +249,16 @@ namespace Platformer
                         Travel(portal.GetDestination(), portal.GetPositionDestination());
                     }
                 }
+            }
+
+            if (manaRegenCooldown > 0)
+            {
+                manaRegenCooldown--;
+            }
+            if (manaRegenCooldown == 0 && (mana < maxMana))
+            {
+                mana++;
+                manaRegenCooldown = 5;
             }
 
             playerInfoBar.Update();

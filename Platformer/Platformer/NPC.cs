@@ -10,6 +10,7 @@ namespace Platformer
     abstract class NPC : Entity
     {
         public string greeting;
+        public string[] options;
 
         abstract public void Update(KeyboardState state, Tile[][] tiles);
     }
