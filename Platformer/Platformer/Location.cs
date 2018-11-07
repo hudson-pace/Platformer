@@ -50,6 +50,13 @@ namespace Platformer
                 dialogBox = null;
             }
         }
+        public void AddTile(Tile tile, int x, int y)
+        {
+            if (tiles[x][y].GetName() == "empty")
+            {
+                tiles[x][y] = tile;
+            }
+        }
         public bool HasOpenDialog()
         {
             if (dialogBox != null)
@@ -107,6 +114,17 @@ namespace Platformer
             projectiles.ForEach(projectile => projectile.Update(state, tiles, enemies));
             spawners.ForEach(spawner => spawner.Update());
             items.ForEach(item => item.Update(state, tiles));
+
+            foreach (Tile[] row in tiles)
+            {
+                foreach (Tile tile in row)
+                {
+                    if (tile.updatable)
+                    {
+                        ((Tiles.UpdatableTile)(tile)).Update();
+                    }
+                }
+            }
 
             if (state.IsKeyDown(Keys.Q) && !previousQPressed)
             {
@@ -229,11 +247,11 @@ namespace Platformer
                 {
                     if ((j == height - 1) || (j == 0) || (i == 0) || (i == width - 1))
                     {
-                        tiles[i][j] = new Tiles.InvisibleBarrier(i, j);
+                        tiles[i][j] = new Tiles.InvisibleBarrier(i, j, this);
                     }
                     else
                     {
-                        tiles[i][j] = new Tiles.Empty(i, j);
+                        tiles[i][j] = new Tiles.Empty(i, j, this);
                     }
                 }
             }

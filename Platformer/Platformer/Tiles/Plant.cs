@@ -3,23 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Content;
+
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace Platformer.Tiles
 {
-    class Dirt : Tile
+    class Plant : Tile
     {
         private static Texture2D texture;
-        public Dirt(int x, int y, Location currentLocation) : base(x, y, currentLocation, true, true, true)
+
+        public Plant(int x, int y, Location currentLocation) : base(x, y, currentLocation, false, true, false)
         {
-            name = "dirt";
+            name = "plant";
             updatable = false;
         }
         public static void LoadTextures(ContentManager content)
         {
-            texture = content.Load<Texture2D>("dirt");
+            texture = content.Load<Texture2D>("plant");
         }
         override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {

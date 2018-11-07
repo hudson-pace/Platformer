@@ -31,8 +31,8 @@ namespace Platformer
         public void Toggle()
         {
             isActive = !isActive;
-            container.X = 0;
-            container.Y = 0;
+            container.X = 50;
+            container.Y = 50;
             for(int i = 0; i < inventoryItems.Count; i++)
             {
                 inventoryItems[i].SetLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));

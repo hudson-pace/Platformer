@@ -13,9 +13,11 @@ namespace Platformer.Tiles
     {
         private static Texture2D texture;
         private Rectangle textureSource;
-        public SlimeBlock(int x, int y, int textureNumber) : base(x, y, true, true, true)
+        public SlimeBlock(int x, int y, int textureNumber, Location currentLocation) : base(x, y, currentLocation, true, true, true)
         {
             textureSource = new Rectangle(((textureNumber % 4) * 50), ((textureNumber / 4) * 50), 50, 50);
+            name = "slimeBlock";
+            updatable = false;
         }
         public static void LoadTextures(ContentManager content)
         {
