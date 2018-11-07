@@ -37,9 +37,9 @@ namespace Platformer
             this.graphicsDevice = graphicsDevice;
         }
         public abstract void AddPortals();
-        public void CreateDialog(string text)
+        public void CreateDialog(string text, string[] choices)
         {
-            dialogBox = new DialogBox(text, screenWidth, screenHeight);
+            dialogBox = new DialogBox(text, choices, screenWidth, screenHeight);
             dialogBox.CreateTextures(graphicsDevice);
         }
         public void CloseDialog()
@@ -138,7 +138,7 @@ namespace Platformer
                     {
                         if (Collisions.EntityCollisions(player.hitBox, character.hitBox))
                         {
-                            CreateDialog(character.greeting);
+                            CreateDialog(character.greeting, character.options);
                             break;
                         }
                     }

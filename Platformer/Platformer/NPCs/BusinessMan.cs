@@ -22,6 +22,7 @@ namespace Platformer.NPCs
             height = 100;
             width = 100;
             greeting = "Hello there, friend!";
+            options = new string[]{ "hey!", "hi", "hello" };
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
 
