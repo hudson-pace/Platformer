@@ -235,6 +235,11 @@ namespace Platformer
                     offsetY = 50;
                 }
             }
+
+            if (dialogBox != null)
+            {
+                dialogBox.Update(mouseState);
+            }
         }
 
         public void AddBorder()

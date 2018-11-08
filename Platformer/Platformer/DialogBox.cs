@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Input;
 
 namespace Platformer
 {
@@ -15,7 +16,7 @@ namespace Platformer
         private string text;
         private string[] choices;
         private int screenWidth, screenHeight;
-        private Texture2D containerTexture, textFieldTexture, optionsTexture;
+        private Texture2D containerTexture, textFieldTexture, optionsTexture, yellowTexture, blueTexture;
         private static SpriteFont font;
         private Rectangle container, textField, options;
         private Color color;
@@ -41,9 +42,19 @@ namespace Platformer
                 choiceContainers[i] = new Rectangle(options.X + 1, options.Y + 1 + (30 * i), options.Width - 2, 30);
             }
         }
-        public void Update()
+        public void Update(MouseState state)
         {
-
+            for (int i = 0; i < choiceContainers.Length; i++)
+            {
+                if (choiceContainers[i].Contains(state.Position))
+                {
+                    choiceTextures[i] = blueTexture;
+                }
+                else
+                {
+                    choiceTextures[i] = yellowTexture;
+                }
+            }
         }
         public void CreateTextures(GraphicsDevice graphicsDevice)
         {
@@ -61,7 +72,7 @@ namespace Platformer
                         data[(i * textFieldTexture.Width) + j] = Color.Black;
                     }
                 }
-            }            
+            }
             textFieldTexture.SetData(data);
 
             
@@ -81,20 +92,16 @@ namespace Platformer
             }
             optionsTexture.SetData(data);
 
+            yellowTexture = new Texture2D(graphicsDevice, 1, 1);
+            data = new Color[] { Color.Yellow };
+            yellowTexture.SetData(data);
+            blueTexture = new Texture2D(graphicsDevice, 1, 1);
+            data = new Color[] { Color.Blue };
+            blueTexture.SetData(data);
 
-            for (int i = 0; i < choiceContainers.Length; i++)
+            for (int i = 0; i < choiceTextures.Length; i++)
             {
-                data = new Color[choiceContainers[i].Width * choiceContainers[i].Height];
-                choiceTextures[i] = new Texture2D(graphicsDevice, choiceContainers[i].Width, choiceContainers[i].Height);
-                for (int j = 0; j < choiceContainers[i].Height; j++)
-                {
-                    for (int k = 0; k < choiceContainers[i].Width; k++)
-                    {
-                        data[(j * choiceContainers[i].Width) + k] = Color.Yellow;
-                    }
-                    
-                }
-                choiceTextures[i].SetData(data);
+                choiceTextures[i] = yellowTexture;
             }
 
         }
