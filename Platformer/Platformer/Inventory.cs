@@ -21,18 +21,35 @@ namespace Platformer
         private InventoryItem selectedItem;
         private MouseState previousMouseState;
         private Player player;
+        private int screenWidth, screenHeight;
 
-        public Inventory(Player player)
+        public Inventory(Player player, int screenWidth, int screenHeight)
         {
             this.player = player;
-            container = new Rectangle(0, 0, 270, 400);
+            this.screenWidth = screenWidth;
+            this.screenHeight = screenHeight;
+            container = new Rectangle(500, 200, 270, 400);
         }
 
         public void Toggle()
         {
             isActive = !isActive;
-            container.X = 50;
-            container.Y = 50;
+            if (container.X < 0)
+            {
+                container.X = 0;
+            }
+            else if (container.X > (screenWidth - container.Width))
+            {
+                container.X = screenWidth - container.Width;
+            }
+            if (container.Y < 0)
+            {
+                container.Y = 0;
+            }
+            else if (container.Y > (screenHeight - container.Height))
+            {
+                container.Y = screenHeight - container.Height;
+            }
             for(int i = 0; i < inventoryItems.Count; i++)
             {
                 inventoryItems[i].SetLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));

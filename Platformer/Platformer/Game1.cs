@@ -57,10 +57,7 @@ namespace Platformer
         {
             // TODO: Add your initialization logic here
 
-            /*player.AddToInventory(new Items.ShellFragment(2));
-            player.AddToInventory(new Items.SlimeItem(2));
-            player.AddToInventory(new Items.SlimeTail(2));
-            player.AddToInventory(new Items.SnailGoop(2));*/
+            player.AddToInventory(new Items.PlantFibers(10));
 
             base.Initialize();
         }
@@ -82,7 +79,7 @@ namespace Platformer
             slimeCity.LoadTextures(Content);
 
             font = Content.Load<SpriteFont>("NPCText");
-
+            Items.PlantFibers.LoadTextures(Content);
         }
 
         /// <summary>

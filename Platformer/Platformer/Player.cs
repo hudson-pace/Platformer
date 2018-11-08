@@ -15,7 +15,6 @@ namespace Platformer
     {
         private static Texture2D swordTexture, projectileTexture, megamanTexture;
         private Location currentLocation;
-        private bool previousFPressed = false, previousAPressed = false, previousDPressed = false, previousIPressed = false;
         private KeyboardState previousKeyboardState;
         public bool swordIsActive = false;
         private bool swingingSword = false;
@@ -37,7 +36,7 @@ namespace Platformer
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
 
-            inventory = new Inventory(this);
+            inventory = new Inventory(this, screenWidth, screenHeight);
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             swordHitBox = new Rectangle((int)location.X + width, (int)location.Y, swordOffset, height);
             playerInfoBar = new PlayerInfoBar(this, screenWidth, screenHeight);
@@ -138,23 +137,19 @@ namespace Platformer
                 }
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
-                    if (previousAPressed && !isFalling)
+                    if (previousKeyboardState.IsKeyDown(Keys.A) && !isFalling)
                     {
                         textureChangeCounter--;
                     }
-                    previousAPressed = true;
-                    previousDPressed = false;
                     newLocation.X -= 4;
                     facing = "left";
                 }
                 if (keyboardState.IsKeyDown(Keys.D))
                 {
-                    if (previousDPressed && !isFalling)
+                    if (previousKeyboardState.IsKeyDown(Keys.D) && !isFalling)
                     {
                         textureChangeCounter--;
                     }
-                    previousAPressed = false;
-                    previousDPressed = true;
                     newLocation.X += 4;
                     facing = "right";
                 }
@@ -187,7 +182,7 @@ namespace Platformer
                 projectileCooldown = 60;
                 mana -= 25;
             }
-            if (previousFPressed == false && keyboardState.IsKeyDown(Keys.F) && swingingSword == false)
+            if (!previousKeyboardState.IsKeyDown(Keys.F) && keyboardState.IsKeyDown(Keys.F) && swingingSword == false)
             {
                 swingingSword = true;
                 swingFacing = facing;
@@ -233,7 +228,6 @@ namespace Platformer
             {
                 swordHitBox = new Rectangle((int)location.X + width, (int)location.Y, swordOffset, height);
             }
-            previousFPressed = keyboardState.IsKeyDown(Keys.F);
 
             if (inventory.GetIsActive())
             {
