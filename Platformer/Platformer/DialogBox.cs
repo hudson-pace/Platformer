@@ -14,7 +14,7 @@ namespace Platformer
     class DialogBox
     {
         private string text;
-        private string[] choices;
+        private string[][] choices;
         private int screenWidth, screenHeight;
         private Texture2D containerTexture, textFieldTexture, optionsTexture, yellowTexture, blueTexture;
         private static SpriteFont font;
@@ -22,13 +22,16 @@ namespace Platformer
         private Color color;
         private Rectangle[] choiceContainers;
         private Texture2D[] choiceTextures;
+        private NPC npc;
+        private MouseState previousState;
 
-        public DialogBox(string text, string[] choices, int screenWidth, int screenHeight)
+        public DialogBox(string text, string[][] choices, int screenWidth, int screenHeight, NPC npc)
         {
             this.text = text;
             this.choices = choices;
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
+            this.npc = npc;
             color = new Color(55, 220, 225, 240);
             container = new Rectangle((int)(screenWidth * .15), (int)(screenHeight * .6), (int)(screenWidth * .7), (int)(screenHeight * .3));
             textField = new Rectangle((int)(container.X + (container.Width * .02)), (int)(container.Y + (container.Height * .1)), (int)(container.Width * .96), (int)(container.Height * .2));
@@ -49,12 +52,17 @@ namespace Platformer
                 if (choiceContainers[i].Contains(state.Position))
                 {
                     choiceTextures[i] = blueTexture;
+                    if ((state.LeftButton == ButtonState.Pressed) && !(previousState.LeftButton == ButtonState.Pressed))
+                    {
+                        npc.ChooseOption(choices[i][1]);
+                    }
                 }
                 else
                 {
                     choiceTextures[i] = yellowTexture;
                 }
             }
+            previousState = state;
         }
         public void CreateTextures(GraphicsDevice graphicsDevice)
         {
@@ -117,7 +125,7 @@ namespace Platformer
             for (int i = 0; i < choiceContainers.Length; i++)
             {
                 spriteBatch.Draw(choiceTextures[i], choiceContainers[i], color);
-                spriteBatch.DrawString(font, choices[i], new Vector2(choiceContainers[i].X, choiceContainers[i].Y), Color.Black);
+                spriteBatch.DrawString(font, choices[i][0], new Vector2(choiceContainers[i].X, choiceContainers[i].Y), Color.Black);
             }
             spriteBatch.DrawString(font, text, new Vector2(textField.X, textField.Y), Color.Black);
         }

@@ -22,7 +22,6 @@ namespace Platformer
         public Player player;
         public int height, width;
         public int offsetX, offsetY, screenGridWidth, screenGridHeight, screenWidth, screenHeight;
-        private DialogBox dialogBox;
         private GraphicsDevice graphicsDevice;
         private bool previousQPressed = false;
 
@@ -37,19 +36,7 @@ namespace Platformer
             this.graphicsDevice = graphicsDevice;
         }
         public abstract void AddPortals();
-        public void CreateDialog(string text, string[] choices)
-        {
-            dialogBox = new DialogBox(text, choices, screenWidth, screenHeight);
-            dialogBox.CreateTextures(graphicsDevice);
-        }
-        public void CloseDialog()
-        {
-            if (dialogBox != null)
-            {
-                dialogBox.Close();
-                dialogBox = null;
-            }
-        }
+        
         public void AddTile(Tile tile, int x, int y)
         {
             if (tiles[x][y].GetName() == "empty")
@@ -57,13 +44,11 @@ namespace Platformer
                 tiles[x][y] = tile;
             }
         }
-        public bool HasOpenDialog()
+        
+
+        public void RemoveEnemy(Enemy enemy)
         {
-            if (dialogBox != null)
-            {
-                return true;
-            }
-            return false;
+            enemies.Remove(enemy);
         }
 
         public List<Portal> GetPortals()
@@ -88,10 +73,7 @@ namespace Platformer
             projectiles.ForEach(projectile => projectile.Draw(spriteBatch, offsetX, offsetY));
             items.ForEach(item => item.Draw(spriteBatch, offsetX, offsetY));
             player.Draw(spriteBatch, offsetX, offsetY);
-            if (dialogBox != null)
-            {
-                dialogBox.Draw(spriteBatch);
-            }
+            NPCList.ForEach(npc => npc.DrawDialog(spriteBatch));
         }
 
         abstract public void LoadTextures(ContentManager content);
@@ -114,6 +96,7 @@ namespace Platformer
             projectiles.ForEach(projectile => projectile.Update(state, tiles, enemies));
             spawners.ForEach(spawner => spawner.Update());
             items.ForEach(item => item.Update(state, tiles));
+            NPCList.ForEach(npc => npc.Update(state, tiles, mouseState));
 
             foreach (Tile[] row in tiles)
             {
@@ -128,19 +111,16 @@ namespace Platformer
 
             if (state.IsKeyDown(Keys.Q) && !previousQPressed)
             {
-                if (HasOpenDialog())
+                foreach(NPC character in NPCList)
                 {
-                    CloseDialog();
-                }
-                else
-                {
-                    foreach(NPC character in NPCList)
+                    if (character.HasOpenDialog())
                     {
-                        if (Collisions.EntityCollisions(player.hitBox, character.hitBox))
-                        {
-                            CreateDialog(character.greeting, character.options);
-                            break;
-                        }
+                        character.CloseDialog();
+                    }
+                    else if (Collisions.EntityCollisions(player.hitBox, character.hitBox))
+                    {
+                        character.CreateDialog(screenWidth, screenHeight, graphicsDevice);
+                        break;
                     }
                 }
             }
@@ -236,10 +216,7 @@ namespace Platformer
                 }
             }
 
-            if (dialogBox != null)
-            {
-                dialogBox.Update(mouseState);
-            }
+            
         }
 
         public void AddBorder()

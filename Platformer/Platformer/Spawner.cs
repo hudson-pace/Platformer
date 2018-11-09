@@ -36,12 +36,8 @@ namespace Platformer
             }
             foreach (Enemy enemy in enemyList)
             {
-                deadEnemies.Add(enemy);
+                enemy.active = false;
             }
-        }
-        public void RemoveEnemy(Enemy enemy)
-        {
-            deadEnemies.Add(enemy);
         }
         public void Update()
         {
@@ -52,11 +48,14 @@ namespace Platformer
             else
             {
                 spawnInterval = 0;
-                foreach(Enemy enemy in deadEnemies)
+                for (int i = 0; i < enemyList.Count; i++)
                 {
-                    currentLocation.AddEnemy(enemy.Create(location, currentLocation, this));
+                    if (!enemyList[i].active)
+                    {
+                        enemyList[i] = enemyList[i].Create(location, currentLocation, this);
+                        currentLocation.AddEnemy(enemyList[i]);
+                    }
                 }
-                deadEnemies.Clear();
             }
         }
     }
