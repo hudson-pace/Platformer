@@ -47,6 +47,8 @@
     <Compile Include="Enemies\Snail.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="InventoryItem.cs" />
+    <Compile Include="Items\HealthPotion.cs" />
+    <Compile Include="Items\ManaPotion.cs" />
     <Compile Include="Items\PlantFibers.cs" />
     <Compile Include="Items\ShellFragment.cs" />
     <Compile Include="Items\SlimeTail.cs" />

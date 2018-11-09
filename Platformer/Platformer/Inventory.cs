@@ -80,13 +80,30 @@ namespace Platformer
                 inventoryItems[i].SetLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
             }
         }
-        public void RemoveFromInventory(InventoryItem item)
+        public bool RemoveFromInventory(InventoryItem item)
         {
-            inventoryItems.Remove(item);
             for (int i = 0; i < inventoryItems.Count; i++)
             {
-                inventoryItems[i].SetLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
+                if (inventoryItems[i].GetItem().GetId() == item.GetItem().GetId())
+                {
+                    if (inventoryItems[i].GetItem().GetCount() < item.GetItem().GetCount())
+                    {
+                        return false;
+                    }
+                    else if (inventoryItems[i].GetItem().GetCount() == item.GetItem().GetCount())
+                    {
+                        inventoryItems.Remove(inventoryItems[i]);
+                        ReSort();
+                        return true;
+                    }
+                    else
+                    {
+                        inventoryItems[i].GetItem().SetCount(inventoryItems[i].GetItem().GetCount() - item.GetItem().GetCount());
+                        return true;
+                    }
+                }
             }
+            return false;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -183,7 +200,8 @@ namespace Platformer
                 selectedItem = null;
             }
 
-            foreach(InventoryItem item in inventoryItems)
+            bool select = false;
+            foreach (InventoryItem item in inventoryItems)
             {
                 item.SetHovering(false);
                 if (item.GetHitBox().Contains(mouseState.Position))
@@ -193,11 +211,14 @@ namespace Platformer
                     {
                         selectedItem = item;
                         draggingItem = true;
+                        select = true;
                     }
                 }
             }
-
-            RemoveFromInventory(selectedItem);
+            if (select)
+            {
+                RemoveFromInventory(selectedItem);
+            }
 
             if (draggingItem)
             {

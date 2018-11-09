@@ -115,6 +115,24 @@ namespace Platformer
                 }
             }
 
+            if (!previousKeyboardState.IsKeyDown(Keys.OemComma) && keyboardState.IsKeyDown(Keys.OemComma))
+            {
+                if (inventory.RemoveFromInventory(new InventoryItem(new Items.HealthPotion(1), new Vector2(0, 0))))
+                {
+                    health += 50;
+                    if (health > maxHealth)
+                    {
+                        health = maxHealth;
+                    }
+                }
+            }
+            if (!previousKeyboardState.IsKeyDown(Keys.OemPeriod) && keyboardState.IsKeyDown(Keys.OemPeriod))
+            {
+                if (inventory.RemoveFromInventory(new InventoryItem(new Items.ManaPotion(1), new Vector2(0, 0))))
+                {
+                    mana = maxMana;
+                }
+            }
             if (!previousKeyboardState.IsKeyDown(Keys.I) && keyboardState.IsKeyDown(Keys.I))
             {
                 inventory.Toggle();
