@@ -23,7 +23,7 @@ namespace Platformer
         public string swingFacing = "right";
         private int projectileCooldown = 0, textureChangeCounter = 0, currentTextureState = 1, swordTextureChangeCounter = 5, currentSwordTextureState = 0, swordOffset;
         private Inventory inventory;
-        private int health, maxHealth, mana, maxMana;
+        private int health, maxHealth, mana, maxMana, xp, xpToLevel;
         private int invulnerableTimer = 0;
         public bool invulnerable = false;
         private PlayerInfoBar playerInfoBar;
@@ -48,6 +48,8 @@ namespace Platformer
             health = maxHealth;
             maxMana = 50;
             mana = maxMana;
+            xpToLevel = 100;
+            xp = 0;
         }
 
         public static void LoadTextures(ContentManager content, GraphicsDevice graphicsDevice)
@@ -92,6 +94,14 @@ namespace Platformer
         public int GetMana()
         {
             return mana;
+        }
+        public int GetXp()
+        {
+            return xp;
+        }
+        public int GetXpToLevel()
+        {
+            return xpToLevel;
         }
         public Location GetCurrentLocation()
         {
@@ -270,7 +280,7 @@ namespace Platformer
             if (manaRegenCooldown == 0 && (mana < maxMana))
             {
                 mana++;
-                manaRegenCooldown = 5;
+                manaRegenCooldown = 3;
             }
 
             playerInfoBar.Update();
@@ -325,6 +335,7 @@ namespace Platformer
             health -= damage;
             if (health <= 0)
             {
+                /* die(); */
             }
 
             state = "hurt";
@@ -347,6 +358,16 @@ namespace Platformer
                 verticalVelocity -= 3;
             }
             isFalling = true;
+        }
+
+        public void AddXp(int xpToAdd)
+        {
+            xp += xpToAdd;
+            if (xp > xpToLevel)
+            {
+                /* LevelUp(); */
+                xp -= xpToLevel;
+            }
         }
     }
 }

@@ -21,6 +21,7 @@ namespace Platformer
         public string name;
         private static Random random = new Random();
         public int howMany;
+        protected int damage, xp;
 
         public Enemy()
         {
@@ -44,6 +45,10 @@ namespace Platformer
             location = newLocation;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
+        public int GetDamage()
+        {
+            return damage;
+        }
         public void GetHit(String direction)
         {
             health -= 15;
@@ -59,6 +64,8 @@ namespace Platformer
                         currentLocation.AddItem(drop);
                     }
                 });
+                player.AddXp(xp);
+                return;
             }
 
             state = "hurt";

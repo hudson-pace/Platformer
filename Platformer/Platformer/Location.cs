@@ -153,7 +153,7 @@ namespace Platformer
                     {
                         if (Collisions.EntityCollisions(player.hitBox, enemy.hitBox))
                         {
-                            player.GetHit("left", 10);
+                            player.GetHit("left", enemy.GetDamage());
                         }
                     }
                 }
