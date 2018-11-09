@@ -32,6 +32,8 @@ namespace Platformer.Enemies
             this.spawner = spawner;
             name = "snail";
             this.howMany = howMany;
+            damage = 15;
+            xp = 10;
         }
 
 

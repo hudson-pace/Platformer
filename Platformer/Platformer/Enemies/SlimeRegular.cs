@@ -33,6 +33,8 @@ namespace Platformer.Enemies
             this.spawner = spawner;
             name = "slimeRegular";
             this.howMany = howMany;
+            damage = 25;
+            xp = 20;
         }
 
         public override Enemy Create(Vector2 location, Location currentLocation, Spawner spawner)

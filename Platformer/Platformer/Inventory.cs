@@ -138,6 +138,15 @@ namespace Platformer
             {
                 selectedItem.Draw(spriteBatch);
             }
+
+            foreach (InventoryItem item in inventoryItems)
+            {
+                if (item.GetHovering())
+                {
+                    item.DrawPopupText(spriteBatch, font);
+                    break;
+                }
+            }
         }
         public static void LoadTextures(ContentManager content)
         {
@@ -168,6 +177,7 @@ namespace Platformer
             itemSlotTexture.SetData(data);
             selectedItemSlotTexture.SetData(selectedData);
 
+            InventoryItem.CreateTextures(graphicsDevice);
         }
 
         public void Update(MouseState mouseState)
@@ -203,10 +213,10 @@ namespace Platformer
             bool select = false;
             foreach (InventoryItem item in inventoryItems)
             {
-                item.SetHovering(false);
+                item.SetHovering(false, mouseState);
                 if (item.GetHitBox().Contains(mouseState.Position))
                 {
-                    item.SetHovering(true);
+                    item.SetHovering(true, mouseState);
                     if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton != ButtonState.Pressed)
                     {
                         selectedItem = item;
