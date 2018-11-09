@@ -50,6 +50,7 @@ namespace Platformer
             if (health <= 0)
             {
                 active = false;
+                currentLocation.RemoveEnemy(this);
                 drops.ForEach(drop =>
                 {
                     if (random.Next(0, 99) < drop.GetProbability())
@@ -58,10 +59,6 @@ namespace Platformer
                         currentLocation.AddItem(drop);
                     }
                 });
-                if (spawner != null)
-                {
-                    spawner.RemoveEnemy(this);
-                }
             }
 
             state = "hurt";
