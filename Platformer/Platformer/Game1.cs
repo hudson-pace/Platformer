@@ -13,7 +13,7 @@ namespace Platformer
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        public static Location slimeCity, testArea;
+        public static Location slimeCity, testArea, slimeHut;
 
         private Player player;
         private int screenGridWidth, screenGridHeight, screenWidth, screenHeight;
@@ -35,8 +35,10 @@ namespace Platformer
             player = new Player(new Vector2(1050, 1100), screenWidth, screenHeight);
             testArea = new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
             slimeCity = new Locations.SlimeCity(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
+            slimeHut = new Locations.SlimeHut(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
             testArea.AddPortals();
             slimeCity.AddPortals();
+            slimeHut.AddPortals();
             player.Travel(slimeCity, new Vector2(1050, 1100));
 
             IsMouseVisible = true;
@@ -57,6 +59,7 @@ namespace Platformer
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            ItemManager.RegisterItems();
 
             player.AddToInventory(new Items.HealthPotion(3));
             player.AddToInventory(new Items.ManaPotion(3));
@@ -79,15 +82,13 @@ namespace Platformer
 
             Player.LoadTextures(Content, GraphicsDevice);
 
-            player.GetCurrentLocation().LoadTextures(Content);
+            //player.GetCurrentLocation().LoadTextures(Content);
+            testArea.LoadTextures(Content);
             slimeCity.LoadTextures(Content);
 
             font = Content.Load<SpriteFont>("NPCText");
-            Items.PlantFibers.LoadTextures(Content);
-            Items.HealthPotion.LoadTextures(Content);
-            Items.ManaPotion.LoadTextures(Content);
-            Items.SwordItem.LoadTextures(Content);
-            Items.ScytheItem.LoadTextures(Content);
+
+            ItemManager.LoadTextures(Content);
         }
 
         /// <summary>

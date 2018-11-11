@@ -13,16 +13,18 @@ namespace Platformer.Items
     class PlantFibers : Item
     {
         private static Texture2D texture;
+        private static int itemId;
+
 
         public PlantFibers(int count) : base(count)
         {
             itemName = "plantFibers";
-            id = 5;
+            id = itemId;
         }
         public PlantFibers(int count, int probability) : base(count, probability)
         {
             itemName = "plantFibers";
-            id = 5;
+            id = itemId;
         }
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
@@ -31,6 +33,10 @@ namespace Platformer.Items
         public static void LoadTextures(ContentManager content)
         {
             texture = content.Load<Texture2D>("plant-fibers");
+        }
+        public static void Register(int newId)
+        {
+            itemId = newId;
         }
     }
 }

@@ -82,8 +82,6 @@ namespace Platformer.Enemies
             rightFacingTexture = content.Load<Texture2D>("slime-facing-right");
             leftFacingHurtTexture = content.Load<Texture2D>("slime-facing-left-hurt");
             rightFacingHurtTexture = content.Load<Texture2D>("slime-facing-right-hurt");
-            Items.SlimeItem.LoadTextures(content);
-            Items.SlimeTail.LoadTextures(content);
         }
 
         

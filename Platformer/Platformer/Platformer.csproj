@@ -48,6 +48,7 @@
     <Compile Include="EquipmentMenu.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="InventoryItem.cs" />
+    <Compile Include="ItemManager.cs" />
     <Compile Include="Items\HealthPotion.cs" />
     <Compile Include="Items\ManaPotion.cs" />
     <Compile Include="Items\PlantFibers.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Items\SnailGoop.cs" />
     <Compile Include="Items\SwordItem.cs" />
     <Compile Include="Locations\SlimeCity.cs" />
+    <Compile Include="Locations\SlimeHut.cs" />
     <Compile Include="NPCs\BusinessMan.cs" />
     <Compile Include="Collisions.cs" />
     <Compile Include="DialogBox.cs" />

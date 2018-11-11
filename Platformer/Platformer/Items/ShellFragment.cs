@@ -12,16 +12,18 @@ namespace Platformer.Items
     class ShellFragment : Item
     {
         private static Texture2D texture;
+        private static int itemId;
+
 
         public ShellFragment(int count) : base(count)
         {
             itemName = "shellFragment";
-            id = 1;
+            id = itemId;
         }
         public ShellFragment(int count, int probability) : base(count, probability)
         {
             itemName = "shellFragment";
-            id = 1;
+            id = itemId;
         }
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
@@ -30,6 +32,10 @@ namespace Platformer.Items
         public static void LoadTextures(ContentManager content)
         {
             texture = content.Load<Texture2D>("shell-fragment");
+        }
+        public static void Register(int newId)
+        {
+            itemId = newId;
         }
     }
 }
