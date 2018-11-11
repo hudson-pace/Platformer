@@ -222,6 +222,14 @@ namespace Platformer
                         selectedItem = item;
                         draggingItem = true;
                         select = true;
+                        break;
+                    }
+                    if (mouseState.RightButton == ButtonState.Pressed && previousMouseState.RightButton != ButtonState.Pressed)
+                    {
+                        selectedItem = item;
+                        select = true;
+                        player.GetEquipmentMenu().Equip(item);
+                        break;
                     }
                 }
             }

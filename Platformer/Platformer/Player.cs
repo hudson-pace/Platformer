@@ -16,13 +16,14 @@ namespace Platformer
         private static Texture2D swordTexture, projectileTexture, megamanTexture;
         private Location currentLocation;
         private KeyboardState previousKeyboardState;
-        public bool swordIsActive = false;
-        private bool swingingSword = false;
+        public bool swordIsActive = false, scytheIsActive = false;
+        private bool swinging = false;
         public Rectangle swordHitBox;
         private string facing = "right";
         public string swingFacing = "right";
         private int projectileCooldown = 0, textureChangeCounter = 0, currentTextureState = 1, swordTextureChangeCounter = 5, currentSwordTextureState = 0, swordOffset;
         private Inventory inventory;
+        private EquipmentMenu equipmentMenu;
         private int health, maxHealth, mana, maxMana, xp, xpToLevel;
         private int invulnerableTimer = 0;
         public bool invulnerable = false;
@@ -37,6 +38,7 @@ namespace Platformer
             this.screenHeight = screenHeight;
 
             inventory = new Inventory(this, screenWidth, screenHeight);
+            equipmentMenu = new EquipmentMenu(this);
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             swordHitBox = new Rectangle((int)location.X + width, (int)location.Y, swordOffset, height);
             playerInfoBar = new PlayerInfoBar(this, screenWidth, screenHeight);
@@ -59,6 +61,7 @@ namespace Platformer
             megamanTexture = content.Load<Texture2D>("megaman");
             Inventory.LoadTextures(content);
             Inventory.CreateTextures(graphicsDevice);
+            EquipmentMenu.CreateTextures(graphicsDevice);
             PlayerInfoBar.CreateTextures(graphicsDevice);
             PlayerInfoBar.LoadTextures(content);
         }
@@ -79,6 +82,10 @@ namespace Platformer
             isFalling = true;
         }
 
+        public EquipmentMenu GetEquipmentMenu()
+        {
+            return equipmentMenu;
+        }
         public int GetMaxHealth()
         {
             return maxHealth;
@@ -147,6 +154,10 @@ namespace Platformer
             {
                 inventory.Toggle();
             }
+            if (!previousKeyboardState.IsKeyDown(Keys.O) && keyboardState.IsKeyDown(Keys.O))
+            {
+                equipmentMenu.Toggle();
+            }
             if (!(keyboardState.IsKeyDown(Keys.A) ^ keyboardState.IsKeyDown(Keys.D))) // if both or neither are pressed
             {
                 textureChangeCounter = 5;
@@ -210,16 +221,28 @@ namespace Platformer
                 projectileCooldown = 60;
                 mana -= 25;
             }
-            if (!previousKeyboardState.IsKeyDown(Keys.F) && keyboardState.IsKeyDown(Keys.F) && swingingSword == false)
+            if (keyboardState.IsKeyDown(Keys.F) && !previousKeyboardState.IsKeyDown(Keys.F) && equipmentMenu.GetEquippedItem() != null && swinging == false)
             {
-                swingingSword = true;
+                if (equipmentMenu.GetEquippedItem().GetItem().GetType() == typeof(Items.SwordItem))
+                {
+                    swinging = true;
+                    swingFacing = facing;
+                    swordIsActive = true;
+                }
+                else if (equipmentMenu.GetEquippedItem().GetItem().GetType() == typeof(Items.ScytheItem))
+                {
+                    swinging = true;
+                    swingFacing = facing;
+                    scytheIsActive = true;
+                }
+            }
+            
+
+            if (!swinging)
+            {
                 swingFacing = facing;
             }
-            if (!swingingSword)
-            {
-                swingFacing = facing;
-            }
-            if (swingingSword)
+            if (swinging)
             {
                 swordTextureChangeCounter--;
                 if (swordTextureChangeCounter < 0)
@@ -232,7 +255,7 @@ namespace Platformer
                     }
                     if (currentSwordTextureState >= 2)
                     {
-                        swingingSword = false;
+                        swinging = false;
                         currentSwordTextureState = 0;
                     }
                 }
@@ -261,6 +284,10 @@ namespace Platformer
             {
                 inventory.Update(mouseState);
             }
+            if (equipmentMenu.GetIsActive())
+            {
+                equipmentMenu.Update(mouseState);
+            }
 
             if (keyboardState.IsKeyDown(Keys.E) && !previousKeyboardState.IsKeyDown(Keys.E))
             {
@@ -280,7 +307,7 @@ namespace Platformer
             if (manaRegenCooldown == 0 && (mana < maxMana))
             {
                 mana++;
-                manaRegenCooldown = 3;
+                manaRegenCooldown = 10;
             }
 
             playerInfoBar.Update();
@@ -290,7 +317,7 @@ namespace Platformer
         override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
             Rectangle sourceRectangle;
-            if (swingingSword)
+            if (swinging)
             {
                 int textureRow = 0;
                 int textureOffset = 0;
@@ -325,6 +352,10 @@ namespace Platformer
             if (inventory.GetIsActive())
             {
                 inventory.Draw(spriteBatch);
+            }
+            if (equipmentMenu.GetIsActive())
+            {
+                equipmentMenu.Draw(spriteBatch);
             }
         }
 
@@ -363,7 +394,7 @@ namespace Platformer
         public void AddXp(int xpToAdd)
         {
             xp += xpToAdd;
-            if (xp > xpToLevel)
+            if (xp >= xpToLevel)
             {
                 /* LevelUp(); */
                 xp -= xpToLevel;

@@ -60,6 +60,8 @@ namespace Platformer
             player.AddToInventory(new Items.PlantFibers(10));
             player.AddToInventory(new Items.HealthPotion(3));
             player.AddToInventory(new Items.ManaPotion(3));
+            player.AddToInventory(new Items.SwordItem(1));
+            player.AddToInventory(new Items.ScytheItem(1));
 
             base.Initialize();
         }
@@ -84,6 +86,8 @@ namespace Platformer
             Items.PlantFibers.LoadTextures(Content);
             Items.HealthPotion.LoadTextures(Content);
             Items.ManaPotion.LoadTextures(Content);
+            Items.SwordItem.LoadTextures(Content);
+            Items.ScytheItem.LoadTextures(Content);
         }
 
         /// <summary>
