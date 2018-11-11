@@ -57,7 +57,6 @@ namespace Platformer
         {
             // TODO: Add your initialization logic here
 
-            player.AddToInventory(new Items.PlantFibers(10));
             player.AddToInventory(new Items.HealthPotion(3));
             player.AddToInventory(new Items.ManaPotion(3));
             player.AddToInventory(new Items.SwordItem(1));

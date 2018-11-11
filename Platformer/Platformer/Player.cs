@@ -249,10 +249,6 @@ namespace Platformer
                 {
                     swordTextureChangeCounter = 5;
                     currentSwordTextureState++;
-                    if (currentSwordTextureState == 1)
-                    {
-                        swordIsActive = true;
-                    }
                     if (currentSwordTextureState >= 2)
                     {
                         swinging = false;

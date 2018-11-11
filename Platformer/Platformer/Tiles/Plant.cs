@@ -10,18 +10,22 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Platformer.Tiles
 {
-    class Plant : Tile
+    class Plant : UpdatableTile
     {
         private static Texture2D texture;
 
         public Plant(int x, int y, Location currentLocation) : base(x, y, currentLocation, false, true, false)
         {
             name = "plant";
-            updatable = false;
+            updatable = true;
+            isBreakable = true;
         }
         public static void LoadTextures(ContentManager content)
         {
             texture = content.Load<Texture2D>("plant");
+        }
+        public override void Update(Player player)
+        {
         }
         override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {

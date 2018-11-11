@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
 namespace Platformer
@@ -97,17 +98,28 @@ namespace Platformer
             spawners.ForEach(spawner => spawner.Update());
             items.ForEach(item => item.Update(state, tiles));
             NPCList.ForEach(npc => npc.Update(state, tiles, mouseState));
+            
 
-            foreach (Tile[] row in tiles)
+            for (int i = 0; i < tiles.Length; i++)
             {
-                foreach (Tile tile in row)
+                for (int j = 0; j < tiles[i].Length; j++)
                 {
-                    if (tile.updatable)
+                    if (tiles[i][j].updatable)
                     {
-                        ((Tiles.UpdatableTile)(tile)).Update();
+                        ((Tiles.UpdatableTile)(tiles[i][j])).Update(player);
+                        if (((Tiles.UpdatableTile)(tiles[i][j])).isBreakable && Collisions.EntityCollisions(player.swordHitBox, new Rectangle((int)tiles[i][j].location.X, (int)tiles[i][j].location.Y, 50, 50)) && player.scytheIsActive)
+                        {
+                            Item drop = new Items.PlantFibers(2);
+                            drop.ResetPickUpCounter();
+                            drop.SetLocation(new Vector2(i * 50, j * 50));
+                            AddItem(drop);
+                            tiles[i][j] = new Tiles.Empty(i, j, this);
+                            break;
+                        }
                     }
                 }
             }
+
 
             if (state.IsKeyDown(Keys.Q) && !previousQPressed)
             {
@@ -173,7 +185,7 @@ namespace Platformer
             {
                 foreach (Enemy enemy in enemies)
                 {
-                    if (Collisions.EntityCollisions(player.swordHitBox, enemy.hitBox))
+                    if (Collisions.EntityCollisions(player.swordHitBox, enemy.hitBox) && player.swordIsActive)
                     {
                         enemy.GetHit(player.swingFacing);
                         break;

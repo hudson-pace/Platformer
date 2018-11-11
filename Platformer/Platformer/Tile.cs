@@ -15,7 +15,7 @@ namespace Platformer
         public bool isBarrier, isTextured, isEnemyBarrier, updatable;
         protected string name;
 
-        protected Vector2 location;
+        public Vector2 location;
         protected Location currentLocation;
         protected int x, y;
 
