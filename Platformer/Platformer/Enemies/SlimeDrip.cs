@@ -41,7 +41,6 @@ namespace Platformer.Enemies
         {
             regularTexture = content.Load<Texture2D>("drip");
             hurtTexture = content.Load<Texture2D>("drip-hurt");
-            Items.SlimeItem.LoadTextures(content);
         }
 
         override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)

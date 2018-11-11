@@ -12,16 +12,17 @@ namespace Platformer.Items
     class HealthPotion : Item
     {
         private static Texture2D texture;
+        private static int itemId;
 
         public HealthPotion(int count) : base(count)
         {
             itemName = "healthPotion";
-            id = 6;
+            id = itemId;
         }
         public HealthPotion(int count, int probability) : base(count, probability)
         {
             itemName = "healthPotion";
-            id = 6;
+            id = itemId;
         }
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
@@ -30,6 +31,10 @@ namespace Platformer.Items
         public static void LoadTextures(ContentManager content)
         {
             texture = content.Load<Texture2D>("health-potion");
+        }
+        public static void Register(int newId)
+        {
+            itemId = newId;
         }
     }
 }

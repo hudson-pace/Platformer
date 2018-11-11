@@ -120,7 +120,7 @@ namespace Platformer.Locations
 
             portals.Add(new Portal(new Vector2(800, 1150), this, new Vector2(300, 1200), this));
             portals.Add(new Portal(new Vector2(300, 1150), this, new Vector2(800, 1200), this));
-            portals.Add(new Portal(new Vector2(1300, 1250), this, new Vector2(1300, 1300), this));
+            portals.Add(new Portal(new Vector2(1300, 1250), Game1.slimeHut, new Vector2(100, 650), this));
         }
         override public void LoadTextures(ContentManager content)
         {

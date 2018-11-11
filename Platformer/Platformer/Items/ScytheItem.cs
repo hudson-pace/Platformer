@@ -12,7 +12,8 @@ namespace Platformer.Items
     class ScytheItem : Item
     {
         private static Texture2D texture;
-        private static int itemId = 9;
+        private static int itemId;
+
 
         public ScytheItem(int count) : base(count)
         {
@@ -35,6 +36,10 @@ namespace Platformer.Items
         public static void LoadTextures(ContentManager content)
         {
             texture = content.Load<Texture2D>("scythe-item");
+        }
+        public static void Register(int newId)
+        {
+            itemId = newId;
         }
     }
 }

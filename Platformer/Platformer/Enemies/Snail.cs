@@ -102,8 +102,6 @@ namespace Platformer.Enemies
             textureHurt = content.Load<Texture2D>("snail-hurt");
             textureRegularRight = content.Load<Texture2D>("snail-right");
             textureHurtRight = content.Load<Texture2D>("snail-hurt-right");
-            Items.SnailGoop.LoadTextures(content);
-            Items.ShellFragment.LoadTextures(content);
         }
     }
 }

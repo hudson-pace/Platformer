@@ -12,16 +12,18 @@ namespace Platformer.Items
     class ManaPotion : Item
     {
         private static Texture2D texture;
+        private static int itemId;
+
 
         public ManaPotion(int count) : base(count)
         {
             itemName = "manaPotion";
-            id = 7;
+            id = itemId;
         }
         public ManaPotion(int count, int probability) : base(count, probability)
         {
             itemName = "manaPotion";
-            id = 7;
+            id = itemId;
         }
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
@@ -30,6 +32,10 @@ namespace Platformer.Items
         public static void LoadTextures(ContentManager content)
         {
             texture = content.Load<Texture2D>("mana-potion");
+        }
+        public static void Register(int newId)
+        {
+            itemId = newId;
         }
     }
 }

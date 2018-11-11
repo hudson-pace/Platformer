@@ -13,16 +13,17 @@ namespace Platformer.Items
     class SlimeItem : Item
     {
         private static Texture2D texture;
-        
+        private static int itemId;
+
         public SlimeItem(int count) : base(count)
         {
             itemName = "slime";
-            id = 2;
+            id = itemId;
         }
         public SlimeItem(int count, int probability) : base(count, probability)
         {
             itemName = "slime";
-            id = 2;
+            id = itemId;
         }
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
@@ -31,6 +32,10 @@ namespace Platformer.Items
         public static void LoadTextures(ContentManager content)
         {
             texture = content.Load<Texture2D>("slime-ball");
+        }
+        public static void Register(int newId)
+        {
+            itemId = newId;
         }
     }
 }
