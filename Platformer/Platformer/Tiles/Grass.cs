@@ -40,7 +40,7 @@ namespace Platformer.Tiles
                 growthTimer++;
                 if ((growthTimer > growthTime) && (random.Next(1, 10000) == 1))
                 {
-                    if (currentLocation.tiles[x][y - 1].GetName() == "empty")
+                    if (Game1.time < 1600 && currentLocation.tiles[x - 1][y - 1].GetName() == "empty" && currentLocation.tiles[x][y - 1].GetName() == "empty" && currentLocation.tiles[x + 1][y - 1].GetName() == "empty")
                     {
                         currentLocation.tiles[x][y - 1] = new Plant(x, y - 1, currentLocation);
                     }

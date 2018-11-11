@@ -252,6 +252,8 @@ namespace Platformer
                     if (currentSwordTextureState >= 2)
                     {
                         swinging = false;
+                        scytheIsActive = false;
+                        swordIsActive = false;
                         currentSwordTextureState = 0;
                     }
                 }

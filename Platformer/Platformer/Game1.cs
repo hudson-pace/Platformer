@@ -16,7 +16,8 @@ namespace Platformer
         public static Location slimeCity, testArea;
 
         private Player player;
-        private int screenGridWidth, screenGridHeight, screenWidth, screenHeight, time;
+        private int screenGridWidth, screenGridHeight, screenWidth, screenHeight;
+        public static int time;
         private SpriteFont font;
 
         public Game1()
@@ -31,12 +32,12 @@ namespace Platformer
             screenGridWidth = (int)(graphics.PreferredBackBufferWidth / 50) + 1;
             screenGridHeight = (int)(graphics.PreferredBackBufferHeight / 50) + 1;
 
-            player = new Player(new Vector2(100, 100), screenWidth, screenHeight);
+            player = new Player(new Vector2(1050, 1100), screenWidth, screenHeight);
             testArea = new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
             slimeCity = new Locations.SlimeCity(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
             testArea.AddPortals();
             slimeCity.AddPortals();
-            player.Travel(testArea, new Vector2(100, 100));
+            player.Travel(slimeCity, new Vector2(1050, 1100));
 
             IsMouseVisible = true;
 
