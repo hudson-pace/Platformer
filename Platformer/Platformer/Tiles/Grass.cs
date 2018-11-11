@@ -23,6 +23,7 @@ namespace Platformer.Tiles
             growthTimer = 0;
             updatable = true;
             growing = true;
+            isBreakable = false;
         }
         public static void LoadTextures(ContentManager content)
         {
@@ -32,7 +33,7 @@ namespace Platformer.Tiles
         {
             spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
         }
-        override public void Update()
+        override public void Update(Player player)
         {
             if (growing)
             {

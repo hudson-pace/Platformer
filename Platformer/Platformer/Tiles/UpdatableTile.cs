@@ -8,10 +8,11 @@ namespace Platformer.Tiles
 {
     abstract class UpdatableTile : Tile
     {
+        public bool isBreakable;
         public UpdatableTile(int x, int y, Location currentLocation, bool isBarrier, bool isTextured, bool isEnemyBarrier) : base(x, y, currentLocation, isBarrier, isTextured, isEnemyBarrier)
         {
 
         }
-        abstract public void Update();
+        abstract public void Update(Player player);
     }
 }
