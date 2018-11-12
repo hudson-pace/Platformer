@@ -24,14 +24,40 @@ namespace Platformer.Locations
             {
                 for (int j = 1; j < height - 1; j++)
                 {
-                    if (i == 1 || i == width - 2 || j == 1 || j == height - 2)
+                    if (i == 1 || i == 2 || i == width - 2 || i == width - 3 || j == 1 || j == 2)
                     {
-                        tiles[i][j] = new Tiles.BrickWall(i, j, this);
+                        tiles[i][j] = new Tiles.SlimeBlock(i, j, 12, this);
+                    }
+                    else if ((i == 3 && j == height - 2) || (i == 3 && j == 3) || (i == width - 4 && j == height - 2) || (i == width - 4 && j == 3))
+                    {
+                        tiles[i][j] = new Tiles.SlimeBlock(i, j, 12, this);
+                    }
+                    else if (i == 3)
+                    {
+                        tiles[i][j] = new Tiles.SlimeBlock(i, j, 9, this);
+                    }
+                    else if (i == width - 4)
+                    {
+                        tiles[i][j] = new Tiles.SlimeBlock(i, j, 11, this);
+                    }
+                    else if (j == 3)
+                    {
+                        tiles[i][j] = new Tiles.SlimeBlock(i, j, 8, this);
+                    }
+                    else if (j == height - 2)
+                    {
+                        tiles[i][j] = new Tiles.SlimeBlock(i, j, 10, this);
                     }
                 }
             }
 
-            
+            tiles[15][height - 2] = new Tiles.SlimeBlock(15, height - 2, 12, this);
+            tiles[15][height - 3] = new Tiles.SlimeBlock(15, height - 3, 4, this);
+
+            tiles[16][height - 2] = new Tiles.SlimeBlock(16, height - 2, 12, this);
+            tiles[16][height - 3] = new Tiles.SlimeBlock(16, height - 3, 5, this);
+
+            NPCList.Add(new NPCs.Wizard(new Vector2(750, 600), this));
         }
 
         public override void AddPortals()
@@ -44,6 +70,7 @@ namespace Platformer.Locations
             DialogBox.LoadTextures(content);
             Tiles.SlimeBlock.LoadTextures(content);
             Tiles.BrickWall.LoadTextures(content);
+            NPCs.Wizard.LoadTextures(content);
         }
     }
 }

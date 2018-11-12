@@ -85,6 +85,7 @@ namespace Platformer
             //player.GetCurrentLocation().LoadTextures(Content);
             testArea.LoadTextures(Content);
             slimeCity.LoadTextures(Content);
+            slimeHut.LoadTextures(Content);
 
             font = Content.Load<SpriteFont>("NPCText");
 
