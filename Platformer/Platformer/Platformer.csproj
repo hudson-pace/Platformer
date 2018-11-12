@@ -73,6 +73,7 @@
     <Compile Include="Locations\HuntingGrounds.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="NPC.cs" />
+    <Compile Include="NPCs\Wizard.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerInfoBar.cs" />
     <Compile Include="Portal.cs" />
