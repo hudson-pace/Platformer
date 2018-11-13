@@ -15,9 +15,7 @@ namespace Platformer.NPCs
     {
         private static Texture2D texture;
         private Location currentLocation;
-
-        private string greetingDialog;
-        private string[][] greetingChoices;
+        
         
 
         public BusinessMan(Vector2 location, Location currentLocation)

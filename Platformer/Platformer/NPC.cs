@@ -10,8 +10,9 @@ namespace Platformer
 {
     abstract class NPC : Entity
     {
-        public string greeting;
-        public string[][] options;
+        protected string greetingDialog;
+        protected string[][] greetingChoices;
+
         protected DialogBox dialogBox;
 
         abstract public void Update(KeyboardState state, Tile[][] tiles, MouseState mouseState);
@@ -28,7 +29,7 @@ namespace Platformer
         }
         public void CreateDialog(int screenWidth, int screenHeight, GraphicsDevice graphicsDevice)
         {
-            dialogBox = new DialogBox(greeting, options, screenWidth, screenHeight, this);
+            dialogBox = new DialogBox(greetingDialog, greetingChoices, screenWidth, screenHeight, this);
             dialogBox.CreateTextures(graphicsDevice);
         }
         public void CloseDialog()

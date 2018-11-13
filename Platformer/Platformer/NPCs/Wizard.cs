@@ -15,8 +15,8 @@ namespace Platformer.NPCs
     {
         private static Texture2D texture;
         private Location currentLocation;
-        private string greetingDialog, shopDialog;
-        private string[][] greetingChoices, shopChoices;
+        private string shopDialog;
+        private string[][] shopChoices;
 
 
         public Wizard(Vector2 location, Location currentLocation)
@@ -28,6 +28,8 @@ namespace Platformer.NPCs
             width = 100;
             greetingDialog = "Greetings, mortal.";
             greetingChoices = new string[][] { new string[] { "Hello there!", "positive" }, new string[] { "Nice getup, you nerd.", "negative" }, new string[] { "See ya.", "exit" } };
+            shopDialog = "Would you like to see my store?";
+            shopChoices = new string[][] { new string[] { "Yes, please!", "positive" }, new string[] { "I think I'm ok.", "negative" }, new string[] { "Goodbye.", "exit" } };
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
 
@@ -70,11 +72,17 @@ namespace Platformer.NPCs
             if (option == "exit")
             {
                 CloseDialog();
+                return;
             }
-            else
+            if (dialogBox.GetCurrentDialog() == greetingDialog)
             {
-                dialogBox.SetText("Would you like to see my store?", new string[][]{ new string[]{ "Yes, please!", "positive" }, new string[]{ "I think I'm ok.", "negative" },
-                    new string[]{ "Goodbye.", "exit" } });
+                dialogBox.SetText(shopDialog, shopChoices);
+                return;
+            }
+            if (dialogBox.GetCurrentDialog() == shopDialog)
+            {
+                // OpenShop();
+                return;
             }
         }
     }
