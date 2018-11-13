@@ -62,13 +62,38 @@ namespace Platformer
         }
         public void AddToInventory(Item item)
         {
+            bool found = false;
             foreach (InventoryItem i in inventoryItems)
             {
-                if (i.GetItem().itemName == item.itemName) {
+                if (i.GetItem().itemName == item.itemName)
+                {
                     i.GetItem().SetCount(i.GetItem().GetCount() + item.GetCount());
-                    return;
+                    found = true;
+                    break;
                 }
             }
+            
+            if (found && item.itemName == "copperCoin")
+            {
+                item.SetCount(100);
+                if (RemoveFromInventory(new InventoryItem(item, new Vector2(0, 0))))
+                {
+                    AddToInventory(new Items.SilverCoin(1));
+                }
+            }
+            else if (found && item.itemName == "silverCoin")
+            {
+                item.SetCount(100);
+                if (RemoveFromInventory(new InventoryItem(item, new Vector2(0, 0))))
+                {
+                    AddToInventory(new Items.GoldCoin(1));
+                }
+            }
+            if (found)
+            {
+                return;
+            }
+
             inventoryItems.Add(new InventoryItem(item, new Vector2(container.X + 10 + ((inventoryItems.Count % 5) * 50), container.Y + 40 + ((inventoryItems.Count / 5) * 50))));
             ReSort();
         }

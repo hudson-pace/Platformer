@@ -26,6 +26,8 @@ namespace Platformer.Enemies
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             health = 40;
             drops.Add(new Items.SlimeItem(1, 100));
+            drops.Add(new Items.CopperCoin(2, 100));
+            drops.Add(new Items.CopperCoin(1, 60));
             jumpHeight = .5f;
             this.spawner = spawner;
             name = "slimeDrip";

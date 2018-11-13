@@ -27,6 +27,8 @@ namespace Platformer.Enemies
             health = 80;
             drops.Add(new Items.SnailGoop(1, 70));
             drops.Add(new Items.ShellFragment(1, 100));
+            drops.Add(new Items.CopperCoin(1, 100));
+            drops.Add(new Items.CopperCoin(2, 60));
             facing = "left";
             checkFacingCounter = 40;
             this.spawner = spawner;

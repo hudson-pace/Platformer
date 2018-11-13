@@ -29,6 +29,9 @@ namespace Platformer.Enemies
             drops.Add(new Items.SlimeItem(1, 80));
             drops.Add(new Items.SlimeItem(1, 20));
             drops.Add(new Items.SlimeTail(1, 40));
+            drops.Add(new Items.CopperCoin(8, 100));
+            drops.Add(new Items.CopperCoin(2, 80));
+            drops.Add(new Items.CopperCoin(1, 50));
             jumpHeight = 1f;
             this.spawner = spawner;
             name = "slimeRegular";
