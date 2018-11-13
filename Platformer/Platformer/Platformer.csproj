@@ -49,11 +49,14 @@
     <Compile Include="Inventory.cs" />
     <Compile Include="InventoryItem.cs" />
     <Compile Include="ItemManager.cs" />
+    <Compile Include="Items\CopperCoin.cs" />
+    <Compile Include="Items\GoldCoin.cs" />
     <Compile Include="Items\HealthPotion.cs" />
     <Compile Include="Items\ManaPotion.cs" />
     <Compile Include="Items\PlantFibers.cs" />
     <Compile Include="Items\ScytheItem.cs" />
     <Compile Include="Items\ShellFragment.cs" />
+    <Compile Include="Items\SilverCoin.cs" />
     <Compile Include="Items\SlimeTail.cs" />
     <Compile Include="Items\SnailGoop.cs" />
     <Compile Include="Items\SwordItem.cs" />
