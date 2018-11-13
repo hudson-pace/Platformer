@@ -26,12 +26,9 @@ namespace Platformer.Enemies
             height = 100;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             health = 100;
-            drops.Add(new Items.SlimeItem(1, 80));
-            drops.Add(new Items.SlimeItem(1, 20));
-            drops.Add(new Items.SlimeTail(1, 40));
-            drops.Add(new Items.CopperCoin(8, 100));
-            drops.Add(new Items.CopperCoin(2, 80));
-            drops.Add(new Items.CopperCoin(1, 50));
+            drops.Add(new Items.SlimeItem(new int[] { 1, 1 }, new int[] { 80, 20 }));
+            drops.Add(new Items.SlimeTail(new int[] { 1 }, new int[] { 40 }));
+            drops.Add(new Items.CopperCoin(new int[] { 8, 2, 1 }, new int[] { 100, 80, 50 }));
             jumpHeight = 1f;
             this.spawner = spawner;
             name = "slimeRegular";

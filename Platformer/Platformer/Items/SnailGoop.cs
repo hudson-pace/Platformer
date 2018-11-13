@@ -19,7 +19,7 @@ namespace Platformer.Items
             itemName = "snailGoop";
             id = itemId;
         }
-        public SnailGoop(int count, int probability) : base(count, probability)
+        public SnailGoop(int[] count, int[] probability) : base(count, probability)
         {
             itemName = "snailGoop";
             id = itemId;

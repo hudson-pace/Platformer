@@ -11,6 +11,7 @@ namespace Platformer
     abstract class Item : Entity
     {
         public string itemName;
+        private static Random random = new Random();
         protected int currentYOffset = -3;
         private int yOffsetCounter = 0;
         private int yOffsetDirection = 1;
@@ -21,16 +22,31 @@ namespace Platformer
         protected int id;
         public Item(int count)
         {
-            this.count = count;
+            if (count != 0)
+            {
+                this.count = count;
+            }
             verticalVelocity = -3;
             height = 30;
             width = 30;
             canBePickedUp = false;
             pickUpCounter = 80;
+            horizontalVelocity = random.Next(-3, 3);
         }
-        public Item(int count, int probability) : this(count)
+        public Item(int[] count, int[] probability) : this(0)
         {
-            this.probability = probability;
+            int sum = 0;
+            for (int i = 0; i < count.Length; i++)
+            {
+                for (int j = 0; j < count[i]; j++)
+                {
+                    if (random.Next(0, 100) < probability[i])
+                    {
+                        sum++;
+                    }
+                }
+            }
+            this.count = sum;
         }
         public void SetLocation(Vector2 location)
         {
@@ -81,6 +97,7 @@ namespace Platformer
             if (isFalling)
             {
                 newLocation.Y += verticalVelocity;
+                newLocation.X += horizontalVelocity;
                 verticalVelocity++;
                 Collisions.CollideWithTiles(tiles, this);
                 location = newLocation;

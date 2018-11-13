@@ -20,7 +20,7 @@ namespace Platformer.Items
             itemName = "manaPotion";
             id = itemId;
         }
-        public ManaPotion(int count, int probability) : base(count, probability)
+        public ManaPotion(int[] count, int[] probability) : base(count, probability)
         {
             itemName = "manaPotion";
             id = itemId;

@@ -21,7 +21,7 @@ namespace Platformer.Items
             itemName = "plantFibers";
             id = itemId;
         }
-        public PlantFibers(int count, int probability) : base(count, probability)
+        public PlantFibers(int[] count, int[] probability) : base(count, probability)
         {
             itemName = "plantFibers";
             id = itemId;

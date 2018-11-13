@@ -20,7 +20,7 @@ namespace Platformer.Items
             itemName = "shellFragment";
             id = itemId;
         }
-        public ShellFragment(int count, int probability) : base(count, probability)
+        public ShellFragment(int[] count, int[] probability) : base(count, probability)
         {
             itemName = "shellFragment";
             id = itemId;

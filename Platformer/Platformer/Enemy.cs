@@ -58,11 +58,8 @@ namespace Platformer
                 currentLocation.RemoveEnemy(this);
                 drops.ForEach(drop =>
                 {
-                    if (random.Next(0, 99) < drop.GetProbability())
-                    {
-                        drop.SetLocation(location);
-                        currentLocation.AddItem(drop);
-                    }
+                    drop.SetLocation(new Vector2(location.X + (width / 2), location.Y + (height / 2)));
+                    currentLocation.AddItem(drop);
                 });
                 player.AddXp(xp);
                 return;

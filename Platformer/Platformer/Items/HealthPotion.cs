@@ -19,7 +19,7 @@ namespace Platformer.Items
             itemName = "healthPotion";
             id = itemId;
         }
-        public HealthPotion(int count, int probability) : base(count, probability)
+        public HealthPotion(int[] count, int[] probability) : base(count, probability)
         {
             itemName = "healthPotion";
             id = itemId;
