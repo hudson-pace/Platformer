@@ -20,7 +20,7 @@ namespace Platformer.Items
             itemName = "slimeTail";
             id = itemId;
         }
-        public SlimeTail(int count, int probability) : base(count, probability)
+        public SlimeTail(int[] count, int[] probability) : base(count, probability)
         {
             itemName = "slimeTail";
             id = itemId;

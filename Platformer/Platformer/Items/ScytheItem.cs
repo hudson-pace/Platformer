@@ -20,7 +20,7 @@ namespace Platformer.Items
             itemName = "scythe";
             id = itemId;
         }
-        public ScytheItem(int count, int probability) : base(count, probability)
+        public ScytheItem(int[] count, int[] probability) : base(count, probability)
         {
             itemName = "scythe";
             id = itemId;

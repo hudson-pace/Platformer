@@ -25,10 +25,9 @@ namespace Platformer.Enemies
             height = 50;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             health = 80;
-            drops.Add(new Items.SnailGoop(1, 70));
-            drops.Add(new Items.ShellFragment(1, 100));
-            drops.Add(new Items.CopperCoin(1, 100));
-            drops.Add(new Items.CopperCoin(2, 60));
+            drops.Add(new Items.SnailGoop(new int[] { 1 }, new int[] { 70 }));
+            drops.Add(new Items.ShellFragment(new int[] { 1 }, new int[] { 100 }));
+            drops.Add(new Items.CopperCoin(new int[] { 1, 2 }, new int[] { 100, 60 }));
             facing = "left";
             checkFacingCounter = 40;
             this.spawner = spawner;

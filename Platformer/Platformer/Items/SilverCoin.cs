@@ -19,7 +19,7 @@ namespace Platformer.Items
             itemName = "silverCoin";
             id = itemId;
         }
-        public SilverCoin(int count, int probability) : base(count, probability)
+        public SilverCoin(int[] count, int[] probability) : base(count, probability)
         {
             itemName = "silverCoin";
             id = itemId;

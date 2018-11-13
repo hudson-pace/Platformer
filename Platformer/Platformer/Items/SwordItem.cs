@@ -20,7 +20,7 @@ namespace Platformer.Items
             itemName = "sword";
             id = itemId;
         }
-        public SwordItem(int count, int probability) : base(count, probability)
+        public SwordItem(int[] count, int[] probability) : base(count, probability)
         {
             itemName = "sword";
             id = itemId;
