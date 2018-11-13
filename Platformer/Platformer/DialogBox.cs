@@ -139,5 +139,10 @@ namespace Platformer
         {
             font = content.Load<SpriteFont>("NPCText");
         }
+
+        public string GetCurrentDialog()
+        {
+            return text;
+        }
     }
 }
