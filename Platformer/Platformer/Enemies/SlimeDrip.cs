@@ -25,7 +25,7 @@ namespace Platformer.Enemies
             height = 40;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             health = 40;
-            drops.Add(new Items.SlimeItem(new int[] { 1 }, new int[] { 100}));
+            drops.Add(new Items.SlimeItem(new int[] { 1 }, new int[] { 100 }));
             drops.Add(new Items.CopperCoin(new int[] { 2, 1 }, new int[] { 100, 60 }));
             jumpHeight = .5f;
             this.spawner = spawner;

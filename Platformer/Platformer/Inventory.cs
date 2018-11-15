@@ -261,6 +261,10 @@ namespace Platformer
             if (select)
             {
                 RemoveFromInventory(selectedItem);
+                if (!draggingItem)
+                {
+                    selectedItem = null;
+                }
             }
 
             if (draggingItem)
