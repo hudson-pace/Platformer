@@ -55,7 +55,7 @@ namespace Platformer
         public void DrawPopupText(SpriteBatch spriteBatch, SpriteFont font)
         {
             spriteBatch.Draw(popUpTextTexture, textRect, Color.White);
-            spriteBatch.DrawString(font, item.itemName, new Vector2(textRect.X, textRect.Y), Color.White);
+            spriteBatch.DrawString(font, item.itemName + " " + item.GetId(), new Vector2(textRect.X, textRect.Y), Color.White);
         }
 
         public static void CreateTextures(GraphicsDevice graphics)

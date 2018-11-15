@@ -15,7 +15,7 @@ namespace Platformer.Locations
         public TestArea(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice) 
             : base(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, graphicsDevice)
         {
-            enemies.Add(new Enemies.Snail(new Vector2(600, 300), player, this, null, 0));
+            //enemies.Add(new Enemies.Snail(new Vector2(600, 300), player, this, null, 0));
             NPCList.Add(new NPCs.BusinessMan(new Vector2(300, 200), this));
             List<Enemy> enemyList = new List<Enemy>();
             enemyList.Add(new Enemies.SlimeDrip(new Vector2(51, 51), player, this, null, 1));
