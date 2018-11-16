@@ -22,7 +22,7 @@ namespace Platformer
         private string facing = "right";
         public string swingFacing = "right";
         private int projectileCooldown = 0, textureChangeCounter = 0, currentTextureState = 1, swordTextureChangeCounter = 5, currentSwordTextureState = 0, swordOffset;
-        private Inventory inventory;
+        private PlayerInventory inventory;
         private EquipmentMenu equipmentMenu;
         private int health, maxHealth, mana, maxMana, xp, xpToLevel;
         private int invulnerableTimer = 0;
@@ -37,7 +37,7 @@ namespace Platformer
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
 
-            inventory = new Inventory(this, screenWidth, screenHeight);
+            inventory = new PlayerInventory(this, screenWidth, screenHeight);
             equipmentMenu = new EquipmentMenu(this);
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             swordHitBox = new Rectangle((int)location.X + width, (int)location.Y, swordOffset, height);
