@@ -15,6 +15,8 @@ namespace Platformer.NPCs
     {
         private static Texture2D texture;
         private Location currentLocation;
+        private string sadDialog, welcomeDialog;
+        private string[][] sadChoices, welcomeChoices;
         
         
 
@@ -27,6 +29,10 @@ namespace Platformer.NPCs
             width = 100;
             greetingDialog = "Hello there, friend!";
             greetingChoices = new string[][]{ new string[] { "Hey!", "positive" }, new string[] { "Please don't speak to me.", "negative" }, new string[] { "I've got to go.", "exit" } };
+            sadDialog = ":(";
+            sadChoices = new string[][] { new string[] { "Goodbye.", "exit" } };
+            welcomeDialog = "Welcome to the Test Area! Slime city is to the right.";
+            welcomeChoices = new string[][] { new string[] { "Thanks for the tip!", "exit" }, new string[] { "Obviously. Thanks for nothing, dirtbag.", "negative" } };
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
 
@@ -69,6 +75,15 @@ namespace Platformer.NPCs
             if (option == "exit")
             {
                 CloseDialog();
+                return;
+            }
+            if (option == "negative")
+            {
+                dialogBox.SetText(sadDialog, sadChoices);
+            }
+            if (dialogBox.GetCurrentDialog() == greetingDialog)
+            {
+                dialogBox.SetText(welcomeDialog, welcomeChoices);
             }
         }
     }

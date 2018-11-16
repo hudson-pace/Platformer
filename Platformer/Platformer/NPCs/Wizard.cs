@@ -17,13 +17,15 @@ namespace Platformer.NPCs
         private Location currentLocation;
         private string shopDialog;
         private string[][] shopChoices;
+        private Inventory inventory;
 
 
-        public Wizard(Vector2 location, Location currentLocation)
+        public Wizard(Vector2 location, Location currentLocation, int screenWidth, int screenHeight)
         {
             this.location = location;
             this.currentLocation = currentLocation;
             newLocation = location;
+            inventory = new Inventory(screenWidth, screenHeight);
             height = 100;
             width = 100;
             greetingDialog = "Greetings, mortal.";
@@ -36,7 +38,10 @@ namespace Platformer.NPCs
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
             spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
-
+            if (inventory.GetIsActive())
+            {
+                inventory.Draw(spriteBatch);
+            }
 
         }
         public override void DrawDialog(SpriteBatch spriteBatch)
@@ -81,9 +86,16 @@ namespace Platformer.NPCs
             }
             if (dialogBox.GetCurrentDialog() == shopDialog)
             {
-                // OpenShop();
+                if (option == "positive")
+                {
+                    OpenShop();
+                }
                 return;
             }
+        }
+        public void OpenShop()
+        {
+            inventory.Toggle();
         }
     }
 }

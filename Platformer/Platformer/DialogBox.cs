@@ -50,6 +50,11 @@ namespace Platformer
         {
             this.text = text;
             this.choices = choices;
+            choiceContainers = new Rectangle[choices.Length];
+            for (int i = 0; i < choiceContainers.Length; i++)
+            {
+                choiceContainers[i] = new Rectangle(options.X + 1, options.Y + 1 + (30 * i), options.Width - 2, 30);
+            }
         }
         public void Update(MouseState state)
         {

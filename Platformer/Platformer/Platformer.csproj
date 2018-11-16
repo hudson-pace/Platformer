@@ -79,6 +79,7 @@
     <Compile Include="NPCs\Wizard.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerInfoBar.cs" />
+    <Compile Include="PlayerInventory.cs" />
     <Compile Include="Portal.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Projectile.cs" />
