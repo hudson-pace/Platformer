@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Platformer
 {
-    class EquipmentMenu
+    class EquipmentMenu : Menu
     {
         private static Texture2D containerTexture, itemSlotTexture;
         private Rectangle container, itemSlot;
@@ -44,9 +44,17 @@ namespace Platformer
         }
         public void Toggle()
         {
+            if (isActive)
+            {
+                Game1.RemoveFromMenuList(this);
+            }
+            else
+            {
+                Game1.AddToMenuList(this);
+            }
             isActive = !isActive;
         }
-        public void Update(MouseState mouseState)
+        override public void Update(MouseState mouseState)
         {
             if (container.Contains(mouseState.Position) && mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton != ButtonState.Pressed
                 && mouseState.Position.Y < container.Y + 30)
@@ -97,7 +105,7 @@ namespace Platformer
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        override public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(containerTexture, container, Color.White);
             spriteBatch.Draw(itemSlotTexture, itemSlot, Color.White);

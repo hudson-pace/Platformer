@@ -112,6 +112,7 @@ namespace Platformer.Locations
             List<Enemy> enemyList = new List<Enemy>();
             enemyList.Add(new Enemies.SlimeDrip(new Vector2(0, 0), player, this, null, 5));
             spawners.Add(new Spawner(new Vector2(450, (i - 1) * 50), enemyList, this));
+            spawnPoint = new Vector2(60, 60);
         }
 
         public override void AddPortals()

@@ -17,7 +17,7 @@ namespace Platformer
             this.player = player;
         }
 
-        public void Update(MouseState mouseState)
+        override public void Update(MouseState mouseState)
         {
             Rectangle topMenu = new Rectangle(container.X, container.Y, container.Width, 40);
             if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton != ButtonState.Pressed && topMenu.Contains(mouseState.Position))
