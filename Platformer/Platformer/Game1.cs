@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using System;
+using System.Collections.Generic;
 
 namespace Platformer
 {
@@ -14,7 +15,7 @@ namespace Platformer
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         public static Location slimeCity, testArea, slimeHut;
-
+        private static List<Menu> menuList;
         private Player player;
         private int screenGridWidth, screenGridHeight, screenWidth, screenHeight;
         public static int time;
@@ -40,6 +41,8 @@ namespace Platformer
             slimeCity.AddPortals();
             slimeHut.AddPortals();
             player.Travel(slimeCity, new Vector2(1050, 1100));
+
+            menuList = new List<Menu>();
 
             IsMouseVisible = true;
 
@@ -117,7 +120,12 @@ namespace Platformer
 
             //insect.Update(testArea.tiles);
             //player.Update(state, testArea.tiles);
-            player.GetCurrentLocation().Update(state, Mouse.GetState());
+            MouseState mouseState = Mouse.GetState();
+            player.GetCurrentLocation().Update(state, mouseState);
+            for (int i = 0; i < menuList.Count; i++)
+            {
+                menuList[i].Update(mouseState);
+            }
 
 
             time++;
@@ -147,6 +155,10 @@ namespace Platformer
 
             spriteBatch.Begin();
             player.GetCurrentLocation().Draw(spriteBatch);
+            foreach (Menu menu in menuList)
+            {
+                menu.Draw(spriteBatch);
+            }
 
 
             spriteBatch.DrawString(font, "time: " + time, new Vector2(10, 10), Color.White);
@@ -155,6 +167,20 @@ namespace Platformer
 
 
             base.Draw(gameTime);
+        }
+
+        public static void AddToMenuList(Menu menu)
+        {
+            menuList.Add(menu);
+        }
+        public static void RemoveFromMenuList(Menu menu)
+        {
+            menuList.Remove(menu);
+        }
+        public static void BringToFrontOfMenuList(Menu menu)
+        {
+            menuList.Remove(menu);
+            menuList.Add(menu);
         }
     }
 }

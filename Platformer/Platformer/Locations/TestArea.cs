@@ -72,7 +72,7 @@ namespace Platformer.Locations
             {
                 tiles[i][height - 2] = new Tiles.Grass(i, height - 2, this);
             }
-
+            spawnPoint = new Vector2(60, 60);
         }
 
         public override void AddPortals()

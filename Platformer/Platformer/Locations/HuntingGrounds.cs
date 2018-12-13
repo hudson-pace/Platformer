@@ -35,6 +35,7 @@ namespace Platformer.Locations
                 }
                 tiles[2][i + 3] = new Tiles.BrickWall(2, i + 3, this);
             }
+            spawnPoint = new Vector2(60, 60);
         }
 
         public override void AddPortals()

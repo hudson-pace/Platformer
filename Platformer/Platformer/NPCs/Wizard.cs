@@ -15,8 +15,8 @@ namespace Platformer.NPCs
     {
         private static Texture2D texture;
         private Location currentLocation;
-        private string shopDialog;
-        private string[][] shopChoices;
+        private string menuDialog;
+        private string[][] menuChoices;
         private Inventory inventory;
 
 
@@ -30,27 +30,27 @@ namespace Platformer.NPCs
             width = 100;
             greetingDialog = "Greetings, mortal.";
             greetingChoices = new string[][] { new string[] { "Hello there!", "positive" }, new string[] { "Nice getup, you nerd.", "negative" }, new string[] { "See ya.", "exit" } };
-            shopDialog = "Would you like to see my store?";
-            shopChoices = new string[][] { new string[] { "Yes, please!", "positive" }, new string[] { "I think I'm ok.", "negative" }, new string[] { "Goodbye.", "exit" } };
+            menuDialog = "How can I help you?";
+            menuChoices = new string[][] { new string[] { "Can I see what you have for sale?", "shop" }, new string[] { "I'm looking for work.", "job" }, new string[] { "Goodbye.", "exit" } };
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
 
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
             spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
-            if (inventory.GetIsActive())
+            /*if (inventory.GetIsActive())
             {
                 inventory.Draw(spriteBatch);
-            }
+            }*/
 
         }
-        public override void DrawDialog(SpriteBatch spriteBatch)
+        /*public override void DrawDialog(SpriteBatch spriteBatch)
         {
             if (dialogBox != null)
             {
                 dialogBox.Draw(spriteBatch);
             }
-        }
+        }*/
 
         public static void LoadTextures(ContentManager content)
         {
@@ -65,32 +65,26 @@ namespace Platformer.NPCs
                 location = newLocation;
             }
 
-            if (dialogBox != null)
+            /*if (dialogBox != null)
             {
                 dialogBox.Update(mouseState);
-            }
+            }*/
         }
 
 
         public override void ChooseOption(string option)
         {
-            if (option == "exit")
+            switch(option)
             {
-                CloseDialog();
-                return;
-            }
-            if (dialogBox.GetCurrentDialog() == greetingDialog)
-            {
-                dialogBox.SetText(shopDialog, shopChoices);
-                return;
-            }
-            if (dialogBox.GetCurrentDialog() == shopDialog)
-            {
-                if (option == "positive")
-                {
+                case "exit":
+                    CloseDialog();
+                    return;
+                case "shop":
                     OpenShop();
-                }
-                return;
+                    break;
+                default:
+                    dialogBox.SetText(menuDialog, menuChoices);
+                    break;
             }
         }
         public void OpenShop()

@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Platformer
 {
-    class DialogBox
+    class DialogBox : Menu
     {
         private string text;
         private string[][] choices;
@@ -44,6 +44,7 @@ namespace Platformer
             {
                 choiceContainers[i] = new Rectangle(options.X + 1, options.Y + 1 + (30 * i), options.Width - 2, 30);
             }
+            Game1.AddToMenuList(this);
         }
 
         public void SetText(string text, string[][] choices)
@@ -56,7 +57,7 @@ namespace Platformer
                 choiceContainers[i] = new Rectangle(options.X + 1, options.Y + 1 + (30 * i), options.Width - 2, 30);
             }
         }
-        public void Update(MouseState state)
+        override public void Update(MouseState state)
         {
             for (int i = 0; i < choiceContainers.Length; i++)
             {
@@ -126,9 +127,10 @@ namespace Platformer
         }
         public void Close()
         {
+            Game1.RemoveFromMenuList(this);
             containerTexture.Dispose();
         }
-        public void Draw(SpriteBatch spriteBatch)
+        override public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(containerTexture, container, color);
             spriteBatch.Draw(textFieldTexture, textField, color);

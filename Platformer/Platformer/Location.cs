@@ -20,6 +20,7 @@ namespace Platformer
         protected List<NPC> NPCList = new List<NPC>();
         protected List<Item> items = new List<Item>();
         protected List<Portal> portals = new List<Portal>();
+        protected Vector2 spawnPoint;
         public Player player;
         public int height, width;
         public int offsetX, offsetY, screenGridWidth, screenGridHeight, screenWidth, screenHeight;
@@ -45,7 +46,10 @@ namespace Platformer
                 tiles[x][y] = tile;
             }
         }
-        
+        public Vector2 GetSpawnPoint()
+        {
+            return spawnPoint;
+        }
 
         public void RemoveEnemy(Enemy enemy)
         {
@@ -74,7 +78,7 @@ namespace Platformer
             projectiles.ForEach(projectile => projectile.Draw(spriteBatch, offsetX, offsetY));
             items.ForEach(item => item.Draw(spriteBatch, offsetX, offsetY));
             player.Draw(spriteBatch, offsetX, offsetY);
-            NPCList.ForEach(npc => npc.DrawDialog(spriteBatch));
+            //NPCList.ForEach(npc => npc.DrawDialog(spriteBatch));
         }
 
         abstract public void LoadTextures(ContentManager content);

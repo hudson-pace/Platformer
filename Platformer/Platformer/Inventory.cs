@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Platformer
 {
-    class Inventory
+    class Inventory : Menu
     {
         protected List<InventoryItem> inventoryItems = new List<InventoryItem>();
         protected static Texture2D containerTexture, itemSlotTexture, selectedItemSlotTexture;
@@ -29,29 +29,42 @@ namespace Platformer
             container = new Rectangle(500, 200, 270, 400);
         }
 
+        override public void Update(MouseState mouseState)
+        {
+
+        }
+
         public void Toggle()
         {
+            if (!isActive)
+            {
+                if (container.X < 0)
+                {
+                    container.X = 0;
+                }
+                else if (container.X > (screenWidth - container.Width))
+                {
+                    container.X = screenWidth - container.Width;
+                }
+                if (container.Y < 0)
+                {
+                    container.Y = 0;
+                }
+                else if (container.Y > (screenHeight - container.Height))
+                {
+                    container.Y = screenHeight - container.Height;
+                }
+                for (int i = 0; i < inventoryItems.Count; i++)
+                {
+                    inventoryItems[i].SetLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
+                }
+                Game1.AddToMenuList(this);
+            }
+            else
+            {
+                Game1.RemoveFromMenuList(this);
+            }
             isActive = !isActive;
-            if (container.X < 0)
-            {
-                container.X = 0;
-            }
-            else if (container.X > (screenWidth - container.Width))
-            {
-                container.X = screenWidth - container.Width;
-            }
-            if (container.Y < 0)
-            {
-                container.Y = 0;
-            }
-            else if (container.Y > (screenHeight - container.Height))
-            {
-                container.Y = screenHeight - container.Height;
-            }
-            for(int i = 0; i < inventoryItems.Count; i++)
-            {
-                inventoryItems[i].SetLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
-            }
         }
 
         public bool GetIsActive()
@@ -128,7 +141,7 @@ namespace Platformer
             }
             return false;
         }
-        public void Draw(SpriteBatch spriteBatch)
+        override public void Draw(SpriteBatch spriteBatch)
         {
             
 

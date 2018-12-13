@@ -31,15 +31,16 @@ namespace Platformer
         {
             dialogBox = new DialogBox(greetingDialog, greetingChoices, screenWidth, screenHeight, this);
             dialogBox.CreateTextures(graphicsDevice);
+            Game1.AddToMenuList(dialogBox);
         }
         public void CloseDialog()
         {
             if (dialogBox != null)
             {
+                Game1.RemoveFromMenuList(dialogBox);
                 dialogBox.Close();
                 dialogBox = null;
             }
         }
-        abstract public void DrawDialog(SpriteBatch spriteBatch);
     }
 }

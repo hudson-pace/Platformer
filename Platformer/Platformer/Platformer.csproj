@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Enemies\Snail.cs" />
     <Compile Include="EquipmentMenu.cs" />
+    <Compile Include="InfoBox.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="InventoryItem.cs" />
     <Compile Include="ItemManager.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Items\SwordItem.cs" />
     <Compile Include="Locations\SlimeCity.cs" />
     <Compile Include="Locations\SlimeHut.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="NPCs\BusinessMan.cs" />
     <Compile Include="Collisions.cs" />
     <Compile Include="DialogBox.cs" />

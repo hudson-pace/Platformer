@@ -278,14 +278,14 @@ namespace Platformer
                 swordHitBox = new Rectangle((int)location.X + width, (int)location.Y, swordOffset, height);
             }
 
-            if (inventory.GetIsActive())
+            /*if (inventory.GetIsActive())
             {
                 inventory.Update(mouseState);
-            }
-            if (equipmentMenu.GetIsActive())
+            }*/
+            /*if (equipmentMenu.GetIsActive())
             {
                 equipmentMenu.Update(mouseState);
-            }
+            }*/
 
             if (keyboardState.IsKeyDown(Keys.E) && !previousKeyboardState.IsKeyDown(Keys.E))
             {
@@ -365,6 +365,10 @@ namespace Platformer
             if (health <= 0)
             {
                 /* die(); */
+                location = currentLocation.GetSpawnPoint();
+                health = maxHealth;
+                mana = maxMana;
+                xp = 0;
             }
 
             state = "hurt";

@@ -42,13 +42,13 @@ namespace Platformer.NPCs
             
             
         }
-        public override void DrawDialog(SpriteBatch spriteBatch)
+        /*public override void DrawDialog(SpriteBatch spriteBatch)
         {
             if (dialogBox != null)
             {
                 dialogBox.Draw(spriteBatch);
             }
-        }
+        }*/
 
         public static void LoadTextures(ContentManager content)
         {
@@ -63,10 +63,10 @@ namespace Platformer.NPCs
                 location = newLocation;
             }
 
-            if (dialogBox != null)
+            /*if (dialogBox != null)
             {
                 dialogBox.Update(mouseState);
-            }
+            }*/
         }
         
 
