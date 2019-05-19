@@ -16,7 +16,7 @@ namespace Platformer
         SpriteBatch spriteBatch;
         public static Location slimeCity, testArea, slimeHut;
         private static List<Menu> menuList;
-        private Player player;
+        private static Player player;
         private int screenGridWidth, screenGridHeight, screenWidth, screenHeight;
         public static int time;
         private SpriteFont font;
@@ -93,6 +93,8 @@ namespace Platformer
             testArea.LoadTextures(Content);
             slimeCity.LoadTextures(Content);
             slimeHut.LoadTextures(Content);
+            InfoBox.LoadTextures(Content);
+            InventoryItem.LoadTextures(Content);
 
             font = Content.Load<SpriteFont>("NPCText");
 
@@ -195,6 +197,11 @@ namespace Platformer
         {
             menuList.Remove(menu);
             menuList.Add(menu);
+        }
+
+        public static Player GetPlayer()
+        {
+            return player;
         }
     }
 }

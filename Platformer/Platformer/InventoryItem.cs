@@ -6,20 +6,32 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
 
 namespace Platformer
 {
     class InventoryItem : IComparable
     {
         private Item item;
-        private Rectangle hitBox, textRect;
+        private Rectangle hitBox, textRect, priceRect;
         private static Texture2D popUpTextTexture;
-        private bool hovering = false;
+        private static SpriteFont font;
+        private bool hovering;
+        private bool storeItem;
+        private int price;
         public InventoryItem(Item item, Vector2 location)
         {
+            hovering = false;
+            storeItem = false;
             this.item = item;
             this.hitBox = new Rectangle((int)location.X, (int)location.Y, 50, 50);
             item.SetLocation(location);
+        }
+        public InventoryItem(Item item, Vector2 location, int price)
+            : this(item, location)
+        {
+            storeItem = true;
+            this.price = price;
         }
         public Rectangle GetHitBox()
         {
@@ -29,6 +41,10 @@ namespace Platformer
         {
             return item;
         }
+        public int GetPrice()
+        {
+            return price;
+        }
         public bool GetHovering()
         {
             return hovering;
@@ -36,9 +52,14 @@ namespace Platformer
         public void SetHovering(bool hovering, MouseState mouseState)
         {
             this.hovering = hovering;
-            if (hovering)
+            if (hovering && !storeItem)
             {
                 textRect = new Rectangle(mouseState.X, mouseState.Y - 15, 80, 15);
+            }
+            else if (hovering && storeItem)
+            {
+                textRect = new Rectangle(mouseState.X, mouseState.Y - 30, 80, 15);
+                priceRect = new Rectangle(mouseState.X, mouseState.Y - 15, 80, 15);
             }
             
         }
@@ -52,10 +73,15 @@ namespace Platformer
         {
             item.Draw(spriteBatch, -10, -10);
         }
-        public void DrawPopupText(SpriteBatch spriteBatch, SpriteFont font)
+        public void DrawPopupText(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(popUpTextTexture, textRect, Color.White);
             spriteBatch.DrawString(font, item.itemName + " " + item.GetId(), new Vector2(textRect.X, textRect.Y), Color.White);
+            if (storeItem)
+            {
+                spriteBatch.Draw(popUpTextTexture, priceRect, Color.White);
+                spriteBatch.DrawString(font, price + " copper", new Vector2(priceRect.X, priceRect.Y), Color.White);
+            }
         }
 
         public static void CreateTextures(GraphicsDevice graphics)
@@ -63,6 +89,10 @@ namespace Platformer
             popUpTextTexture = new Texture2D(graphics, 1, 1);
             Color[] data = new Color[] { Color.Gray };
             popUpTextTexture.SetData(data);
+        }
+        public static void LoadTextures(ContentManager content)
+        {
+            font = content.Load<SpriteFont>("ItemText");
         }
         public int CompareTo(object obj)
         {
