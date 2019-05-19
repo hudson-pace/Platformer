@@ -12,18 +12,19 @@ namespace Platformer
     {
         public static void RegisterItems()
         {
-            Items.CopperCoin.Register(1);
-            Items.SilverCoin.Register(2);
-            Items.GoldCoin.Register(3);
-            Items.HealthPotion.Register(4);
-            Items.ManaPotion.Register(5);
-            Items.PlantFibers.Register(6);
-            Items.ScytheItem.Register(7);
-            Items.ShellFragment.Register(8);
-            Items.SlimeItem.Register(9);
-            Items.SlimeTail.Register(10);
-            Items.SnailGoop.Register(11);
-            Items.SwordItem.Register(12);
+            int i = 0;
+            Items.CopperCoin.Register(i++);
+            Items.SilverCoin.Register(i++);
+            Items.GoldCoin.Register(i++);
+            Items.HealthPotion.Register(i++);
+            Items.ManaPotion.Register(i++);
+            Items.PlantFibers.Register(i++);
+            Items.ScytheItem.Register(i++);
+            Items.ShellFragment.Register(i++);
+            Items.SlimeItem.Register(i++);
+            Items.SlimeTail.Register(i++);
+            Items.SnailGoop.Register(i++);
+            Items.SwordItem.Register(i++);
         }
         public static void LoadTextures(ContentManager content)
         {

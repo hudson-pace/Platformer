@@ -44,14 +44,7 @@ namespace Platformer
         }
         public void Toggle()
         {
-            if (isActive)
-            {
-                Game1.RemoveFromMenuList(this);
-            }
-            else
-            {
-                Game1.AddToMenuList(this);
-            }
+            Game1.ToggleMenu(this);
             isActive = !isActive;
         }
         override public void Update(MouseState mouseState)

@@ -21,6 +21,7 @@ namespace Platformer.NPCs
 
 
         public Wizard(Vector2 location, Location currentLocation, int screenWidth, int screenHeight)
+            :base()
         {
             this.location = location;
             this.currentLocation = currentLocation;

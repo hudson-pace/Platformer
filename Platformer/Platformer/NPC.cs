@@ -15,32 +15,38 @@ namespace Platformer
 
         protected DialogBox dialogBox;
 
+        public NPC()
+        {
+            dialogBox = null;
+        }
+
         abstract public void Update(KeyboardState state, Tile[][] tiles, MouseState mouseState);
 
         abstract public void ChooseOption(string optionType);
 
-        public bool HasOpenDialog()
+        public DialogBox GetDialogBox()
         {
-            if (dialogBox != null)
-            {
-                return true;
-            }
-            return false;
+            return dialogBox;
         }
-        public void CreateDialog(int screenWidth, int screenHeight, GraphicsDevice graphicsDevice)
+
+
+        public void ToggleDialog(int screenWidth, int screenHeight, GraphicsDevice graphicsDevice)
         {
-            dialogBox = new DialogBox(greetingDialog, greetingChoices, screenWidth, screenHeight, this);
-            dialogBox.CreateTextures(graphicsDevice);
-            Game1.AddToMenuList(dialogBox);
+            if (dialogBox != null && dialogBox.GetIsActive())
+            {
+                dialogBox.Close();
+            }
+            else
+            {
+                dialogBox = new DialogBox(greetingDialog, greetingChoices, screenWidth, screenHeight, this);
+                dialogBox.CreateTextures(graphicsDevice);
+            }
+            Game1.ToggleMenu(dialogBox);
         }
         public void CloseDialog()
         {
-            if (dialogBox != null)
-            {
-                Game1.RemoveFromMenuList(dialogBox);
-                dialogBox.Close();
-                dialogBox = null;
-            }
+            dialogBox.Close();
+            Game1.ToggleMenu(dialogBox);
         }
     }
 }

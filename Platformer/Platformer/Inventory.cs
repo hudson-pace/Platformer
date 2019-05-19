@@ -58,12 +58,8 @@ namespace Platformer
                 {
                     inventoryItems[i].SetLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
                 }
-                Game1.AddToMenuList(this);
             }
-            else
-            {
-                Game1.RemoveFromMenuList(this);
-            }
+            Game1.ToggleMenu(this);
             isActive = !isActive;
         }
 

@@ -129,13 +129,9 @@ namespace Platformer
             {
                 foreach(NPC character in NPCList)
                 {
-                    if (character.HasOpenDialog())
+                    if ((character.GetDialogBox() != null && character.GetDialogBox().GetIsActive()) || Collisions.EntityCollisions(player.hitBox, character.hitBox))
                     {
-                        character.CloseDialog();
-                    }
-                    else if (Collisions.EntityCollisions(player.hitBox, character.hitBox))
-                    {
-                        character.CreateDialog(screenWidth, screenHeight, graphicsDevice);
+                        character.ToggleDialog(screenWidth, screenHeight, graphicsDevice);
                         break;
                     }
                 }

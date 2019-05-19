@@ -21,6 +21,7 @@ namespace Platformer.NPCs
         
 
         public BusinessMan(Vector2 location, Location currentLocation)
+            :base()
         {
             this.location = location;
             this.currentLocation = currentLocation;

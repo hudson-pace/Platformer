@@ -24,6 +24,7 @@ namespace Platformer
         private Texture2D[] choiceTextures;
         private NPC npc;
         private MouseState previousState;
+        private bool isActive;
 
         public DialogBox(string text, string[][] choices, int screenWidth, int screenHeight, NPC npc)
         {
@@ -39,14 +40,18 @@ namespace Platformer
 
             choiceContainers = new Rectangle[choices.Length];
             choiceTextures = new Texture2D[choices.Length];
+            isActive = true;
 
             for (int i = 0; i < choiceContainers.Length; i++)
             {
                 choiceContainers[i] = new Rectangle(options.X + 1, options.Y + 1 + (30 * i), options.Width - 2, 30);
             }
-            Game1.AddToMenuList(this);
         }
 
+        public bool GetIsActive()
+        {
+            return isActive;
+        }
         public void SetText(string text, string[][] choices)
         {
             this.text = text;
@@ -127,7 +132,7 @@ namespace Platformer
         }
         public void Close()
         {
-            Game1.RemoveFromMenuList(this);
+            isActive = false;
             containerTexture.Dispose();
         }
         override public void Draw(SpriteBatch spriteBatch)
