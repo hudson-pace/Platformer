@@ -58,7 +58,6 @@ namespace Platformer
                 currentLocation.RemoveEnemy(this);
                 drops.ForEach(drop =>
                 {
-                    Console.WriteLine(drop.GetId());
                     if (drop.GetCount() > 0)
                     {
                         drop.SetLocation(new Vector2(location.X + (width / 2), location.Y));

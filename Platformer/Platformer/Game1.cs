@@ -20,6 +20,7 @@ namespace Platformer
         private int screenGridWidth, screenGridHeight, screenWidth, screenHeight;
         public static int time;
         private SpriteFont font;
+        KeyboardState previousKeyState;
 
         public Game1()
         {
@@ -50,6 +51,7 @@ namespace Platformer
 
 
 
+
             Content.RootDirectory = "Content";
         }
 
@@ -68,6 +70,8 @@ namespace Platformer
             player.AddToInventory(new Items.ManaPotion(3));
             player.AddToInventory(new Items.SwordItem(1));
             player.AddToInventory(new Items.ScytheItem(1));
+
+            previousKeyState = Keyboard.GetState();
 
             base.Initialize();
         }
@@ -113,26 +117,34 @@ namespace Platformer
         {
             KeyboardState state = Keyboard.GetState();
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            //    Exit();
 
             // TODO: Add your update logic here
 
             //insect.Update(testArea.tiles);
             //player.Update(state, testArea.tiles);
             MouseState mouseState = Mouse.GetState();
+
+
             player.GetCurrentLocation().Update(state, mouseState);
+
+            if (state.IsKeyDown(Keys.Escape) && !previousKeyState.IsKeyDown(Keys.Escape) && menuList.Count > 0)
+            {
+                menuList.RemoveAt(menuList.Count - 1);
+            }
+
             for (int i = 0; i < menuList.Count; i++)
             {
                 menuList[i].Update(mouseState);
             }
-
 
             time++;
             if (time > 2000)
             {
                 time = 0;
             }
+            previousKeyState = state;
             base.Update(gameTime);
         }
 
@@ -168,14 +180,16 @@ namespace Platformer
 
             base.Draw(gameTime);
         }
-
-        public static void AddToMenuList(Menu menu)
+        public static void ToggleMenu(Menu menu)
         {
-            menuList.Add(menu);
-        }
-        public static void RemoveFromMenuList(Menu menu)
-        {
-            menuList.Remove(menu);
+            if (menuList.Contains(menu))
+            {
+                menuList.Remove(menu);
+            }
+            else
+            {
+                menuList.Add(menu);
+            }
         }
         public static void BringToFrontOfMenuList(Menu menu)
         {

@@ -30,7 +30,6 @@ namespace Platformer
         private PlayerInfoBar playerInfoBar;
         private int screenWidth, screenHeight, manaRegenCooldown;
 
-
         public Player(Vector2 location, int screenWidth, int screenHeight)
         {
             this.location = location;
@@ -64,6 +63,7 @@ namespace Platformer
             EquipmentMenu.CreateTextures(graphicsDevice);
             PlayerInfoBar.CreateTextures(graphicsDevice);
             PlayerInfoBar.LoadTextures(content);
+            InfoBox.CreateTextures(graphicsDevice);
         }
 
         public void AddToInventory(Item item)
@@ -152,11 +152,11 @@ namespace Platformer
             }
             if (!previousKeyboardState.IsKeyDown(Keys.I) && keyboardState.IsKeyDown(Keys.I))
             {
-                inventory.Toggle();
+                Game1.ToggleMenu(inventory);
             }
             if (!previousKeyboardState.IsKeyDown(Keys.O) && keyboardState.IsKeyDown(Keys.O))
             {
-                equipmentMenu.Toggle();
+                Game1.ToggleMenu(equipmentMenu);
             }
             if (!(keyboardState.IsKeyDown(Keys.A) ^ keyboardState.IsKeyDown(Keys.D))) // if both or neither are pressed
             {
@@ -278,15 +278,6 @@ namespace Platformer
                 swordHitBox = new Rectangle((int)location.X + width, (int)location.Y, swordOffset, height);
             }
 
-            /*if (inventory.GetIsActive())
-            {
-                inventory.Update(mouseState);
-            }*/
-            /*if (equipmentMenu.GetIsActive())
-            {
-                equipmentMenu.Update(mouseState);
-            }*/
-
             if (keyboardState.IsKeyDown(Keys.E) && !previousKeyboardState.IsKeyDown(Keys.E))
             {
                 foreach (Portal portal in currentLocation.GetPortals())
@@ -347,14 +338,7 @@ namespace Platformer
             spriteBatch.Draw(megamanTexture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
 
             playerInfoBar.Draw(spriteBatch);
-            if (inventory.GetIsActive())
-            {
-                inventory.Draw(spriteBatch);
-            }
-            if (equipmentMenu.GetIsActive())
-            {
-                equipmentMenu.Draw(spriteBatch);
-            }
+
         }
 
         public void GetHit(String direction, int damage)
@@ -369,6 +353,7 @@ namespace Platformer
                 health = maxHealth;
                 mana = maxMana;
                 xp = 0;
+                Game1.ToggleMenu(new InfoBox("dead."));
             }
 
             state = "hurt";
