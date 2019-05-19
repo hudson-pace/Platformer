@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
 
 namespace Platformer
 {
@@ -16,6 +17,7 @@ namespace Platformer
         private Rectangle box;
         private Rectangle button;
         private bool buttonSelected;
+        private static SpriteFont font;
         public InfoBox(string text)
         {
             this.text = text;
@@ -32,6 +34,7 @@ namespace Platformer
         override public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(boxTexture, box, Color.White);
+            spriteBatch.DrawString(font, text, new Vector2((int)(box.X + box.Width * .2), (int)(box.Y + box.Height * .2)), Color.Black);
             if (buttonSelected)
             {
                 spriteBatch.Draw(boxTexture, button, Color.Purple);
@@ -52,6 +55,11 @@ namespace Platformer
                     Close();
                 }
             }
+        }
+
+        public static void LoadTextures(ContentManager content)
+        {
+            font = content.Load<SpriteFont>("NPCText");
         }
 
         public void Close()

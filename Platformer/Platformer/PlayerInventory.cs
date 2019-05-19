@@ -86,7 +86,7 @@ namespace Platformer
                 {
                     if (container.Contains(mouseState.Position))
                     {
-                        AddToInventory(selectedItem.GetItem());
+                        AddToInventory(selectedItem.GetItem(), false, 0);
                     }
                     else
                     {

@@ -68,7 +68,11 @@ namespace Platformer
 
         public void AddToInventory(Item item)
         {
-            inventory.AddToInventory(item);
+            inventory.AddToInventory(item, false, 0);
+        }
+        public bool Pay(int price)
+        {
+            return inventory.Pay(price);
         }
 
         public void Travel(Location destination, Vector2 position)

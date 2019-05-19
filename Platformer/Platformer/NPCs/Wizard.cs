@@ -17,7 +17,7 @@ namespace Platformer.NPCs
         private Location currentLocation;
         private string menuDialog;
         private string[][] menuChoices;
-        private Inventory inventory;
+        private Shop shop;
 
 
         public Wizard(Vector2 location, Location currentLocation, int screenWidth, int screenHeight)
@@ -26,7 +26,8 @@ namespace Platformer.NPCs
             this.location = location;
             this.currentLocation = currentLocation;
             newLocation = location;
-            inventory = new Inventory(screenWidth, screenHeight);
+            shop = new Shop(screenWidth, screenHeight);
+            shop.AddToInventory(new Items.HealthPotion(1), true, 1);
             height = 100;
             width = 100;
             greetingDialog = "Greetings, mortal.";
@@ -39,19 +40,7 @@ namespace Platformer.NPCs
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
             spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
-            /*if (inventory.GetIsActive())
-            {
-                inventory.Draw(spriteBatch);
-            }*/
-
         }
-        /*public override void DrawDialog(SpriteBatch spriteBatch)
-        {
-            if (dialogBox != null)
-            {
-                dialogBox.Draw(spriteBatch);
-            }
-        }*/
 
         public static void LoadTextures(ContentManager content)
         {
@@ -65,11 +54,6 @@ namespace Platformer.NPCs
                 Collisions.CollideWithTiles(tiles, this);
                 location = newLocation;
             }
-
-            /*if (dialogBox != null)
-            {
-                dialogBox.Update(mouseState);
-            }*/
         }
 
 
@@ -81,16 +65,16 @@ namespace Platformer.NPCs
                     CloseDialog();
                     return;
                 case "shop":
-                    OpenShop();
+                    ToggleShop();
                     break;
                 default:
                     dialogBox.SetText(menuDialog, menuChoices);
                     break;
             }
         }
-        public void OpenShop()
+        public void ToggleShop()
         {
-            inventory.Toggle();
+            shop.Toggle();
         }
     }
 }

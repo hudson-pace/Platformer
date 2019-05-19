@@ -21,6 +21,7 @@ namespace Platformer
         protected InventoryItem selectedItem;
         protected MouseState previousMouseState;
         protected int screenWidth, screenHeight;
+        protected int money;
 
         public Inventory(int screenWidth, int screenHeight)
         {
@@ -67,7 +68,7 @@ namespace Platformer
         {
             return isActive;
         }
-        public void AddToInventory(Item item)
+        public void AddToInventory(Item item, bool storeItem, int price)
         {
             bool found = false;
             foreach (InventoryItem i in inventoryItems)
@@ -79,13 +80,26 @@ namespace Platformer
                     break;
                 }
             }
-            
+
+            if (item.itemName == "copperCoin")
+            {
+                money += item.GetCount();
+            }
+            else if (item.itemName == "silverCoin")
+            {
+                money += (item.GetCount() * 100);
+            }
+            else if (item.itemName == "goldCoin")
+            {
+                money += (item.GetCount() * 10000);
+            }
+
             if (found && item.itemName == "copperCoin")
             {
                 item.SetCount(100);
                 if (RemoveFromInventory(new InventoryItem(item, new Vector2(0, 0))))
                 {
-                    AddToInventory(new Items.SilverCoin(1));
+                    AddToInventory(new Items.SilverCoin(1), false, 0);
                 }
             }
             else if (found && item.itemName == "silverCoin")
@@ -93,15 +107,23 @@ namespace Platformer
                 item.SetCount(100);
                 if (RemoveFromInventory(new InventoryItem(item, new Vector2(0, 0))))
                 {
-                    AddToInventory(new Items.GoldCoin(1));
+                    AddToInventory(new Items.GoldCoin(1), false, 0);
                 }
             }
+            
             if (found)
             {
                 return;
             }
-
-            inventoryItems.Add(new InventoryItem(item, new Vector2(container.X + 10 + ((inventoryItems.Count % 5) * 50), container.Y + 40 + ((inventoryItems.Count / 5) * 50))));
+            if (storeItem)
+            {
+                inventoryItems.Add(new InventoryItem(item, new Vector2(container.X + 10 + ((inventoryItems.Count % 5) * 50), container.Y + 40 + ((inventoryItems.Count / 5) * 50)), price));
+            }
+            else
+            {
+                inventoryItems.Add(new InventoryItem(item, new Vector2(container.X + 10 + ((inventoryItems.Count % 5) * 50), container.Y + 40 + ((inventoryItems.Count / 5) * 50))));
+            }
+            
             ReSort();
         }
         public void ReSort()
@@ -137,6 +159,22 @@ namespace Platformer
             }
             return false;
         }
+        public bool Pay(int price)
+        {
+            if (price > money)
+            {
+                return false;
+            }
+
+            money -= price;
+            RemoveFromInventory(new InventoryItem(new Items.GoldCoin(price / 10000), new Vector2(0, 0)));
+            price = price % 10000;
+            RemoveFromInventory(new InventoryItem(new Items.SilverCoin(price / 100), new Vector2(0, 0)));
+            price = price % 100;
+            RemoveFromInventory(new InventoryItem(new Items.CopperCoin(price / 1), new Vector2(0, 0)));
+
+            return true;
+        }
         override public void Draw(SpriteBatch spriteBatch)
         {
             
@@ -170,12 +208,11 @@ namespace Platformer
             {
                 selectedItem.Draw(spriteBatch);
             }
-
             foreach (InventoryItem item in inventoryItems)
             {
                 if (item.GetHovering())
                 {
-                    item.DrawPopupText(spriteBatch, font);
+                    item.DrawPopupText(spriteBatch);
                     break;
                 }
             }
