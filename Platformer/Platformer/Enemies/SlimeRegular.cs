@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 
 namespace Platformer.Enemies
@@ -15,12 +9,11 @@ namespace Platformer.Enemies
         
         private static Texture2D leftFacingTexture, rightFacingTexture, leftFacingHurtTexture, rightFacingHurtTexture;
 
-        public SlimeRegular(Vector2 location, Player player, Location currentLocation, Spawner spawner, int howMany)
+        public SlimeRegular(Vector2 location, Location currentLocation, Spawner spawner, int howMany)
         {
             this.location = location;
             newLocation = location;
             this.currentLocation = currentLocation;
-            this.player = player;
             jumpCooldown = 80;
             width = 100;
             height = 100;
@@ -39,7 +32,7 @@ namespace Platformer.Enemies
 
         public override Enemy Create(Vector2 location, Location currentLocation, Spawner spawner)
         {
-            return new SlimeRegular(location, player, currentLocation, spawner, 0);
+            return new SlimeRegular(location, currentLocation, spawner, 0);
         }
 
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)

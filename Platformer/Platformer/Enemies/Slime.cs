@@ -1,13 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 
 namespace Platformer.Enemies
 {
@@ -20,7 +11,7 @@ namespace Platformer.Enemies
         protected static Random random = new Random();
         protected float jumpHeight;
 
-        public override void Update(KeyboardState state, Tile[][] tiles)
+        public override void Update(Player player, Tile[][] tiles)
         {
             
 
@@ -44,24 +35,24 @@ namespace Platformer.Enemies
             }
             if (!isFalling && cooldownCounter == 0)
             {
-                Jump();
+                Jump(player.location.X);
             }
             else if (!isFalling && cooldownCounter > 0)
             {
                 cooldownCounter--;
             }
 
-            base.Update(state, tiles);
+            base.Update(player, tiles);
 
         }
 
-        public void Jump()
+        public void Jump(float playerLocation)
         {
-            if (player.location.X < location.X)
+            if (playerLocation < location.X)
             {
                 facing = "left";
             }
-            else if (player.location.X > location.X)
+            else if (playerLocation > location.X)
             {
                 facing = "right";
             }

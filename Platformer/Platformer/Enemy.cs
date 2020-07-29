@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 
 namespace Platformer
 {
@@ -16,7 +10,6 @@ namespace Platformer
         public int health;
         public Location currentLocation;
         public List<Item> drops = new List<Item>();
-        protected Player player;
         protected Spawner spawner = null;
         public string name;
         private static Random random = new Random();
@@ -29,7 +22,7 @@ namespace Platformer
         }
         abstract public Enemy Create(Vector2 location, Location currentLocation, Spawner spawner);
 
-        virtual public void Update(KeyboardState state, Tile[][] tiles)
+        virtual public void Update(Player player, Tile[][] tiles)
         {
             if (this.state == "hurt")
             {
@@ -44,12 +37,17 @@ namespace Platformer
             Collisions.CollideWithTiles(tiles, this);
             location = newLocation;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
+
+            if (!player.invulnerable && Collisions.EntityCollisions(player.hitBox, hitBox))
+            {
+                player.GetHit("left", GetDamage());
+            }
         }
         public int GetDamage()
         {
             return damage;
         }
-        public void GetHit(String direction)
+        public void GetHit(Player player, String direction)
         {
             health -= 15;
             if (health <= 0)

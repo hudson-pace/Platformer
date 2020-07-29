@@ -14,13 +14,15 @@ namespace Platformer
     {
         public Texture2D texture;
         private Location currentLocation;
+        private Player owner;
 
-        public Projectile(Vector2 location, Texture2D texture, int horizontalVelocity, Location currentLocation)
+        public Projectile(Vector2 location, Texture2D texture, int horizontalVelocity, Location currentLocation, Player player)
         {
             this.location = location;
             this.horizontalVelocity = horizontalVelocity;
             this.texture = texture;
             this.currentLocation = currentLocation;
+            this.owner = player;
             height = 30;
             width = 30;
             verticalVelocity = 0;
@@ -52,7 +54,7 @@ namespace Platformer
                     {
                         direction = "right";
                     }
-                    enemy.GetHit(direction);
+                    enemy.GetHit(this.owner, direction);
                     break;
                 }
             }
