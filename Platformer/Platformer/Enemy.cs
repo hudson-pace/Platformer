@@ -10,7 +10,7 @@ namespace Platformer
         public int health;
         public Location currentLocation;
         public List<Item> drops = new List<Item>();
-        protected Spawner spawner = null;
+        public Spawner Spawner { get; set; } = null;
         public string name;
         private static Random random = new Random();
         public int howMany;

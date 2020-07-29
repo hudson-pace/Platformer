@@ -21,7 +21,7 @@ namespace Platformer.Enemies
             drops.Add(new Items.SlimeItem(new int[] { 1 }, new int[] { 100 }));
             drops.Add(new Items.CopperCoin(new int[] { 2, 1 }, new int[] { 100, 60 }));
             jumpHeight = .5f;
-            this.spawner = spawner;
+            Spawner = spawner;
             name = "slimeDrip";
             this.howMany = howMany;
             damage = 10;

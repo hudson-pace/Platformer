@@ -13,13 +13,11 @@ namespace Platformer
         private Vector2 location;
         private int spawnInterval;
         private Location currentLocation;
-        private List<Enemy> deadEnemies;
 
         public Spawner(Vector2 location, List<Enemy> enemyList, Location currentLocation)
         {
             this.location = location;
             this.enemyList = new List<Enemy>();
-            deadEnemies = new List<Enemy>();
             MakeEnemyList(enemyList);
             this.currentLocation = currentLocation;
             spawnInterval = 0;
@@ -39,7 +37,7 @@ namespace Platformer
                 enemy.active = false;
             }
         }
-        public void Update()
+        public void Update(List<Enemy> enemies)
         {
             if (spawnInterval < 600)
             {
@@ -48,13 +46,25 @@ namespace Platformer
             else
             {
                 spawnInterval = 0;
-                for (int i = 0; i < enemyList.Count; i++)
+                List<Enemy> enemiesToSpawn = new List<Enemy>(enemyList);
+                for (int i = 0; i < enemies.Count; i++)
                 {
-                    if (!enemyList[i].active)
+                    if (enemies[i].Spawner == this)
                     {
-                        enemyList[i] = enemyList[i].Create(location, currentLocation, this);
-                        currentLocation.AddEnemy(enemyList[i]);
+                        for (int j = 0; j < enemiesToSpawn.Count; j++)
+                        {
+                            if (enemies[i].name.Equals(enemiesToSpawn[j].name))
+                            {
+                                enemiesToSpawn.RemoveAt(j);
+                                break;
+                            }
+                        }
                     }
+                }
+                for (int i = 0; i < enemiesToSpawn.Count; i++)
+                {
+                    enemiesToSpawn[i] = enemiesToSpawn[i].Create(location, currentLocation, this);
+                    currentLocation.AddEnemy(enemiesToSpawn[i]);
                 }
             }
         }
