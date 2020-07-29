@@ -118,6 +118,10 @@ namespace Platformer
         {
             return currentLocation;
         }
+        public Inventory GetInventory()
+        {
+            return inventory;
+        }
         public void Update(KeyboardState keyboardState, Tile[][] tiles, MouseState mouseState)
         {
             newLocation = location;

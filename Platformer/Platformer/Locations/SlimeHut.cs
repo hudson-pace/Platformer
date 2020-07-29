@@ -57,7 +57,7 @@ namespace Platformer.Locations
             tiles[16][height - 2] = new Tiles.SlimeBlock(16, height - 2, 12, this);
             tiles[16][height - 3] = new Tiles.SlimeBlock(16, height - 3, 5, this);
 
-            NPCList.Add(new NPCs.Wizard(new Vector2(750, 600), this, screenWidth, screenHeight));
+            NPCList.Add(new NPCs.Wizard(new Vector2(750, 600), this, screenWidth, screenHeight, player));
             spawnPoint = new Vector2(60, 60);
         }
 
