@@ -24,19 +24,41 @@ namespace Platformer
 
         virtual public void Update(Player player, Tile[][] tiles)
         {
-            if (this.state == "hurt")
+            Collisions.CollideWithTiles(tiles, this);
+            location = newLocation;
+            hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
+
+            if (state == "hurt")
             {
                 hurtCounter--;
                 if (hurtCounter <= 0)
                 {
                     hurtCounter = 0;
-                    this.state = "normal";
+                    state = "normal";
                 }
             }
-
-            Collisions.CollideWithTiles(tiles, this);
-            location = newLocation;
-            hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
+            else if (player.swordIsActive && Collisions.EntityCollisions(player.swordHitBox, hitBox))
+            {
+                GetHit(player, player.swingFacing);
+                player.swordIsActive = false;
+            }
+            else
+            {
+                foreach (Projectile projectile in player.Projectiles)
+                {
+                    if (Collisions.EntityCollisions(projectile.hitBox, hitBox))
+                    {
+                        string direction = "left";
+                        if (projectile.horizontalVelocity > 0)
+                        {
+                            direction = "right";
+                        }
+                        GetHit(player, direction);
+                        player.RemoveProjectile(projectile);
+                        break;
+                    }
+                }
+            }
 
             if (!player.invulnerable && Collisions.EntityCollisions(player.hitBox, hitBox))
             {
@@ -47,12 +69,11 @@ namespace Platformer
         {
             return damage;
         }
-        public void GetHit(Player player, String direction)
+        public void GetHit(Player player, string direction)
         {
             health -= 15;
             if (health <= 0)
             {
-                active = false;
                 currentLocation.RemoveEnemy(this);
                 drops.ForEach(drop =>
                 {

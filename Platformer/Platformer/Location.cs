@@ -11,7 +11,6 @@ namespace Platformer
     {
         public Tile[][] tiles;
         protected List<Enemy> enemies = new List<Enemy>();
-        protected List<Projectile> projectiles = new List<Projectile>();
         protected List<Spawner> spawners = new List<Spawner>();
         protected List<NPC> NPCList = new List<NPC>();
         protected List<Item> items = new List<Item>();
@@ -70,16 +69,11 @@ namespace Platformer
             portals.ForEach(portal => portal.Draw(spriteBatch, offsetX, offsetY));
             NPCList.ForEach(npc => npc.Draw(spriteBatch, offsetX, offsetY));
             enemies.ForEach(enemy => enemy.Draw(spriteBatch, offsetX, offsetY));
-            projectiles.ForEach(projectile => projectile.Draw(spriteBatch, offsetX, offsetY));
             items.ForEach(item => item.Draw(spriteBatch, offsetX, offsetY));
             player.Draw(spriteBatch, offsetX, offsetY);
         }
 
         abstract public void LoadTextures(ContentManager content);
-        public void AddProjectile(Projectile projectile)
-        {
-            projectiles.Add(projectile);
-        }
         public void AddItem(Item item)
         {
             items.Add(item);
@@ -91,29 +85,21 @@ namespace Platformer
         public void Update(KeyboardState state, MouseState mouseState)
         {
             player.Update(state, tiles, mouseState);
-            enemies.ForEach(enemy => enemy.Update(player, tiles));
-            projectiles.ForEach(projectile => projectile.Update(state, tiles, enemies));
+            for (int i = enemies.Count - 1; i >= 0; i--) // updating may cause enemy to be removed, so iterate backwards.
+            {
+                enemies[i].Update(player, tiles);
+            }
             spawners.ForEach(spawner => spawner.Update());
             items.ForEach(item => item.Update(state, tiles));
             NPCList.ForEach(npc => npc.Update(state, tiles, mouseState));
             
-
-            for (int i = 0; i < tiles.Length; i++)
+            foreach (Tile[] row in tiles)
             {
-                for (int j = 0; j < tiles[i].Length; j++)
+                foreach (Tile tile in row)
                 {
-                    if (tiles[i][j].updatable)
+                    if (tile.updatable)
                     {
-                        ((Tiles.UpdatableTile)(tiles[i][j])).Update(player);
-                        if (((Tiles.UpdatableTile)(tiles[i][j])).isBreakable && Collisions.EntityCollisions(player.swordHitBox, new Rectangle((int)tiles[i][j].location.X, (int)tiles[i][j].location.Y, 50, 50)) && player.scytheIsActive)
-                        {
-                            Item drop = new Items.PlantFibers(2);
-                            drop.ResetPickUpCounter();
-                            drop.SetLocation(new Vector2(i * 50, j * 50));
-                            AddItem(drop);
-                            tiles[i][j] = new Tiles.Empty(i, j, this);
-                            break;
-                        }
+                        ((Tiles.UpdatableTile)tile).Update(player);
                     }
                 }
             }
@@ -146,31 +132,6 @@ namespace Platformer
                     items.Add(item);
                 }
             }
-             
-            Projectile[] projectileTempList = new Projectile[projectiles.Count];
-            projectiles.CopyTo(projectileTempList);
-            projectiles.Clear();
-            foreach(Projectile projectile in projectileTempList)
-            {
-                if (projectile.active)
-                {
-                    projectiles.Add(projectile);
-                }
-            };
-
-            if (player.swordIsActive)
-            {
-                foreach (Enemy enemy in enemies)
-                {
-                    if (Collisions.EntityCollisions(player.swordHitBox, enemy.hitBox) && player.swordIsActive)
-                    {
-                        enemy.GetHit(player, player.swingFacing);
-                        break;
-                    }
-                }
-                player.swordIsActive = false;
-            }
-
 
             if ((player.location.X - offsetX) > screenWidth - 500)
             {
@@ -226,6 +187,11 @@ namespace Platformer
                     }
                 }
             }
+        }
+
+        public void ReplaceTile(int x, int y, Tile newTile)
+        {
+            tiles[x][y] = newTile;
         }
     }
 }
