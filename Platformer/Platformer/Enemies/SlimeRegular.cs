@@ -23,7 +23,7 @@ namespace Platformer.Enemies
             drops.Add(new Items.SlimeTail(new int[] { 1 }, new int[] { 40 }));
             drops.Add(new Items.CopperCoin(new int[] { 8, 2, 1 }, new int[] { 100, 80, 50 }));
             jumpHeight = 1f;
-            this.spawner = spawner;
+            Spawner = spawner;
             name = "slimeRegular";
             this.howMany = howMany;
             damage = 25;

@@ -89,7 +89,7 @@ namespace Platformer
             {
                 enemies[i].Update(player, tiles);
             }
-            spawners.ForEach(spawner => spawner.Update());
+            spawners.ForEach(spawner => spawner.Update(enemies));
             items.ForEach(item => item.Update(state, tiles));
             NPCList.ForEach(npc => npc.Update(state, tiles, mouseState));
             

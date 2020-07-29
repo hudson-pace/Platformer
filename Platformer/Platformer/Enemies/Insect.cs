@@ -17,7 +17,7 @@ namespace Platformer.Enemies
             height = 100;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             health = 50;
-            this.spawner = spawner;
+            Spawner = spawner;
             name = "insect";
             this.howMany = howMany;
         }

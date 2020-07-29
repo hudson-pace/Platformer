@@ -23,7 +23,7 @@ namespace Platformer.Enemies
             drops.Add(new Items.CopperCoin(new int[] { 1, 2 }, new int[] { 100, 60 }));
             facing = "left";
             checkFacingCounter = 40;
-            this.spawner = spawner;
+            Spawner = spawner;
             name = "snail";
             this.howMany = howMany;
             damage = 15;
