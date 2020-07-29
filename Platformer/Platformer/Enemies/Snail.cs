@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Input;
 
 namespace Platformer.Enemies
 {
@@ -15,11 +9,10 @@ namespace Platformer.Enemies
         private static Texture2D textureRegular, textureHurt, textureRegularRight, textureHurtRight;
         private string facing;
         private int checkFacingCounter;
-        public Snail(Vector2 location, Player player, Location currentLocation, Spawner spawner, int howMany)
+        public Snail(Vector2 location, Location currentLocation, Spawner spawner, int howMany)
         {
             this.location = location;
             newLocation = location;
-            this.player = player;
             this.currentLocation = currentLocation;
             width = 65;
             height = 50;
@@ -38,7 +31,7 @@ namespace Platformer.Enemies
         }
 
 
-        override public void Update(KeyboardState state, Tile[][] tiles)
+        override public void Update(Player player, Tile[][] tiles)
         {
             if (isFalling)
             {
@@ -69,12 +62,12 @@ namespace Platformer.Enemies
 
             newLocation.X += horizontalVelocity;
 
-            base.Update(state, tiles);
+            base.Update(player, tiles);
         }
 
         public override Enemy Create(Vector2 location, Location currentLocation, Spawner spawner)
         {
-            return new Snail(location, player, currentLocation, spawner, 0);
+            return new Snail(location, currentLocation, spawner, 0);
         }
 
         public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)

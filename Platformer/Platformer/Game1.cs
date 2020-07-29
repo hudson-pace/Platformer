@@ -20,7 +20,7 @@ namespace Platformer
         private int screenGridWidth, screenGridHeight, screenWidth, screenHeight;
         public static int time;
         private SpriteFont font;
-        KeyboardState previousKeyState;
+        KeyboardState previousKeyboardState;
 
         public Game1()
         {
@@ -71,7 +71,7 @@ namespace Platformer
             player.AddToInventory(new Items.SwordItem(1));
             player.AddToInventory(new Items.ScytheItem(1));
 
-            previousKeyState = Keyboard.GetState();
+            previousKeyboardState = Keyboard.GetState();
 
             base.Initialize();
         }
@@ -117,21 +117,12 @@ namespace Platformer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            KeyboardState state = Keyboard.GetState();
-
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            //    Exit();
-
-            // TODO: Add your update logic here
-
-            //insect.Update(testArea.tiles);
-            //player.Update(state, testArea.tiles);
+            KeyboardState keyboardState = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
 
+            player.GetCurrentLocation().Update(keyboardState, mouseState);
 
-            player.GetCurrentLocation().Update(state, mouseState);
-
-            if (state.IsKeyDown(Keys.Escape) && !previousKeyState.IsKeyDown(Keys.Escape) && menuList.Count > 0)
+            if (keyboardState.IsKeyDown(Keys.Escape) && !previousKeyboardState.IsKeyDown(Keys.Escape) && menuList.Count > 0)
             {
                 menuList.RemoveAt(menuList.Count - 1);
             }
@@ -146,7 +137,7 @@ namespace Platformer
             {
                 time = 0;
             }
-            previousKeyState = state;
+            previousKeyboardState = keyboardState;
             base.Update(gameTime);
         }
 

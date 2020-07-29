@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -34,7 +30,6 @@ namespace Platformer
             this.screenGridHeight = screenGridHeight;
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
-            //player.SetLocation(this);
             this.graphicsDevice = graphicsDevice;
         }
         public abstract void AddPortals();
@@ -78,7 +73,6 @@ namespace Platformer
             projectiles.ForEach(projectile => projectile.Draw(spriteBatch, offsetX, offsetY));
             items.ForEach(item => item.Draw(spriteBatch, offsetX, offsetY));
             player.Draw(spriteBatch, offsetX, offsetY);
-            //NPCList.ForEach(npc => npc.DrawDialog(spriteBatch));
         }
 
         abstract public void LoadTextures(ContentManager content);
@@ -97,7 +91,7 @@ namespace Platformer
         public void Update(KeyboardState state, MouseState mouseState)
         {
             player.Update(state, tiles, mouseState);
-            enemies.ForEach(enemy => enemy.Update(state, tiles));
+            enemies.ForEach(enemy => enemy.Update(player, tiles));
             projectiles.ForEach(projectile => projectile.Update(state, tiles, enemies));
             spawners.ForEach(spawner => spawner.Update());
             items.ForEach(item => item.Update(state, tiles));
@@ -152,24 +146,7 @@ namespace Platformer
                     items.Add(item);
                 }
             }
-
-            Enemy[] enemyTempList = new Enemy[enemies.Count];
-            enemies.CopyTo(enemyTempList);
-            enemies.Clear();
-            foreach(Enemy enemy in enemyTempList)
-            {
-                if (enemy.active)
-                {
-                    enemies.Add(enemy);
-                    if (!player.invulnerable)
-                    {
-                        if (Collisions.EntityCollisions(player.hitBox, enemy.hitBox))
-                        {
-                            player.GetHit("left", enemy.GetDamage());
-                        }
-                    }
-                }
-            }
+             
             Projectile[] projectileTempList = new Projectile[projectiles.Count];
             projectiles.CopyTo(projectileTempList);
             projectiles.Clear();
@@ -187,7 +164,7 @@ namespace Platformer
                 {
                     if (Collisions.EntityCollisions(player.swordHitBox, enemy.hitBox) && player.swordIsActive)
                     {
-                        enemy.GetHit(player.swingFacing);
+                        enemy.GetHit(player, player.swingFacing);
                         break;
                     }
                 }
