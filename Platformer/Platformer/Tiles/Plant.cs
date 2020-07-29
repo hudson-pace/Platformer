@@ -13,12 +13,14 @@ namespace Platformer.Tiles
     class Plant : UpdatableTile
     {
         private static Texture2D texture;
+        private Rectangle hitBox;
 
         public Plant(int x, int y, Location currentLocation) : base(x, y, currentLocation, false, true, false)
         {
             name = "plant";
             updatable = true;
             isBreakable = true;
+            this.hitBox = new Rectangle(x * 50, y * 50, 50, 50);
         }
         public static void LoadTextures(ContentManager content)
         {
@@ -26,6 +28,14 @@ namespace Platformer.Tiles
         }
         public override void Update(Player player)
         {
+            if (player.scytheIsActive && Collisions.EntityCollisions(player.swordHitBox, hitBox))
+            {
+                Item drop = new Items.PlantFibers(2);
+                drop.ResetPickUpCounter();
+                drop.SetLocation(new Vector2(hitBox.Left, hitBox.Top));
+                currentLocation.AddItem(drop);
+                currentLocation.ReplaceTile(x, y, new Tiles.Empty(x, y, currentLocation));
+            }
         }
         override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {

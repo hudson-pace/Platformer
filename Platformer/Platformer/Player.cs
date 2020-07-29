@@ -30,6 +30,8 @@ namespace Platformer
         private PlayerInfoBar playerInfoBar;
         private int screenWidth, screenHeight, manaRegenCooldown;
 
+        public List<Projectile> Projectiles { get; } = new List<Projectile>();
+
         public Player(Vector2 location, int screenWidth, int screenHeight)
         {
             this.location = location;
@@ -220,11 +222,13 @@ namespace Platformer
             {
                 if (swingFacing == "right")
                 {
-                    currentLocation.AddProjectile(new Projectile(new Vector2(location.X + (width / 2) - (30 / 2), location.Y + (height / 2) - (30 / 2)), projectileTexture, 10, currentLocation, this));
+                    Projectiles.Add(new Projectile(new Vector2(location.X + (width / 2) - (30 / 2), location.Y + (height / 2) - (30 / 2)),
+                        projectileTexture, 10, currentLocation, this));
                 }
                 else if (swingFacing == "left")
                 {
-                    currentLocation.AddProjectile(new Projectile(new Vector2(location.X + (width / 2) - (30 / 2), location.Y + (height / 2) - (30 / 2)), projectileTexture, -10, currentLocation, this));
+                    Projectiles.Add(new Projectile(new Vector2(location.X + (width / 2) - (30 / 2), location.Y + (height / 2) - (30 / 2)),
+                        projectileTexture, -10, currentLocation, this));
                 }
                 projectileCooldown = 60;
                 mana -= 25;
@@ -307,12 +311,20 @@ namespace Platformer
                 manaRegenCooldown = 10;
             }
 
+            for (int i = Projectiles.Count- 1; i >= 0; i--) // some elements may be removed, so iterate backwards.
+            {
+                Projectiles[i].Update(tiles);
+            }
             playerInfoBar.Update();
 
             previousKeyboardState = keyboardState;
         }
         override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
+            foreach (Projectile projectile in Projectiles)
+            {
+                projectile.Draw(spriteBatch, offsetX, offsetY);
+            }
             Rectangle sourceRectangle;
             if (swinging)
             {
@@ -394,6 +406,11 @@ namespace Platformer
                 /* LevelUp(); */
                 xp -= xpToLevel;
             }
+        }
+
+        public void RemoveProjectile(Projectile projectile)
+        {
+            Projectiles.Remove(projectile);
         }
     }
 }

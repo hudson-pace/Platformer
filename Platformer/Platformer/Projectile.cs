@@ -31,35 +31,18 @@ namespace Platformer
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
 
-        public void Update(KeyboardState state, Tile[][] tiles)
+        public void Update(Tile[][] tiles)
         {
             newLocation = location;
             newLocation.X += horizontalVelocity;
             if (Collisions.CollideWithTiles(tiles, this))
             {
-                active = false;
+                owner.RemoveProjectile(this);
             }
             location = newLocation;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
-        public void Update(KeyboardState state, Tile[][] tiles, List<Enemy> enemies)
-        {
-            foreach (Enemy enemy in enemies)
-            {
-                if (Collisions.EntityCollisions(hitBox, enemy.hitBox))
-                {
-                    active = false;
-                    string direction = "left";
-                    if (horizontalVelocity > 0)
-                    {
-                        direction = "right";
-                    }
-                    enemy.GetHit(this.owner, direction);
-                    break;
-                }
-            }
-            Update(state, tiles);
-        }
+        
 
         override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
         {
