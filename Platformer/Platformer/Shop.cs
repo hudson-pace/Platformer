@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Platformer
@@ -11,9 +11,11 @@ namespace Platformer
     class Shop : Inventory
     {
         private MouseState previousState;
-        public Shop(int screenWidth, int screenHeight)
+        private Inventory playerInventory;
+        public Shop(int screenWidth, int screenHeight, Inventory playerInventory)
             :base(screenWidth, screenHeight)
         {
+            this.playerInventory = playerInventory;
         }
 
         override public void Update(MouseState mouseState)
@@ -35,6 +37,10 @@ namespace Platformer
             }
             previousState = mouseState;
         }
-
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+            playerInventory.Draw(spriteBatch);
+        }
     }
 }

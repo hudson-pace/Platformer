@@ -20,14 +20,14 @@ namespace Platformer.NPCs
         private Shop shop;
 
 
-        public Wizard(Vector2 location, Location currentLocation, int screenWidth, int screenHeight)
+        public Wizard(Vector2 location, Location currentLocation, int screenWidth, int screenHeight, Player player)
             :base()
         {
             this.location = location;
             this.currentLocation = currentLocation;
             newLocation = location;
-            shop = new Shop(screenWidth, screenHeight);
-            shop.AddToInventory(new Items.HealthPotion(1), true, 1);
+            shop = new Shop(screenWidth, screenHeight, player.GetInventory());
+            shop.AddToInventory(new Items.HealthPotion(1), true, 5);
             height = 100;
             width = 100;
             greetingDialog = "Greetings, mortal.";
