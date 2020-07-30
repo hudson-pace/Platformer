@@ -168,7 +168,7 @@ namespace Platformer
 
             money -= price;
             RemoveFromInventory(new InventoryItem(new Items.GoldCoin(price / 10000), new Vector2(0, 0)));
-            price = price % 10000;
+            price = price % 100;
             RemoveFromInventory(new InventoryItem(new Items.SilverCoin(price / 100), new Vector2(0, 0)));
             price = price % 100;
             RemoveFromInventory(new InventoryItem(new Items.CopperCoin(price / 1), new Vector2(0, 0)));
