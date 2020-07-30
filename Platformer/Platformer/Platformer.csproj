@@ -45,8 +45,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Enemies\Snail.cs" />
-    <Compile Include="EquipmentMenu.cs" />
-    <Compile Include="InfoBox.cs" />
+    <Compile Include="Menus\EquipmentMenu.cs" />
+    <Compile Include="Menus\InfoBox.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="InventoryItem.cs" />
     <Compile Include="ItemManager.cs" />
@@ -61,22 +61,22 @@
     <Compile Include="Items\SlimeTail.cs" />
     <Compile Include="Items\SnailGoop.cs" />
     <Compile Include="Items\SwordItem.cs" />
+    <Compile Include="Locations\Location.cs" />
     <Compile Include="Locations\SlimeCity.cs" />
     <Compile Include="Locations\SlimeHut.cs" />
-    <Compile Include="Menu.cs" />
+    <Compile Include="Menus\Menu.cs" />
     <Compile Include="NPCs\BusinessMan.cs" />
     <Compile Include="Collisions.cs" />
-    <Compile Include="DialogBox.cs" />
+    <Compile Include="Menus\DialogBox.cs" />
     <Compile Include="Enemies\SlimeDrip.cs" />
     <Compile Include="Enemies\SlimeRegular.cs" />
-    <Compile Include="Enemy.cs" />
+    <Compile Include="Enemies\Enemy.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Enemies\Insect.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="Items\SlimeItem.cs" />
     <Compile Include="Locations\HuntingGrounds.cs" />
-    <Compile Include="Location.cs" />
     <Compile Include="NPC.cs" />
     <Compile Include="NPCs\Wizard.cs" />
     <Compile Include="Player.cs" />
