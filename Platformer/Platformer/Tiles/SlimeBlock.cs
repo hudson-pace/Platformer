@@ -12,20 +12,21 @@ namespace Platformer.Tiles
     class SlimeBlock : Tile
     {
         private static Texture2D texture;
-        private Rectangle textureSource;
+        private int textureNumber;
         public SlimeBlock(int x, int y, int textureNumber, Location currentLocation) : base(x, y, currentLocation, true, true, true)
         {
-            textureSource = new Rectangle(((textureNumber % 4) * 50), ((textureNumber / 4) * 50), 50, 50);
             name = "slimeBlock";
-            updatable = false;
+            this.textureNumber = textureNumber;
         }
         public static void LoadTextures(ContentManager content)
         {
             texture = content.Load<Texture2D>("Tiles/slime-block");
         }
-        override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        override public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), textureSource, Color.White);
+            Rectangle textureSource = new Rectangle(((textureNumber % 4) * 50), ((textureNumber / 4) * 50), 50, 50);
+            //spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), textureSource, Color.White);
+            spriteBatch.Draw(texture, new Vector2(location.X, location.Y), textureSource, Color.White);
         }
     }
 }

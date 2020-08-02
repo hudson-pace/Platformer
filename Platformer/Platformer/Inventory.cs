@@ -57,7 +57,7 @@ namespace Platformer
                 }
                 for (int i = 0; i < inventoryItems.Count; i++)
                 {
-                    inventoryItems[i].SetLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
+                    inventoryItems[i].SetLocation(new Vector2(container.X + 20 + ((i % 5) * 50), container.Y + 50 + ((i / 5) * 50)));
                 }
             }
             Game1.ToggleMenu(this);
@@ -75,7 +75,7 @@ namespace Platformer
             {
                 if (i.GetItem().itemName == item.itemName)
                 {
-                    i.GetItem().SetCount(i.GetItem().GetCount() + item.GetCount());
+                    i.GetItem().Count = i.GetItem().Count + item.Count;
                     found = true;
                     break;
                 }
@@ -83,20 +83,20 @@ namespace Platformer
 
             if (item.itemName == "copperCoin")
             {
-                money += item.GetCount();
+                money += item.Count;
             }
             else if (item.itemName == "silverCoin")
             {
-                money += (item.GetCount() * 100);
+                money += (item.Count * 100);
             }
             else if (item.itemName == "goldCoin")
             {
-                money += (item.GetCount() * 10000);
+                money += (item.Count * 10000);
             }
 
             if (found && item.itemName == "copperCoin")
             {
-                item.SetCount(100);
+                item.Count = 100;
                 if (RemoveFromInventory(new InventoryItem(item, new Vector2(0, 0))))
                 {
                     AddToInventory(new Items.SilverCoin(1), false, 0);
@@ -104,7 +104,7 @@ namespace Platformer
             }
             else if (found && item.itemName == "silverCoin")
             {
-                item.SetCount(100);
+                item.Count = 100;
                 if (RemoveFromInventory(new InventoryItem(item, new Vector2(0, 0))))
                 {
                     AddToInventory(new Items.GoldCoin(1), false, 0);
@@ -131,7 +131,7 @@ namespace Platformer
             inventoryItems.Sort();
             for (int i = 0; i < inventoryItems.Count; i++)
             {
-                inventoryItems[i].SetLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
+                inventoryItems[i].SetLocation(new Vector2(container.X + 20 + ((i % 5) * 50), container.Y + 50 + ((i / 5) * 50)));
             }
         }
         public bool RemoveFromInventory(InventoryItem item)
@@ -140,11 +140,11 @@ namespace Platformer
             {
                 if (inventoryItems[i].GetItem().GetId() == item.GetItem().GetId())
                 {
-                    if (inventoryItems[i].GetItem().GetCount() < item.GetItem().GetCount())
+                    if (inventoryItems[i].GetItem().Count < item.GetItem().Count)
                     {
                         return false;
                     }
-                    else if (inventoryItems[i].GetItem().GetCount() == item.GetItem().GetCount())
+                    else if (inventoryItems[i].GetItem().Count == item.GetItem().Count)
                     {
                         inventoryItems.Remove(inventoryItems[i]);
                         ReSort();
@@ -152,7 +152,7 @@ namespace Platformer
                     }
                     else
                     {
-                        inventoryItems[i].GetItem().SetCount(inventoryItems[i].GetItem().GetCount() - item.GetItem().GetCount());
+                        inventoryItems[i].GetItem().Count = inventoryItems[i].GetItem().Count - item.GetItem().Count;
                         return true;
                     }
                 }
@@ -202,7 +202,7 @@ namespace Platformer
             foreach (InventoryItem item in inventoryItems)
             {
                 item.Draw(spriteBatch);
-                spriteBatch.DrawString(font, item.GetItem().GetCount() + "", new Vector2(item.GetHitBox().X + item.GetItem().width + 10, item.GetHitBox().Y + item.GetItem().height + 6), Color.Black);
+                spriteBatch.DrawString(font, item.GetItem().Count + "", new Vector2(item.GetHitBox().X + item.GetItem().width, item.GetHitBox().Y + item.GetItem().height - 4), Color.Black);
             }
             if (selectedItem != null)
             {

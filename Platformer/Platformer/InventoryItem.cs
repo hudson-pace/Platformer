@@ -71,7 +71,7 @@ namespace Platformer
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            item.Draw(spriteBatch, -10, -10);
+            item.Draw(spriteBatch);
         }
         public void DrawPopupText(SpriteBatch spriteBatch)
         {

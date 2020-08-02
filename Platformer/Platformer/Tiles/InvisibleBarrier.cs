@@ -12,9 +12,8 @@ namespace Platformer.Tiles
         public InvisibleBarrier(int x, int y, Location currentLocation) : base(x, y, currentLocation, true, false, true)
         {
             name = "invisibleBarrier";
-            updatable = false;
         }
-        override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        override public void Draw(SpriteBatch spriteBatch)
         {
         }
     }

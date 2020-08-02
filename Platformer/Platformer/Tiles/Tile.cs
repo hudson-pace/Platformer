@@ -12,7 +12,7 @@ namespace Platformer
 {
     abstract class Tile
     {
-        public bool isBarrier, isTextured, isEnemyBarrier, updatable;
+        public bool isBarrier, isTextured, isEnemyBarrier;
         protected string name;
 
         public Vector2 location;
@@ -29,7 +29,7 @@ namespace Platformer
             this.x = x;
             this.y = y;
         }
-        abstract public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY);
+        abstract public void Draw(SpriteBatch spriteBatch);
 
         public string GetName()
         {

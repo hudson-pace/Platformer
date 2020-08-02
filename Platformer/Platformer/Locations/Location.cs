@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using MonoGame.Extended;
 
 namespace Platformer
 {
@@ -18,7 +19,7 @@ namespace Platformer
         protected Vector2 spawnPoint;
         public Player player;
         public int height, width;
-        public int offsetX, offsetY, screenGridWidth, screenGridHeight, screenWidth, screenHeight;
+        public int screenGridWidth, screenGridHeight, screenWidth, screenHeight;
         private GraphicsDevice graphicsDevice;
         private bool previousQPressed = false;
 
@@ -56,21 +57,21 @@ namespace Platformer
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            for (int i = (int)(offsetX / 50); i < tiles.Length && i < screenGridWidth + (int)(offsetX / 50) + 1; i++)
+            for (int i = 0; i < tiles.Length; i++)
             {
-                for (int j = (int)(offsetY / 50); j < tiles[i].Length && j < screenGridHeight + (int)(offsetY / 50) + 1; j++)
+                for (int j = 0; j < tiles[i].Length; j++)
                 {
                     if (tiles[i][j].isTextured)
                     {
-                        tiles[i][j].Draw(spriteBatch, offsetX, offsetY);
+                        tiles[i][j].Draw(spriteBatch);
                     }
                 }
             }
-            portals.ForEach(portal => portal.Draw(spriteBatch, offsetX, offsetY));
-            NPCList.ForEach(npc => npc.Draw(spriteBatch, offsetX, offsetY));
-            enemies.ForEach(enemy => enemy.Draw(spriteBatch, offsetX, offsetY));
-            items.ForEach(item => item.Draw(spriteBatch, offsetX, offsetY));
-            player.Draw(spriteBatch, offsetX, offsetY);
+            portals.ForEach(portal => portal.Draw(spriteBatch));
+            NPCList.ForEach(npc => npc.Draw(spriteBatch));
+            enemies.ForEach(enemy => enemy.Draw(spriteBatch));
+            items.ForEach(item => item.Draw(spriteBatch));
+            player.Draw(spriteBatch);
         }
 
         abstract public void LoadTextures(ContentManager content);
@@ -82,7 +83,7 @@ namespace Platformer
         {
             enemies.Add(enemy);
         }
-        public void Update(KeyboardState state, MouseState mouseState)
+        public void Update(KeyboardState state, MouseState mouseState, OrthographicCamera camera)
         {
             player.Update(state, tiles, mouseState);
             for (int i = enemies.Count - 1; i >= 0; i--) // updating may cause enemy to be removed, so iterate backwards.
@@ -97,7 +98,7 @@ namespace Platformer
             {
                 foreach (Tile tile in row)
                 {
-                    if (tile.updatable)
+                    if (tile is Tiles.UpdatableTile)
                     {
                         ((Tiles.UpdatableTile)tile).Update(player);
                     }
@@ -123,7 +124,7 @@ namespace Platformer
             items.Clear();
             foreach (Item item in itemTempList)
             {
-                if (Collisions.EntityCollisions(item.hitBox, player.hitBox) && item.canBePickedUp)
+                if (Collisions.EntityCollisions(item.hitBox, player.hitBox) && item.CanBePickedUp)
                 {
                     player.AddToInventory(item);
                 }
@@ -133,37 +134,41 @@ namespace Platformer
                 }
             }
 
-            if ((player.location.X - offsetX) > screenWidth - 500)
+            Vector2 playerScreenLocation = camera.WorldToScreen(player.location.X, player.location.Y);
+            if (playerScreenLocation.X > screenWidth - 500)
             {
-                offsetX += (int)(player.location.X - offsetX - (screenWidth - 500));
-                if (offsetX > ((tiles.Length - 1) * 50) - screenWidth) {
-                    offsetX = ((tiles.Length - 1) * 50) - screenWidth;
-                }
+                camera.Move(new Vector2(playerScreenLocation.X - (screenWidth - 500), 0));
             }
-            else if ((player.location.X - offsetX) < 500)
+            else if (playerScreenLocation.X < 500)
             {
-                offsetX -= (int)(500 - player.location.X + offsetX);
-                if (offsetX < 50)
-                {
-                    offsetX = 50;
-                }
+                camera.Move(new Vector2(-1 * (500 - playerScreenLocation.X), 0));
             }
 
-            if ((player.location.Y - offsetY) > screenHeight - 300)
+            if (playerScreenLocation.Y > screenHeight - 300)
             {
-                offsetY += (int)(player.location.Y - offsetY - (screenHeight - 300));
-                if (offsetY > ((tiles[0].Length - 1) * 50) - screenHeight)
-                {
-                    offsetY = ((tiles[0].Length - 1) * 50) - screenHeight;
-                }
+                camera.Move(new Vector2(0, playerScreenLocation.Y - (screenHeight - 300)));
             }
-            else if ((player.location.Y - offsetY) < 300)
+            else if (playerScreenLocation.Y < 300)
             {
-                offsetY -= (int)(300 - player.location.Y + offsetY);
-                if (offsetY < 50)
-                {
-                    offsetY = 50;
-                }
+                camera.Move(new Vector2(0, (-1 * (300 - playerScreenLocation.Y))));
+            }
+
+            if (camera.Position.X < 50)
+            {
+                camera.Move(new Vector2((-1 * camera.Position.X) + 50, 0));
+            }
+            else if (camera.Position.X > ((width - 1) * 50) - camera.BoundingRectangle.Width)
+            {
+                camera.Move(new Vector2((((width - 1) * 50) - camera.BoundingRectangle.Width) - camera.Position.X, 0));
+            }
+
+            if (camera.Position.Y < 50)
+            {
+                camera.Move(new Vector2(0, (-1 * camera.Position.Y) + 50));
+            }
+            else if (camera.Position.Y > ((height - 1) * 50) - camera.BoundingRectangle.Height)
+            {
+                camera.Move(new Vector2(0, (((height - 1) * 50) - camera.BoundingRectangle.Height) - camera.Position.Y));
             }
 
             

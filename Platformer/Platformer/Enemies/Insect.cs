@@ -54,15 +54,15 @@ namespace Platformer.Enemies
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             base.Update(player, tiles);
         }
-        public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (facing == "right")
             {
-                spriteBatch.Draw(rightFacing, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
+                spriteBatch.Draw(rightFacing, new Vector2(location.X, location.Y), Color.White);
             }
             else if (facing == "left")
             {
-                spriteBatch.Draw(leftFacing, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
+                spriteBatch.Draw(leftFacing, new Vector2(location.X, location.Y), Color.White);
             }
         }
         public static void LoadTextures(ContentManager content)

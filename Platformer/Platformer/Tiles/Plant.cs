@@ -18,7 +18,6 @@ namespace Platformer.Tiles
         public Plant(int x, int y, Location currentLocation) : base(x, y, currentLocation, false, true, false)
         {
             name = "plant";
-            updatable = true;
             isBreakable = true;
             this.hitBox = new Rectangle(x * 50, y * 50, 50, 50);
         }
@@ -37,9 +36,9 @@ namespace Platformer.Tiles
                 currentLocation.ReplaceTile(x, y, new Tiles.Empty(x, y, currentLocation));
             }
         }
-        override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        override public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
+            spriteBatch.Draw(texture, new Vector2(location.X, location.Y), Color.White);
         }
     }
 }

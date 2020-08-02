@@ -44,9 +44,9 @@ namespace Platformer
         }
         
 
-        override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        override public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
+            spriteBatch.Draw(texture, new Vector2(location.X, location.Y), Color.White);
         }
     }
 }

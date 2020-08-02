@@ -21,7 +21,6 @@ namespace Platformer.Tiles
             baseGrowthTime = 200;
             growthTime = random.Next(10, 16) * baseGrowthTime;
             growthTimer = 0;
-            updatable = true;
             growing = true;
             isBreakable = false;
         }
@@ -29,9 +28,9 @@ namespace Platformer.Tiles
         {
             texture = content.Load<Texture2D>("grass");
         }
-        public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
+            spriteBatch.Draw(texture, new Vector2(location.X, location.Y), Color.White);
         }
         override public void Update(Player player)
         {

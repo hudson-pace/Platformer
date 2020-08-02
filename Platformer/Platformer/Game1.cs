@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+using MonoGame.Extended;
+using MonoGame.Extended.ViewportAdapters;
 using System;
 using System.Collections.Generic;
 
@@ -21,6 +22,8 @@ namespace Platformer
         public static int time;
         private SpriteFont font;
         KeyboardState previousKeyboardState;
+        private OrthographicCamera camera;
+        private PlayerInfoBar playerInfoBar;
 
         public Game1()
         {
@@ -47,7 +50,7 @@ namespace Platformer
 
             IsMouseVisible = true;
 
-
+            playerInfoBar = new PlayerInfoBar(player, screenWidth, screenHeight);
 
 
 
@@ -85,6 +88,9 @@ namespace Platformer
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1280, 720);
+            camera = new OrthographicCamera(viewportAdapter);
+
             // TODO: use this.Content to load your game content here
 
             Player.LoadTextures(Content, GraphicsDevice);
@@ -95,6 +101,7 @@ namespace Platformer
             slimeHut.LoadTextures(Content);
             InfoBox.LoadTextures(Content);
             InventoryItem.LoadTextures(Content);
+            Tiles.Wall.LoadTextures(Content);
 
             font = Content.Load<SpriteFont>("NPCText");
 
@@ -119,8 +126,8 @@ namespace Platformer
         {
             KeyboardState keyboardState = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
-
-            player.GetCurrentLocation().Update(keyboardState, mouseState);
+            
+            player.GetCurrentLocation().Update(keyboardState, mouseState, camera);
 
             if (keyboardState.IsKeyDown(Keys.Escape) && !previousKeyboardState.IsKeyDown(Keys.Escape) && menuList.Count > 0)
             {
@@ -138,6 +145,7 @@ namespace Platformer
                 time = 0;
             }
             previousKeyboardState = keyboardState;
+            playerInfoBar.Update();
             base.Update(gameTime);
         }
 
@@ -158,14 +166,16 @@ namespace Platformer
 
             // TODO: Add your drawing code here
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(transformMatrix: camera.GetViewMatrix());
             player.GetCurrentLocation().Draw(spriteBatch);
+
+            spriteBatch.End();
+            spriteBatch.Begin();
+            playerInfoBar.Draw(spriteBatch);
             foreach (Menu menu in menuList)
             {
                 menu.Draw(spriteBatch);
             }
-
-
             spriteBatch.DrawString(font, "time: " + time, new Vector2(10, 10), Color.White);
             spriteBatch.End();
 

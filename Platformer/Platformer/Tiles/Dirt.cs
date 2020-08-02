@@ -15,15 +15,14 @@ namespace Platformer.Tiles
         public Dirt(int x, int y, Location currentLocation) : base(x, y, currentLocation, true, true, true)
         {
             name = "dirt";
-            updatable = false;
         }
         public static void LoadTextures(ContentManager content)
         {
             texture = content.Load<Texture2D>("dirt");
         }
-        override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        override public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
+            spriteBatch.Draw(texture, new Vector2(location.X, location.Y), Color.White);
         }
     }
 }

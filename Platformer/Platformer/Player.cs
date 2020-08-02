@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using MonoGame.Extended;
 
 namespace Platformer
 {
@@ -27,7 +28,6 @@ namespace Platformer
         private int health, maxHealth, mana, maxMana, xp, xpToLevel;
         private int invulnerableTimer = 0;
         public bool invulnerable = false;
-        private PlayerInfoBar playerInfoBar;
         private int screenWidth, screenHeight, manaRegenCooldown;
 
         public List<Projectile> Projectiles { get; } = new List<Projectile>();
@@ -42,7 +42,7 @@ namespace Platformer
             equipmentMenu = new EquipmentMenu(this);
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             swordHitBox = new Rectangle((int)location.X + width, (int)location.Y, swordOffset, height);
-            playerInfoBar = new PlayerInfoBar(this, screenWidth, screenHeight);
+            
 
             swordOffset = 30;
             height = 100;
@@ -315,15 +315,14 @@ namespace Platformer
             {
                 Projectiles[i].Update(tiles);
             }
-            playerInfoBar.Update();
 
             previousKeyboardState = keyboardState;
         }
-        override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        override public void Draw(SpriteBatch spriteBatch)
         {
             foreach (Projectile projectile in Projectiles)
             {
-                projectile.Draw(spriteBatch, offsetX, offsetY);
+                projectile.Draw(spriteBatch);
             }
             Rectangle sourceRectangle;
             if (swinging)
@@ -336,7 +335,7 @@ namespace Platformer
                     textureOffset = swordOffset;
                 }
                 sourceRectangle = new Rectangle(currentSwordTextureState * 130, textureRow * 100, 130, 100);
-                spriteBatch.Draw(swordTexture, new Vector2(location.X - offsetX - textureOffset, location.Y - offsetY), sourceRectangle, Color.White);
+                spriteBatch.Draw(swordTexture, new Vector2(location.X - textureOffset, location.Y), sourceRectangle, Color.White);
             }
 
             int sourceY = 0;
@@ -355,9 +354,8 @@ namespace Platformer
 
             sourceRectangle = new Rectangle(currentTextureState * 100, sourceY, 100, 100);
 
-            spriteBatch.Draw(megamanTexture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
-
-            playerInfoBar.Draw(spriteBatch);
+            //spriteBatch.Draw(megamanTexture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
+            spriteBatch.Draw(megamanTexture, new Vector2(location.X, location.Y), sourceRectangle, Color.White);
 
         }
 

@@ -70,7 +70,7 @@ namespace Platformer.Enemies
             return new Snail(location, currentLocation, spawner, 0);
         }
 
-        public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             Texture2D texture = textureRegular;
             if (state != "hurt" && facing == "right")
@@ -88,7 +88,7 @@ namespace Platformer.Enemies
                     texture = textureHurtRight;
                 }
             }
-            spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
+            spriteBatch.Draw(texture, new Vector2(location.X, location.Y), Color.White);
         }
         public static void LoadTextures(ContentManager content)
         {

@@ -25,9 +25,9 @@ namespace Platformer.Items
             itemName = "manaPotion";
             id = itemId;
         }
-        public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY + currentYOffset), Color.White);
+            spriteBatch.Draw(texture, new Vector2(location.X, location.Y + currentYOffset), Color.White);
         }
         public static void LoadTextures(ContentManager content)
         {

@@ -24,8 +24,6 @@ namespace Platformer.Locations
             spawners.Add(new Spawner(new Vector2(600, 300), enemyList, this));
             height = 22;
             width = 30;
-            offsetX = 0;
-            offsetY = 0;
             AddBorder();
 
 
