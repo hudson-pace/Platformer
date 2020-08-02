@@ -35,7 +35,7 @@ namespace Platformer.Enemies
             return new SlimeRegular(location, currentLocation, spawner, 0);
         }
 
-        public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             Rectangle sourceRectangle = new Rectangle(currentFrame * 100, 0, 100, 100);
             Texture2D texture;
@@ -66,7 +66,7 @@ namespace Platformer.Enemies
                 texture = leftFacingTexture;
             }
 
-            spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
+            spriteBatch.Draw(texture, new Vector2(location.X, location.Y), sourceRectangle, Color.White);
         }
 
         public static void LoadTextures(ContentManager content)

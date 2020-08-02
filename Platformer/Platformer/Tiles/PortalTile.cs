@@ -13,9 +13,8 @@ namespace Platformer.Tiles
         public PortalTile(int x, int y, Location currentLocation) : base(x, y, currentLocation, false, false, false)
         {
             name = "portal";
-            updatable = false;
         }
-        override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        override public void Draw(SpriteBatch spriteBatch)
         {
         }
     }

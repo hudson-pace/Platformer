@@ -37,9 +37,9 @@ namespace Platformer.NPCs
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
 
-        public override void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), Color.White);
+            spriteBatch.Draw(texture, new Vector2(location.X, location.Y), Color.White);
         }
 
         public static void LoadTextures(ContentManager content)

@@ -38,7 +38,7 @@ namespace Platformer
                 }
                 for (int i = 0; i < inventoryItems.Count; i++)
                 {
-                    inventoryItems[i].SetLocation(new Vector2(container.X + 10 + ((i % 5) * 50), container.Y + 40 + ((i / 5) * 50)));
+                    inventoryItems[i].SetLocation(new Vector2(container.X + 20 + ((i % 5) * 50), container.Y + 50 + ((i / 5) * 50)));
                 }
             }
 
@@ -81,7 +81,7 @@ namespace Platformer
 
             if (draggingItem)
             {
-                selectedItem.SetLocation(new Vector2(mouseState.Position.X - 25, mouseState.Position.Y - 25));
+                selectedItem.SetLocation(new Vector2(mouseState.Position.X - 15, mouseState.Position.Y - 15));
                 if (mouseState.LeftButton != ButtonState.Pressed)
                 {
                     if (container.Contains(mouseState.Position))

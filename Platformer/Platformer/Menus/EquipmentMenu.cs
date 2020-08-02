@@ -77,7 +77,7 @@ namespace Platformer
             itemSlot = new Rectangle(container.X + 10, container.Y + 30, 50, 50);
             if (equippedItem != null)
             {
-                equippedItem.SetLocation(new Vector2(itemSlot.X, itemSlot.Y));
+                equippedItem.SetLocation(new Vector2(itemSlot.X + 10, itemSlot.Y + 10));
             }
 
             previousMouseState = mouseState;
@@ -87,7 +87,7 @@ namespace Platformer
         {
             UnEquip();
             equippedItem = item;
-            equippedItem.SetLocation(new Vector2(itemSlot.X, itemSlot.Y));
+            equippedItem.SetLocation(new Vector2(itemSlot.X + 10, itemSlot.Y + 10));
         }
         public void UnEquip()
         {

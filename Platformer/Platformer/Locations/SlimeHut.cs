@@ -16,8 +16,6 @@ namespace Platformer.Locations
         {
             height = 17;
             width = 28;
-            offsetX = 0;
-            offsetY = 0;
             AddBorder();
 
             for (int i = 1; i < width - 1; i++)

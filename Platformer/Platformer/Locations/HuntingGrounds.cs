@@ -17,8 +17,6 @@ namespace Platformer.Locations
         {
             height = 30;
             width = 60;
-            offsetX = 0;
-            offsetY = 0;
             AddBorder();
 
             Console.WriteLine(tiles.Length + ", " + tiles[0].Length);

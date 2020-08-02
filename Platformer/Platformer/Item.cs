@@ -15,21 +15,17 @@ namespace Platformer
         protected int currentYOffset = -3;
         private int yOffsetCounter = 0;
         private int yOffsetDirection = 1;
-        public bool canBePickedUp;
+        public bool CanBePickedUp { get; private set; }
         private int pickUpCounter;
-        private int probability;
-        private int count { get; set; }
+        public int Count { get; set; }
         protected int id;
         public Item(int count)
         {
-            if (count != 0)
-            {
-                this.count = count;
-            }
+            Count = count;
             verticalVelocity = -3;
             height = 30;
             width = 30;
-            canBePickedUp = false;
+            CanBePickedUp = false;
             pickUpCounter = 80;
             horizontalVelocity = random.Next(-3, 3);
         }
@@ -46,7 +42,7 @@ namespace Platformer
                     }
                 }
             }
-            this.count = sum;
+            Count = sum;
         }
         public void SetLocation(Vector2 location)
         {
@@ -54,25 +50,9 @@ namespace Platformer
             this.hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             newLocation = location;
         }
-        public void SetCount(int count)
-        {
-            this.count = count;
-        }
-        public int GetCount()
-        {
-            return count;
-        }
         public Vector2 GetLocation()
         {
             return location;
-        }
-        public void SetProbability(int probability)
-        {
-            this.probability = probability;
-        }
-        public int GetProbability()
-        {
-            return probability;
         }
         public int GetId()
         {
@@ -81,7 +61,7 @@ namespace Platformer
         public void ResetPickUpCounter()
         {
             pickUpCounter = 80;
-            canBePickedUp = false;
+            CanBePickedUp = false;
             isFalling = true;
         }
         public void Update(KeyboardState state, Tile[][] tiles)
@@ -91,7 +71,7 @@ namespace Platformer
                 pickUpCounter--;
                 if (pickUpCounter == 0)
                 {
-                    canBePickedUp = true;
+                    CanBePickedUp = true;
                 }
             }
             if (isFalling)

@@ -37,7 +37,7 @@ namespace Platformer.Enemies
             hurtTexture = content.Load<Texture2D>("drip-hurt");
         }
 
-        override public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        override public void Draw(SpriteBatch spriteBatch)
         {
             Rectangle sourceRectangle = new Rectangle(currentFrame * 40, 0, 40, 40);
             Texture2D texture = regularTexture;
@@ -45,7 +45,7 @@ namespace Platformer.Enemies
             {
                 texture = hurtTexture;
             }
-            spriteBatch.Draw(texture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
+            spriteBatch.Draw(texture, new Vector2(location.X, location.Y), sourceRectangle, Color.White);
         }
     }
 }

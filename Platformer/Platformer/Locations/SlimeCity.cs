@@ -17,13 +17,12 @@ namespace Platformer.Locations
         {
             height = 30;
             width = 50;
-            offsetX = 0;
-            offsetY = 0;
             AddBorder();
 
             int i = height - 2;
             for (int j = 1; j < width - 1; j++) {
                 tiles[j][i] = new Tiles.SlimeBlock(j, i, 10, this);
+                //tiles[j][i] = new Tiles.Wall(j, i, this, Tiles.Wall.WallType.SlimeTop);
             }
 
             tiles[6][i] = new Tiles.SlimeBlock(6, i, 12, this);

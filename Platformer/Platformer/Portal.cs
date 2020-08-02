@@ -42,9 +42,9 @@ namespace Platformer
         {
             return positionDestination;
         }
-        public void Draw(SpriteBatch spriteBatch, int offsetX, int offsetY)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Vector2(hitBox.Left - offsetX, hitBox.Top - offsetY), Color.White);
+            spriteBatch.Draw(texture, new Vector2(hitBox.Left, hitBox.Top), Color.White);
         }
         public static void LoadContent(ContentManager content)
         {
