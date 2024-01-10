@@ -31,7 +31,7 @@ namespace Platformer.Enemies
         }
 
 
-        override public void Update(Player player, Tile[][] tiles)
+        override public void Update(Player player, Location l)
         {
             if (isFalling)
             {
@@ -62,7 +62,7 @@ namespace Platformer.Enemies
 
             newLocation.X += horizontalVelocity;
 
-            base.Update(player, tiles);
+            base.Update(player, l);
         }
 
         public override Enemy Create(Vector2 location, Location currentLocation, Spawner spawner)

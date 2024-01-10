@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
+using System.Diagnostics;
 
 namespace Platformer.Locations
 {
@@ -44,7 +45,7 @@ namespace Platformer.Locations
 			items.ForEach(item => item.Draw(spriteBatch));
 			*/
 			tiledMapRenderer.Draw();
-			player.Draw(spriteBatch);
+			// player.Draw(spriteBatch);
 		}
 		public override void AddPortals()
 		{
@@ -53,10 +54,12 @@ namespace Platformer.Locations
 		{
 			tiledMap = content.Load<TiledMap>("tiled-maps/tiled-map-test");
 			tiledMapRenderer = new TiledMapRenderer(graphicsDevice, tiledMap);
+			collisionTileLayer = tiledMap.GetLayer<TiledMapTileLayer>("collision");
 		}
 		public override void Update(KeyboardState state, MouseState mouseState, OrthographicCamera camera, GameTime gameTime)
 		{
 			tiledMapRenderer.Update(gameTime);
+			base.Update(state, mouseState, camera, gameTime);
 		}
 	}
 }

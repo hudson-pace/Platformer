@@ -9,7 +9,7 @@ namespace Platformer
 {
     class Collisions
     {
-        public static bool CollideWithTiles(Tile[][] tiles, Entity entity)
+        public static bool CollideWithTiles(Location location, Entity entity)
         {
             int oldLeftGridX = (int)(entity.location.X / 50);
             int newLeftGridX = (int)(entity.newLocation.X / 50);
@@ -27,8 +27,8 @@ namespace Platformer
             {
                 for (int i = newTopGridY; i <= newBottomGridY; i++)
                 {
-                    if (tiles[newLeftGridX][i].isBarrier || (entity.isEnemy && tiles[newLeftGridX][i].isEnemyBarrier))
-                    {
+                    if (location.IsObstacleAt(newLeftGridX, i) || (entity.isEnemy && location.IsEnemyObstacleAt(newLeftGridX, i)))
+					{
                         entity.newLocation.X = oldLeftGridX * 50;
                         collided = true;
                         break;
@@ -40,7 +40,7 @@ namespace Platformer
             {
                 for (int i = newTopGridY; i <= newBottomGridY; i++)
                 {
-                    if (tiles[newRightGridX][i].isBarrier || (entity.isEnemy && tiles[newRightGridX][i].isEnemyBarrier))
+                    if (location.IsObstacleAt(newRightGridX, i) || (entity.isEnemy && location.IsEnemyObstacleAt(newRightGridX, i)))
                     {
                         entity.newLocation.X = (newRightGridX * 50) - entity.width;
                         collided = true;
@@ -55,8 +55,8 @@ namespace Platformer
             {
                 for (int i = newLeftGridX; i <= newRightGridX; i++)
                 {
-                    if (tiles[i][newTopGridY].isBarrier || (entity.isEnemy && tiles[i][newTopGridY].isEnemyBarrier))
-                    {
+                    if (location.IsObstacleAt(i, newTopGridY) || (entity.isEnemy && location.IsEnemyObstacleAt(i, newTopGridY)))
+					{
                         entity.newLocation.Y = ((newTopGridY + 1) * 50);
                         entity.verticalVelocity = 0;
                         collided = true;
@@ -69,8 +69,8 @@ namespace Platformer
             {
                 for (int i = newLeftGridX; i <= newRightGridX; i++)
                 {
-                    if (tiles[i][newBottomGridY].isBarrier || (entity.isEnemy && tiles[i][newBottomGridY].isEnemyBarrier))
-                    {
+                    if (location.IsObstacleAt(i, newBottomGridY) || (entity.isEnemy && location.IsEnemyObstacleAt(i, newBottomGridY)))
+					{
                         entity.newLocation.Y = (newBottomGridY * 50) - entity.height;
                         entity.isFalling = false;
                         entity.verticalVelocity = 0;
@@ -85,7 +85,7 @@ namespace Platformer
 
             if (!entity.isFalling && entity.canFall && ((newLeftGridX != oldLeftGridX) || (newRightGridX != oldRightGridX)))
             {
-                if (!tiles[newLeftGridX][newBottomGridY + 1].isBarrier && !tiles[newRightGridX][newBottomGridY + 1].isBarrier)
+                if (!location.IsObstacleAt(newLeftGridX, newBottomGridY + 1) && !location.IsObstacleAt(newRightGridX, newBottomGridY + 1))
                 {
                     entity.isFalling = true;
                     entity.verticalVelocity = 0;

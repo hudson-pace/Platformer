@@ -124,7 +124,7 @@ namespace Platformer
         {
             return inventory;
         }
-        public void Update(KeyboardState keyboardState, Tile[][] tiles, MouseState mouseState)
+        public void Update(KeyboardState keyboardState, Location l, MouseState mouseState)
         {
             newLocation = location;
 
@@ -278,7 +278,7 @@ namespace Platformer
             }
 
             newHitBox = new Rectangle((int)newLocation.X, (int)newLocation.Y, width, height);
-            Collisions.CollideWithTiles(tiles, this);
+            Collisions.CollideWithTiles(l, this);
             location = newLocation;
             hitBox = newHitBox;
             if (facing == "left")
@@ -313,7 +313,7 @@ namespace Platformer
 
             for (int i = Projectiles.Count- 1; i >= 0; i--) // some elements may be removed, so iterate backwards.
             {
-                Projectiles[i].Update(tiles);
+                Projectiles[i].Update(l);
             }
 
             previousKeyboardState = keyboardState;

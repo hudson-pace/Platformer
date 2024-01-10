@@ -31,11 +31,11 @@ namespace Platformer
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
         }
 
-        public void Update(Tile[][] tiles)
+        public void Update(Location l)
         {
             newLocation = location;
             newLocation.X += horizontalVelocity;
-            if (Collisions.CollideWithTiles(tiles, this))
+            if (Collisions.CollideWithTiles(l, this))
             {
                 owner.RemoveProjectile(this);
             }

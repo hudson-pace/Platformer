@@ -11,7 +11,7 @@ namespace Platformer.Enemies
         protected static Random random = new Random();
         protected float jumpHeight;
 
-        public override void Update(Player player, Tile[][] tiles)
+        public override void Update(Player player, Location l)
         {
             
 
@@ -42,7 +42,7 @@ namespace Platformer.Enemies
                 cooldownCounter--;
             }
 
-            base.Update(player, tiles);
+            base.Update(player, l);
 
         }
 

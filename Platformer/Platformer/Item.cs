@@ -64,7 +64,7 @@ namespace Platformer
             CanBePickedUp = false;
             isFalling = true;
         }
-        public void Update(KeyboardState state, Tile[][] tiles)
+        public void Update(KeyboardState state, Location l)
         {
             if (pickUpCounter > 0)
             {
@@ -79,7 +79,7 @@ namespace Platformer
                 newLocation.Y += verticalVelocity;
                 newLocation.X += horizontalVelocity;
                 verticalVelocity++;
-                Collisions.CollideWithTiles(tiles, this);
+                Collisions.CollideWithTiles(l, this);
                 location = newLocation;
                 hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             }

@@ -22,9 +22,9 @@ namespace Platformer
         }
         abstract public Enemy Create(Vector2 location, Location currentLocation, Spawner spawner);
 
-        virtual public void Update(Player player, Tile[][] tiles)
+        virtual public void Update(Player player, Location l)
         {
-            Collisions.CollideWithTiles(tiles, this);
+            Collisions.CollideWithTiles(l, this);
             location = newLocation;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
 

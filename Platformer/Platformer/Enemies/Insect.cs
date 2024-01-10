@@ -27,7 +27,7 @@ namespace Platformer.Enemies
             return new Insect(location, currentLocation, spawner, 0);
         }
 
-        override public void Update(Player player, Tile[][] tiles)
+        override public void Update(Player player, Location l)
         {
             newLocation = location;
 
@@ -39,7 +39,7 @@ namespace Platformer.Enemies
             {
                 newLocation.X -= 2;
             }
-            if (Collisions.CollideWithTiles(tiles, this))
+            if (Collisions.CollideWithTiles(l, this))
             {
                 if (facing == "right")
                 {
@@ -52,7 +52,7 @@ namespace Platformer.Enemies
             }
             location = newLocation;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
-            base.Update(player, tiles);
+            base.Update(player, l);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {

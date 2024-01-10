@@ -44,7 +44,7 @@ namespace Platformer
             screenGridWidth = (int)(graphics.PreferredBackBufferWidth / 50) + 1;
             screenGridHeight = (int)(graphics.PreferredBackBufferHeight / 50) + 1;
 
-            player = new Player(new Vector2(1050, 1100), screenWidth, screenHeight);
+            player = new Player(new Vector2(500, 100), screenWidth, screenHeight);
             // testArea = new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
             // slimeCity = new Locations.SlimeCity(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
             // slimeHut = new Locations.SlimeHut(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
@@ -53,7 +53,7 @@ namespace Platformer
 			// slimeCity.AddPortals();
 			// slimeHut.AddPortals();
 
-			player.Travel(testTileLocation, new Vector2(1050, 1100));
+			player.Travel(testTileLocation, new Vector2(500, 100));
 
 			menuList = new List<Menu>();
 
@@ -189,6 +189,7 @@ namespace Platformer
 
             spriteBatch.End();
             spriteBatch.Begin();
+            player.Draw(spriteBatch);
             playerInfoBar.Draw(spriteBatch);
             foreach (Menu menu in menuList)
             {

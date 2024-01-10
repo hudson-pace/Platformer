@@ -20,7 +20,7 @@ namespace Platformer
             dialogBox = null;
         }
 
-        abstract public void Update(KeyboardState state, Tile[][] tiles, MouseState mouseState);
+        abstract public void Update(KeyboardState state, Location l, MouseState mouseState);
 
         abstract public void ChooseOption(string optionType);
 

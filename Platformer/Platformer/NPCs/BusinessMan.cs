@@ -55,12 +55,12 @@ namespace Platformer.NPCs
         {
             texture = content.Load<Texture2D>("business-man");
         }
-        public override void Update(KeyboardState state, Tile[][] tiles, MouseState mouseState)
+        public override void Update(KeyboardState state, Location l, MouseState mouseState)
         {
             if (isFalling)
             {
                 newLocation.Y++;
-                Collisions.CollideWithTiles(tiles, this);
+                Collisions.CollideWithTiles(l, this);
                 location = newLocation;
             }
 

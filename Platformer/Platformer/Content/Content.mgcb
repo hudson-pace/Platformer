@@ -453,6 +453,23 @@
 /processor:TiledMapTilesetProcessor
 /build:tiled-maps/basic_tiles.tsx
 
+#begin tiled-maps/collision.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tiled-maps/collision.png
+
+#begin tiled-maps/collision.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:tiled-maps/collision.tsx
+
 #begin tiled-maps/tiled-map-test.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor

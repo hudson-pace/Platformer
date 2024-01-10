@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using MonoGame.Extended;
+using MonoGame.Extended.Tiled;
 
 namespace Platformer
 {
@@ -22,8 +23,10 @@ namespace Platformer
         public int screenGridWidth, screenGridHeight, screenWidth, screenHeight;
         protected GraphicsDevice graphicsDevice;
         private bool previousQPressed = false;
+        protected TiledMapTileLayer collisionTileLayer;
 
-        public Location(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice)
+
+		public Location(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice)
         {
             this.player = player;
             this.screenGridWidth = screenGridWidth;
@@ -83,9 +86,20 @@ namespace Platformer
         {
             enemies.Add(enemy);
         }
+        public bool IsObstacleAt(int x, int y)
+        {
+			TiledMapTile t = collisionTileLayer.GetTile((ushort)x, (ushort)y);
+            return t.GlobalIdentifier != 0;
+		}
+        public bool IsEnemyObstacleAt(int x, int y)
+        {
+            // TODO: Finish Check.
+            return false || IsObstacleAt(x, y);
+        }
         public virtual void Update(KeyboardState state, MouseState mouseState, OrthographicCamera camera, GameTime gameTime)
         {
-            player.Update(state, tiles, mouseState);
+            player.Update(state, this, mouseState);
+            /*
             for (int i = enemies.Count - 1; i >= 0; i--) // updating may cause enemy to be removed, so iterate backwards.
             {
                 enemies[i].Update(player, tiles);
@@ -104,8 +118,6 @@ namespace Platformer
                     }
                 }
             }
-
-
             if (state.IsKeyDown(Keys.Q) && !previousQPressed)
             {
                 foreach(NPC character in NPCList)
@@ -170,7 +182,7 @@ namespace Platformer
             {
                 camera.Move(new Vector2(0, (((height - 1) * 50) - camera.BoundingRectangle.Height) - camera.Position.Y));
             }
-
+            */
             
         }
 
