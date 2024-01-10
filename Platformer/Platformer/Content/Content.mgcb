@@ -10,6 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\..\..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\3.9.0-alpha0107\tools\MonoGame.Extended.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -434,6 +435,28 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sword.png
+
+#begin tiled-maps/basic_tiles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tiled-maps/basic_tiles.png
+
+#begin tiled-maps/basic_tiles.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:tiled-maps/basic_tiles.tsx
+
+#begin tiled-maps/tiled-map-test.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:tiled-maps/tiled-map-test.tmx
 
 #begin Tiles/basic_tiles.png
 /importer:TextureImporter

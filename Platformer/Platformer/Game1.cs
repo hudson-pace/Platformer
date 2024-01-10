@@ -6,6 +6,10 @@ using MonoGame.Extended.ViewportAdapters;
 using System;
 using System.Collections.Generic;
 
+using MonoGame.Extended.Tiled;
+using MonoGame.Extended.Tiled.Renderers;
+using Platformer.Locations;
+
 namespace Platformer
 {
     /// <summary>
@@ -15,7 +19,7 @@ namespace Platformer
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        public static Location slimeCity, testArea, slimeHut;
+        public static Location slimeCity, testArea, slimeHut, testTileLocation;
         private static List<Menu> menuList;
         private static Player player;
         private int screenGridWidth, screenGridHeight, screenWidth, screenHeight;
@@ -24,10 +28,13 @@ namespace Platformer
         KeyboardState previousKeyboardState;
         private OrthographicCamera camera;
         private PlayerInfoBar playerInfoBar;
+        TiledMap tiledMap;
+        TiledMapRenderer tiledMapRenderer;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
@@ -38,15 +45,18 @@ namespace Platformer
             screenGridHeight = (int)(graphics.PreferredBackBufferHeight / 50) + 1;
 
             player = new Player(new Vector2(1050, 1100), screenWidth, screenHeight);
-            testArea = new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
-            slimeCity = new Locations.SlimeCity(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
-            slimeHut = new Locations.SlimeHut(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
-            testArea.AddPortals();
-            slimeCity.AddPortals();
-            slimeHut.AddPortals();
-            player.Travel(slimeCity, new Vector2(1050, 1100));
+            // testArea = new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
+            // slimeCity = new Locations.SlimeCity(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
+            // slimeHut = new Locations.SlimeHut(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
+            testTileLocation = new Locations.TestTileLocation(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
+			// testArea.AddPortals();
+			// slimeCity.AddPortals();
+			// slimeHut.AddPortals();
 
-            menuList = new List<Menu>();
+			player.Travel(testTileLocation, new Vector2(1050, 1100));
+
+			menuList = new List<Menu>();
+
 
             IsMouseVisible = true;
 
@@ -75,7 +85,6 @@ namespace Platformer
             player.AddToInventory(new Items.ScytheItem(1));
 
             previousKeyboardState = Keyboard.GetState();
-
             base.Initialize();
         }
 
@@ -85,8 +94,13 @@ namespace Platformer
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            // tiledMap = Content.Load<TiledMap>("tiled/samplemap");
+            // tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, tiledMap);
+            testTileLocation.LoadTextures(Content);
+			// Create a new SpriteBatch, which can be used to draw textures.
+			spriteBatch = new SpriteBatch(GraphicsDevice);
+            // spriteBatch.Begin();
+            // spriteBatch.End();
 
             var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1280, 720);
             camera = new OrthographicCamera(viewportAdapter);
@@ -95,13 +109,13 @@ namespace Platformer
 
             Player.LoadTextures(Content, GraphicsDevice);
 
-            //player.GetCurrentLocation().LoadTextures(Content);
-            testArea.LoadTextures(Content);
-            slimeCity.LoadTextures(Content);
-            slimeHut.LoadTextures(Content);
+            // player.GetCurrentLocation().LoadTextures(Content);
+            // testArea.LoadTextures(Content);
+            // slimeCity.LoadTextures(Content);
+            // slimeHut.LoadTextures(Content);
             InfoBox.LoadTextures(Content);
             InventoryItem.LoadTextures(Content);
-            Tiles.Wall.LoadTextures(Content);
+            // Tiles.Wall.LoadTextures(Content);
 
             font = Content.Load<SpriteFont>("NPCText");
 
@@ -127,9 +141,10 @@ namespace Platformer
             KeyboardState keyboardState = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
             
-            player.GetCurrentLocation().Update(keyboardState, mouseState, camera);
+            // player.GetCurrentLocation().Update(keyboardState, mouseState, camera);
+			testTileLocation.Update(keyboardState, mouseState, camera, gameTime);
 
-            if (keyboardState.IsKeyDown(Keys.Escape) && !previousKeyboardState.IsKeyDown(Keys.Escape) && menuList.Count > 0)
+			if (keyboardState.IsKeyDown(Keys.Escape) && !previousKeyboardState.IsKeyDown(Keys.Escape) && menuList.Count > 0)
             {
                 menuList.RemoveAt(menuList.Count - 1);
             }
@@ -146,7 +161,9 @@ namespace Platformer
             }
             previousKeyboardState = keyboardState;
             playerInfoBar.Update();
-            base.Update(gameTime);
+            
+			// tiledMapRenderer.Update(gameTime);
+			base.Update(gameTime);
         }
 
         /// <summary>
@@ -167,7 +184,8 @@ namespace Platformer
             // TODO: Add your drawing code here
 
             spriteBatch.Begin(transformMatrix: camera.GetViewMatrix());
-            player.GetCurrentLocation().Draw(spriteBatch);
+            // player.GetCurrentLocation().Draw(spriteBatch);
+            testTileLocation.Draw(spriteBatch);
 
             spriteBatch.End();
             spriteBatch.Begin();
@@ -179,7 +197,8 @@ namespace Platformer
             spriteBatch.DrawString(font, "time: " + time, new Vector2(10, 10), Color.White);
             spriteBatch.End();
 
-
+            // GraphicsDevice.Clear(Color.Black);
+            // tiledMapRenderer.Draw();
 
             base.Draw(gameTime);
         }

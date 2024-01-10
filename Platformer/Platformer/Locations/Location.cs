@@ -20,7 +20,7 @@ namespace Platformer
         public Player player;
         public int height, width;
         public int screenGridWidth, screenGridHeight, screenWidth, screenHeight;
-        private GraphicsDevice graphicsDevice;
+        protected GraphicsDevice graphicsDevice;
         private bool previousQPressed = false;
 
         public Location(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice)
@@ -55,7 +55,7 @@ namespace Platformer
         {
             return portals;
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < tiles.Length; i++)
             {
@@ -83,7 +83,7 @@ namespace Platformer
         {
             enemies.Add(enemy);
         }
-        public void Update(KeyboardState state, MouseState mouseState, OrthographicCamera camera)
+        public virtual void Update(KeyboardState state, MouseState mouseState, OrthographicCamera camera, GameTime gameTime)
         {
             player.Update(state, tiles, mouseState);
             for (int i = enemies.Count - 1; i >= 0; i--) // updating may cause enemy to be removed, so iterate backwards.
