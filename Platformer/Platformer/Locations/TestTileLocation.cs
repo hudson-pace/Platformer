@@ -24,7 +24,7 @@ namespace Platformer.Locations
 		{
 			height = 20;
 			width = 30;
-			NPCList.Add(new NPCs.Wizard(new Vector2(300, 300), this, screenWidth, screenHeight, player));
+			NPCList.Add(new NPCs.Wizard(new Vector2(300, 100), this, screenWidth, screenHeight, player));
 		}
 		public override void AddPortals()
 		{
