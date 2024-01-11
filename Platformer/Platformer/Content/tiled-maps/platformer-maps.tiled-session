@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "test-area.tmx",
+    "activeFile": "slime-city.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -16,34 +16,34 @@
         },
         "slime-city.tmx": {
             "scale": 0.6495624999999999,
-            "selectedLayer": 0,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 657.3655344943713,
-                "y": 1294.7175983835275
+                "x": 663.5235254498222,
+                "y": 1136.1493312806697
             }
         },
         "slime-hut.tmx": {
             "scale": 0.7423571428571428,
-            "selectedLayer": 1,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 705.8597132685462,
-                "y": 575.1948426825749
+                "x": 699.1244106610218,
+                "y": 424.99759453478305
             }
         },
         "test-area.tmx": {
             "scale": 0.6928666666666666,
-            "selectedLayer": 1,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 617.7234677186568,
-                "y": 616.2801885884729
+                "x": 749.0618685653806,
+                "y": 549.1677090349273
             }
         },
         "tiled-map-test.tmx": {
             "scale": 0.6928666666666666,
-            "selectedLayer": 1,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 803.906475512364,
-                "y": 310.30501298951214
+                "x": 749.0618685653806,
+                "y": 498.65293947849517
             }
         }
     },
@@ -60,9 +60,9 @@
     ],
     "project": "platformer-maps.tiled-project",
     "recentFiles": [
-        "slime-city.tmx",
-        "tiled-map-test.tmx",
+        "test-area.tmx",
         "slime-hut.tmx",
-        "test-area.tmx"
+        "tiled-map-test.tmx",
+        "slime-city.tmx"
     ]
 }

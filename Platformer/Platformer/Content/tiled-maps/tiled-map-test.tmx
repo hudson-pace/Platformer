@@ -2,7 +2,7 @@
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="50" tileheight="50" infinite="0" nextlayerid="3" nextobjectid="1">
  <tileset firstgid="1" source="basic_tiles.tsx"/>
  <tileset firstgid="21" source="collision.tsx"/>
- <layer id="1" name="Tile Layer 1" width="30" height="20">
+ <layer id="1" name="tiles" width="30" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

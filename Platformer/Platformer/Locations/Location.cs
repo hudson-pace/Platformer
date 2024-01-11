@@ -26,6 +26,7 @@ namespace Platformer
         protected GraphicsDevice graphicsDevice;
         private bool previousQPressed = false;
         protected TiledMapTileLayer collisionTileLayer;
+        protected TiledMapTileLayer mainTileLayer;
         protected TiledMap tiledMap;
 		protected TiledMapRenderer tiledMapRenderer;
         private string contentPath;
@@ -77,6 +78,7 @@ namespace Platformer
 			tiledMap = content.Load<TiledMap>(contentPath);
 			tiledMapRenderer = new TiledMapRenderer(graphicsDevice, tiledMap);
 			collisionTileLayer = tiledMap.GetLayer<TiledMapTileLayer>("collision");
+            mainTileLayer = tiledMap.GetLayer<TiledMapTileLayer>("tiles");
 		}
 
 		public void AddItem(Item item)
@@ -89,17 +91,21 @@ namespace Platformer
         }
         public bool IsObstacleAt(int x, int y)
         {
-            if (x < 0 || y < 0 || x >= width || y >= height)
+            if (x < 0 || y < 0 || x >= width || y >= height) // Out of bounds
             {
                 return true;
             }
 			TiledMapTile t = collisionTileLayer.GetTile((ushort)x, (ushort)y);
-            return t.GlobalIdentifier != 0;
+            return t.GlobalIdentifier == 22;
 		}
         public bool IsEnemyObstacleAt(int x, int y)
         {
-            // TODO: Finish Check.
-            return false || IsObstacleAt(x, y);
+			if (x < 0 || y < 0 || x >= width || y >= height) // Out of bounds
+			{
+				return true;
+			}
+			TiledMapTile t = collisionTileLayer.GetTile((ushort)x, (ushort)y);
+            return t.GlobalIdentifier == 21 || t.GlobalIdentifier == 22;
         }
         public virtual void Update(KeyboardState state, MouseState mouseState, OrthographicCamera camera, GameTime gameTime)
         {
