@@ -28,8 +28,6 @@ namespace Platformer
         KeyboardState previousKeyboardState;
         private OrthographicCamera camera;
         private PlayerInfoBar playerInfoBar;
-        TiledMap tiledMap;
-        TiledMapRenderer tiledMapRenderer;
 
         public Game1()
         {
@@ -45,10 +43,10 @@ namespace Platformer
             screenGridHeight = (int)(graphics.PreferredBackBufferHeight / 50) + 1;
 
             player = new Player(new Vector2(500, 100), screenWidth, screenHeight);
-            testArea = new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
-            slimeCity = new Locations.SlimeCity(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
-            slimeHut = new Locations.SlimeHut(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
-            testTileLocation = new Locations.TestTileLocation(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
+            testArea = new TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
+            slimeCity = new SlimeCity(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
+            slimeHut = new SlimeHut(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
+            testTileLocation = new TestTileLocation(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
 			testArea.AddPortals();
 			slimeCity.AddPortals();
 			slimeHut.AddPortals();

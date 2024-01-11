@@ -14,43 +14,49 @@ namespace Platformer
 {
     class Player : Entity
     {
-        private static Texture2D swordTexture, projectileTexture;
-        private static Texture2D knightIdle, knightRun, knightJump;
+        private static Texture2D projectileTexture;
         private Location currentLocation;
         private KeyboardState previousKeyboardState;
         public bool swordIsActive = false, scytheIsActive = false;
         private bool swinging = false;
         private bool running = false;
         public Rectangle swordHitBox;
-        private string facing = "right";
-        public string swingFacing = "right";
-        private int projectileCooldown = 0, textureChangeCounter = 0, currentTextureState = 1, swordTextureChangeCounter = 5, currentSwordTextureState = 0, swordOffset;
+        public string facing = "right";
+        private int projectileCooldown = 0, swordOffset;
         private PlayerInventory inventory;
         private EquipmentMenu equipmentMenu;
         private int health, maxHealth, mana, maxMana, xp, xpToLevel;
         private int invulnerableTimer = 0;
         public bool invulnerable = false;
-        private int screenWidth, screenHeight, manaRegenCooldown;
+        private int manaRegenCooldown;
         enum AnimationType
         {
             Running,
             Idle,
-            Jumping
+            Jumping,
+            Attacking,
         }
         private static Dictionary<AnimationType, int> animationFrames = new Dictionary<AnimationType, int>();
+        private static Dictionary<AnimationType, string> animationTextureSources = new Dictionary<AnimationType, string>()
+        {
+            { AnimationType.Running, "knight/Run" },
+            { AnimationType.Idle, "knight/Idle" },
+            { AnimationType.Jumping, "knight/Jump" },
+            { AnimationType.Attacking, "knight/Attack" },
+        };
+        private static Dictionary<AnimationType, Texture2D> animationTextures = new Dictionary<AnimationType, Texture2D>();
 
         private AnimationType currentAnimation = AnimationType.Idle;
         private int currentAnimationFrame = 0;
         private int animationDelay = 5;
         private int animationDelayCounter;
+        private int swingCounter;
 
 		public List<Projectile> Projectiles { get; } = new List<Projectile>();
 
         public Player(Vector2 location, int screenWidth, int screenHeight)
         {
             this.location = location;
-            this.screenWidth = screenWidth;
-            this.screenHeight = screenHeight;
 
             inventory = new PlayerInventory(this, screenWidth, screenHeight);
             equipmentMenu = new EquipmentMenu(this);
@@ -58,7 +64,7 @@ namespace Platformer
             swordHitBox = new Rectangle((int)location.X + width, (int)location.Y, swordOffset, height);
             
 
-            swordOffset = 30;
+            swordOffset = 100;
             height = 40 * 2;
             width = 20 * 2;
             maxHealth = 100;
@@ -73,7 +79,6 @@ namespace Platformer
 
         public static void LoadTextures(ContentManager content, GraphicsDevice graphicsDevice)
         {
-            swordTexture = content.Load<Texture2D>("sword");
             projectileTexture = content.Load<Texture2D>("blue-ball");
             Inventory.LoadTextures(content);
             Inventory.CreateTextures(graphicsDevice);
@@ -82,13 +87,12 @@ namespace Platformer
             PlayerInfoBar.LoadTextures(content);
             InfoBox.CreateTextures(graphicsDevice);
 
-            knightIdle = content.Load<Texture2D>("knight/Idle");
-            knightRun = content.Load<Texture2D>("knight/Run");
-            knightJump = content.Load<Texture2D>("knight/Jump");
-
-            animationFrames.Add(AnimationType.Idle, knightIdle.Width / 120);
-            animationFrames.Add(AnimationType.Running, knightRun.Width / 120);
-            animationFrames.Add(AnimationType.Jumping, knightJump.Width / 120);
+            foreach (KeyValuePair<AnimationType, string> entry in animationTextureSources)
+            {
+                Texture2D texture = content.Load<Texture2D>(entry.Value);
+                animationTextures.Add(entry.Key, texture);
+                animationFrames.Add(entry.Key, texture.Width / 120);
+            }
         }
 
         public void AddToInventory(Item item)
@@ -164,14 +168,14 @@ namespace Platformer
             if (invulnerableTimer > 0)
             {
                 invulnerableTimer--;
-                if (this.state == "hurt" && invulnerableTimer < 80)
+                if (state == "hurt" && invulnerableTimer < 80)
                 {
-                    this.state = "invulnerable";
+                    state = "invulnerable";
                 }
                 if (invulnerableTimer == 0)
                 {
                     invulnerable = false;
-                    this.state = "normal";
+                    state = "normal";
                 }
             }
 
@@ -201,16 +205,9 @@ namespace Platformer
             {
                 Game1.ToggleMenu(equipmentMenu);
             }
-            if (!isFalling && !(keyboardState.IsKeyDown(Keys.A) ^ keyboardState.IsKeyDown(Keys.D))) // if both or neither are pressed, and player is not falling.
+            if (keyboardState.IsKeyDown(Keys.A) ^ keyboardState.IsKeyDown(Keys.D)) // XOR. Either, but not both, pressed.
             {
-                StartAnimation(AnimationType.Idle);
-            }
-            else
-            {
-                if (!isFalling)
-                {
-					StartAnimation(AnimationType.Running);
-				}
+                running = true;
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
                     newLocation.X -= 6;
@@ -221,6 +218,9 @@ namespace Platformer
                     newLocation.X += 6;
                     facing = "right";
                 }
+            } else
+            {
+                running = false;
             }
 
             if (keyboardState.IsKeyDown(Keys.LeftControl))
@@ -239,12 +239,12 @@ namespace Platformer
             }
             if (keyboardState.IsKeyDown(Keys.J) && projectileCooldown == 0 && mana >= 25)
             {
-                if (swingFacing == "right")
+                if (facing == "right")
                 {
                     Projectiles.Add(new Projectile(new Vector2(location.X + (width / 2) - (30 / 2), location.Y + (height / 2) - (30 / 2)),
                         projectileTexture, 10, currentLocation, this));
                 }
-                else if (swingFacing == "left")
+                else if (facing == "left")
                 {
                     Projectiles.Add(new Projectile(new Vector2(location.X + (width / 2) - (30 / 2), location.Y + (height / 2) - (30 / 2)),
                         projectileTexture, -10, currentLocation, this));
@@ -254,47 +254,47 @@ namespace Platformer
             }
             if (keyboardState.IsKeyDown(Keys.F) && !previousKeyboardState.IsKeyDown(Keys.F) && equipmentMenu.GetEquippedItem() != null && swinging == false)
             {
+                swingCounter = 3;
+                swinging = true;
                 if (equipmentMenu.GetEquippedItem().GetItem().GetType() == typeof(Items.SwordItem))
                 {
-                    swinging = true;
-                    swingFacing = facing;
                     swordIsActive = true;
                 }
                 else if (equipmentMenu.GetEquippedItem().GetItem().GetType() == typeof(Items.ScytheItem))
                 {
-                    swinging = true;
-                    swingFacing = facing;
                     scytheIsActive = true;
                 }
             }
             
-
-            if (!swinging)
-            {
-                swingFacing = facing;
-            }
             if (swinging)
             {
-                swordTextureChangeCounter--;
-                if (swordTextureChangeCounter < 0)
+                swingCounter++;
+                if (swingCounter >= animationDelay * animationFrames[AnimationType.Attacking]) // Only play animation once.
                 {
-                    swordTextureChangeCounter = 5;
-                    currentSwordTextureState++;
-                    if (currentSwordTextureState >= 2)
-                    {
-                        swinging = false;
-                        scytheIsActive = false;
-                        swordIsActive = false;
-                        currentSwordTextureState = 0;
-                    }
-                }
+					swinging = false;
+					scytheIsActive = false;
+					swordIsActive = false;
+				}
             }
 
             if (isFalling)
             {
-                StartAnimation(AnimationType.Jumping);
 				newLocation.Y += verticalVelocity;
                 verticalVelocity++;
+            }
+
+            if (swinging)
+            {
+                StartAnimation(AnimationType.Attacking);
+            } else if (isFalling)
+            {
+                StartAnimation(AnimationType.Jumping);
+            } else if (running)
+            {
+                StartAnimation(AnimationType.Running);
+            } else
+            {
+                StartAnimation(AnimationType.Idle);
             }
 
             newHitBox = new Rectangle((int)newLocation.X, (int)newLocation.Y, width, height);
@@ -345,52 +345,23 @@ namespace Platformer
                 projectile.Draw(spriteBatch);
             }
             Rectangle sourceRectangle;
-            if (swinging)
-            {
-                int textureRow = 0;
-                int textureOffset = 0;
-                if (swingFacing == "left")
-                {
-                    textureRow = 1;
-                    textureOffset = swordOffset;
-                }
-                sourceRectangle = new Rectangle(currentSwordTextureState * 130, textureRow * 100, 130, 100);
-                spriteBatch.Draw(swordTexture, new Vector2(location.X - textureOffset, location.Y), sourceRectangle, Color.White);
-            }
 
-            int sourceY = 0;
-            if (state == "hurt")
+			Color tintColor = Color.White;
+			if (state == "hurt")
             {
-                sourceY += 200;
+                tintColor = Color.Red;
             }
             else if (state == "invulnerable")
             {
-                sourceY += 400;
-            }
-            if (swingFacing == "right")
-            {
-                sourceY += 100;
+                tintColor = Color.Gray;
             }
 
             sourceRectangle = new Rectangle(currentAnimationFrame * 120, 0, 120, 80);
 
-            Texture2D texture;
-            switch (currentAnimation)
-            {
-                case AnimationType.Idle:
-                    texture = knightIdle;
-                    break;
-                case AnimationType.Running:
-                    texture = knightRun;
-                    break;
-                case AnimationType.Jumping:
-                    texture = knightJump;
-                    break;
-                default:
-                    texture = knightIdle;
-                    break;
-            }
+            Texture2D texture = animationTextures[currentAnimation];
+
 			spriteBatch.DrawRectangle(location.X, location.Y, width, height, Color.White);
+            
             SpriteEffects effect = SpriteEffects.None;
             int offset = -15;
             if (facing == "left")
@@ -398,8 +369,12 @@ namespace Platformer
                 effect = SpriteEffects.FlipHorizontally;
                 offset = -5;
             }
-            spriteBatch.Draw(texture, new Vector2(location.X, location.Y), sourceRectangle, Color.White, 0, new Vector2((120 / 2) + offset, 80 / 2), 2, effect, 1);
-        }
+            spriteBatch.Draw(texture, new Vector2(location.X, location.Y), sourceRectangle, tintColor, 0, new Vector2((120 / 2) + offset, 80 / 2), 2, effect, 1);
+			if (swinging)
+			{
+				spriteBatch.DrawRectangle(swordHitBox, Color.Red);
+			}
+		}
 
         public void GetHit(string direction, int damage)
         {

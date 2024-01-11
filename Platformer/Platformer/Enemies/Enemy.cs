@@ -39,7 +39,7 @@ namespace Platformer
             }
             else if (player.swordIsActive && Collisions.EntityCollisions(player.swordHitBox, hitBox))
             {
-                GetHit(player, player.swingFacing);
+                GetHit(player, player.facing);
                 player.swordIsActive = false;
             }
             else
