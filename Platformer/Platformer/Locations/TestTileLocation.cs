@@ -18,34 +18,13 @@ namespace Platformer.Locations
 {
 	internal class TestTileLocation : Location
 	{
-		TiledMap tiledMap;
-		TiledMapRenderer tiledMapRenderer;
+		
 		public TestTileLocation(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice)
 			: base(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, graphicsDevice)
 		{
 			height = 20;
 			width = 30;
-		}
-		public override void Draw(SpriteBatch spriteBatch, OrthographicCamera camera)
-		{
-			/*
-			for (int i = 0; i < tiles.Length; i++)
-			{
-				for (int j = 0; j < tiles[i].Length; j++)
-				{
-					if (tiles[i][j].isTextured)
-					{
-						tiles[i][j].Draw(spriteBatch);
-					}
-				}
-			}
-			portals.ForEach(portal => portal.Draw(spriteBatch));
-			NPCList.ForEach(npc => npc.Draw(spriteBatch));
-			enemies.ForEach(enemy => enemy.Draw(spriteBatch));
-			items.ForEach(item => item.Draw(spriteBatch));
-			*/
-			tiledMapRenderer.Draw(camera.GetViewMatrix());
-			// player.Draw(spriteBatch);
+			NPCList.Add(new NPCs.Wizard(new Vector2(300, 300), this, screenWidth, screenHeight, player));
 		}
 		public override void AddPortals()
 		{
@@ -55,6 +34,8 @@ namespace Platformer.Locations
 			tiledMap = content.Load<TiledMap>("tiled-maps/tiled-map-test");
 			tiledMapRenderer = new TiledMapRenderer(graphicsDevice, tiledMap);
 			collisionTileLayer = tiledMap.GetLayer<TiledMapTileLayer>("collision");
+			DialogBox.LoadTextures(content);
+			NPCs.Wizard.LoadTextures(content);
 		}
 		public override void Update(KeyboardState state, MouseState mouseState, OrthographicCamera camera, GameTime gameTime)
 		{

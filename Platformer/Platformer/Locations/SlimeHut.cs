@@ -69,7 +69,7 @@ namespace Platformer.Locations
             DialogBox.LoadTextures(content);
             Tiles.SlimeBlock.LoadTextures(content);
             Tiles.BrickWall.LoadTextures(content);
-            NPCs.Wizard.LoadTextures(content);
+			NPCs.Wizard.LoadTextures(content);
         }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
+using MonoGame.Extended.Tiled.Renderers;
 
 namespace Platformer
 {
@@ -24,6 +25,8 @@ namespace Platformer
         protected GraphicsDevice graphicsDevice;
         private bool previousQPressed = false;
         protected TiledMapTileLayer collisionTileLayer;
+        protected TiledMap tiledMap;
+		protected TiledMapRenderer tiledMapRenderer;
 
 
 		public Location(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice)
@@ -60,6 +63,7 @@ namespace Platformer
         }
         public virtual void Draw(SpriteBatch spriteBatch, OrthographicCamera camera)
         {
+			/*
             for (int i = 0; i < tiles.Length; i++)
             {
                 for (int j = 0; j < tiles[i].Length; j++)
@@ -75,7 +79,12 @@ namespace Platformer
             enemies.ForEach(enemy => enemy.Draw(spriteBatch));
             items.ForEach(item => item.Draw(spriteBatch));
             player.Draw(spriteBatch);
-        }
+            */
+            NPCList.ForEach(npc => npc.Draw(spriteBatch));
+            enemies.ForEach(enemy => enemy.Draw(spriteBatch));
+            items.ForEach(item => item.Draw(spriteBatch));
+			tiledMapRenderer.Draw(camera.GetViewMatrix());
+		}
 
         abstract public void LoadTextures(ContentManager content);
         public void AddItem(Item item)
@@ -99,15 +108,14 @@ namespace Platformer
         public virtual void Update(KeyboardState state, MouseState mouseState, OrthographicCamera camera, GameTime gameTime)
         {
             player.Update(state, this, mouseState);
-            /*
             for (int i = enemies.Count - 1; i >= 0; i--) // updating may cause enemy to be removed, so iterate backwards.
             {
-                enemies[i].Update(player, tiles);
+                enemies[i].Update(player, this);
             }
             spawners.ForEach(spawner => spawner.Update(enemies));
-            items.ForEach(item => item.Update(state, tiles));
-            NPCList.ForEach(npc => npc.Update(state, tiles, mouseState));
-            
+            items.ForEach(item => item.Update(state, this));
+            NPCList.ForEach(npc => npc.Update(state, this, mouseState));
+            /*
             foreach (Tile[] row in tiles)
             {
                 foreach (Tile tile in row)
@@ -118,6 +126,7 @@ namespace Platformer
                     }
                 }
             }
+            */
             if (state.IsKeyDown(Keys.Q) && !previousQPressed)
             {
                 foreach(NPC character in NPCList)
@@ -145,9 +154,8 @@ namespace Platformer
                     items.Add(item);
                 }
             }
-            */
 
-            Vector2 playerScreenLocation = camera.WorldToScreen(player.location.X, player.location.Y);
+			Vector2 playerScreenLocation = camera.WorldToScreen(player.location.X, player.location.Y);
             if (playerScreenLocation.X > screenWidth - 500)
             {
                 camera.Move(new Vector2(playerScreenLocation.X - (screenWidth - 500), 0));
