@@ -18,43 +18,20 @@ namespace Platformer.Locations
 {
 	internal class TestTileLocation : Location
 	{
-		TiledMap tiledMap;
-		TiledMapRenderer tiledMapRenderer;
+		private static string contentPath = "tiled-maps/tiled-map-test";
 		public TestTileLocation(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice)
-			: base(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, graphicsDevice)
+			: base(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, graphicsDevice, contentPath)
 		{
 			height = 20;
 			width = 30;
-		}
-		public override void Draw(SpriteBatch spriteBatch, OrthographicCamera camera)
-		{
-			/*
-			for (int i = 0; i < tiles.Length; i++)
-			{
-				for (int j = 0; j < tiles[i].Length; j++)
-				{
-					if (tiles[i][j].isTextured)
-					{
-						tiles[i][j].Draw(spriteBatch);
-					}
-				}
-			}
-			portals.ForEach(portal => portal.Draw(spriteBatch));
-			NPCList.ForEach(npc => npc.Draw(spriteBatch));
-			enemies.ForEach(enemy => enemy.Draw(spriteBatch));
-			items.ForEach(item => item.Draw(spriteBatch));
-			*/
-			tiledMapRenderer.Draw(camera.GetViewMatrix());
-			// player.Draw(spriteBatch);
+			NPCList.Add(new NPCs.Wizard(new Vector2(300, 100), this, screenWidth, screenHeight, player));
 		}
 		public override void AddPortals()
 		{
-		}
-		override public void LoadTextures(ContentManager content)
-		{
-			tiledMap = content.Load<TiledMap>("tiled-maps/tiled-map-test");
-			tiledMapRenderer = new TiledMapRenderer(graphicsDevice, tiledMap);
-			collisionTileLayer = tiledMap.GetLayer<TiledMapTileLayer>("collision");
+			portals.Add(new Portal(4, 5, this, 25, 5));
+			portals.Add(new Portal(25, 5, this, 4, 5));
+
+			portals.Add(new Portal(14, 3, Game1.slimeCity, 45, 26));
 		}
 		public override void Update(KeyboardState state, MouseState mouseState, OrthographicCamera camera, GameTime gameTime)
 		{

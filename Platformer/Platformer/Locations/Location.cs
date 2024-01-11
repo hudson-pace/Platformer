@@ -6,14 +6,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
+using MonoGame.Extended.Tiled.Renderers;
 
 namespace Platformer
 {
     abstract class Location
     {
-        public Tile[][] tiles;
         protected List<Enemy> enemies = new List<Enemy>();
         protected List<Spawner> spawners = new List<Spawner>();
+        protected List<EntitySpawner> entitySpawners = new List<EntitySpawner>();
         protected List<NPC> NPCList = new List<NPC>();
         protected List<Item> items = new List<Item>();
         protected List<Portal> portals = new List<Portal>();
@@ -24,9 +25,13 @@ namespace Platformer
         protected GraphicsDevice graphicsDevice;
         private bool previousQPressed = false;
         protected TiledMapTileLayer collisionTileLayer;
+        protected TiledMapTileLayer mainTileLayer;
+        protected TiledMap tiledMap;
+		protected TiledMapRenderer tiledMapRenderer;
+        private string contentPath;
 
 
-		public Location(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice)
+		public Location(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice, string contentPath)
         {
             this.player = player;
             this.screenGridWidth = screenGridWidth;
@@ -34,16 +39,10 @@ namespace Platformer
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
             this.graphicsDevice = graphicsDevice;
-        }
+            this.contentPath = contentPath;
+		}
         public abstract void AddPortals();
         
-        public void AddTile(Tile tile, int x, int y)
-        {
-            if (tiles[x][y].GetName() == "empty")
-            {
-                tiles[x][y] = tile;
-            }
-        }
         public Vector2 GetSpawnPoint()
         {
             return spawnPoint;
@@ -60,25 +59,21 @@ namespace Platformer
         }
         public virtual void Draw(SpriteBatch spriteBatch, OrthographicCamera camera)
         {
-            for (int i = 0; i < tiles.Length; i++)
-            {
-                for (int j = 0; j < tiles[i].Length; j++)
-                {
-                    if (tiles[i][j].isTextured)
-                    {
-                        tiles[i][j].Draw(spriteBatch);
-                    }
-                }
-            }
-            portals.ForEach(portal => portal.Draw(spriteBatch));
             NPCList.ForEach(npc => npc.Draw(spriteBatch));
             enemies.ForEach(enemy => enemy.Draw(spriteBatch));
             items.ForEach(item => item.Draw(spriteBatch));
-            player.Draw(spriteBatch);
-        }
+			tiledMapRenderer.Draw(camera.GetViewMatrix());
+            entitySpawners.ForEach(spawner => spawner.Draw(spriteBatch));
+		}
+		public void LoadTextures(ContentManager content)
+		{
+			tiledMap = content.Load<TiledMap>(contentPath);
+			tiledMapRenderer = new TiledMapRenderer(graphicsDevice, tiledMap);
+			collisionTileLayer = tiledMap.GetLayer<TiledMapTileLayer>("collision");
+            mainTileLayer = tiledMap.GetLayer<TiledMapTileLayer>("tiles");
+		}
 
-        abstract public void LoadTextures(ContentManager content);
-        public void AddItem(Item item)
+		public void AddItem(Item item)
         {
             items.Add(item);
         }
@@ -88,37 +83,35 @@ namespace Platformer
         }
         public bool IsObstacleAt(int x, int y)
         {
+            if (x < 0 || y < 0 || x >= width || y >= height) // Out of bounds
+            {
+                return true;
+            }
 			TiledMapTile t = collisionTileLayer.GetTile((ushort)x, (ushort)y);
-            return t.GlobalIdentifier != 0;
+            return t.GlobalIdentifier == 22;
 		}
         public bool IsEnemyObstacleAt(int x, int y)
         {
-            // TODO: Finish Check.
-            return false || IsObstacleAt(x, y);
+			if (x < 0 || y < 0 || x >= width || y >= height) // Out of bounds
+			{
+				return true;
+			}
+			TiledMapTile t = collisionTileLayer.GetTile((ushort)x, (ushort)y);
+            return t.GlobalIdentifier == 21 || t.GlobalIdentifier == 22;
         }
         public virtual void Update(KeyboardState state, MouseState mouseState, OrthographicCamera camera, GameTime gameTime)
         {
             player.Update(state, this, mouseState);
-            /*
             for (int i = enemies.Count - 1; i >= 0; i--) // updating may cause enemy to be removed, so iterate backwards.
             {
-                enemies[i].Update(player, tiles);
+                enemies[i].Update(player, this);
             }
             spawners.ForEach(spawner => spawner.Update(enemies));
-            items.ForEach(item => item.Update(state, tiles));
-            NPCList.ForEach(npc => npc.Update(state, tiles, mouseState));
-            
-            foreach (Tile[] row in tiles)
-            {
-                foreach (Tile tile in row)
-                {
-                    if (tile is Tiles.UpdatableTile)
-                    {
-                        ((Tiles.UpdatableTile)tile).Update(player);
-                    }
-                }
-            }
-            if (state.IsKeyDown(Keys.Q) && !previousQPressed)
+            items.ForEach(item => item.Update(state, this));
+            NPCList.ForEach(npc => npc.Update(state, this, mouseState));
+			entitySpawners.ForEach(spawner => spawner.Update(player));
+
+			if (state.IsKeyDown(Keys.Q) && !previousQPressed)
             {
                 foreach(NPC character in NPCList)
                 {
@@ -145,9 +138,8 @@ namespace Platformer
                     items.Add(item);
                 }
             }
-            */
 
-            Vector2 playerScreenLocation = camera.WorldToScreen(player.location.X, player.location.Y);
+			Vector2 playerScreenLocation = camera.WorldToScreen(player.location.X, player.location.Y);
             if (playerScreenLocation.X > screenWidth - 500)
             {
                 camera.Move(new Vector2(playerScreenLocation.X - (screenWidth - 500), 0));
@@ -166,48 +158,23 @@ namespace Platformer
                 camera.Move(new Vector2(0, (-1 * (300 - playerScreenLocation.Y))));
             }
 
-            if (camera.Position.X < 50)
+            if (camera.Position.X < 0)
             {
-                camera.Move(new Vector2((-1 * camera.Position.X) + 50, 0));
+                camera.Move(new Vector2(-1 * camera.Position.X, 0));
             }
-            else if (camera.Position.X > ((width - 1) * 50) - camera.BoundingRectangle.Width)
+            else if (camera.Position.X > (width * 50) - camera.BoundingRectangle.Width)
             {
-                camera.Move(new Vector2((((width - 1) * 50) - camera.BoundingRectangle.Width) - camera.Position.X, 0));
+                camera.Move(new Vector2(((width * 50) - camera.BoundingRectangle.Width) - camera.Position.X, 0));
             }
 
-            if (camera.Position.Y < 50)
+            if (camera.Position.Y < 0)
             {
-                camera.Move(new Vector2(0, (-1 * camera.Position.Y) + 50));
+                camera.Move(new Vector2(0, -1 * camera.Position.Y));
             }
-            else if (camera.Position.Y > ((height - 1) * 50) - camera.BoundingRectangle.Height)
+            else if (camera.Position.Y > (height * 50) - camera.BoundingRectangle.Height)
             {
-                camera.Move(new Vector2(0, (((height - 1) * 50) - camera.BoundingRectangle.Height) - camera.Position.Y));
+                camera.Move(new Vector2(0, ((height * 50) - camera.BoundingRectangle.Height) - camera.Position.Y));
             }
-        }
-
-        public void AddBorder()
-        {
-            tiles = new Tile[width][];
-            for (int i = 0; i < width; i++)
-            {
-                tiles[i] = new Tile[height];
-                for (int j = 0; j < height; j++)
-                {
-                    if ((j == height - 1) || (j == 0) || (i == 0) || (i == width - 1))
-                    {
-                        tiles[i][j] = new Tiles.InvisibleBarrier(i, j, this);
-                    }
-                    else
-                    {
-                        tiles[i][j] = new Tiles.Empty(i, j, this);
-                    }
-                }
-            }
-        }
-
-        public void ReplaceTile(int x, int y, Tile newTile)
-        {
-            tiles[x][y] = newTile;
         }
     }
 }

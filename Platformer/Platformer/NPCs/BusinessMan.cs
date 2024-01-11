@@ -59,10 +59,11 @@ namespace Platformer.NPCs
         {
             if (isFalling)
             {
-                newLocation.Y++;
+                newLocation.Y += 3;
                 Collisions.CollideWithTiles(l, this);
                 location = newLocation;
-            }
+				hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
+			}
 
             /*if (dialogBox != null)
             {
