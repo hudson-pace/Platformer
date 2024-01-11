@@ -26,7 +26,7 @@ namespace Platformer.Locations
 			height = 20;
 			width = 30;
 		}
-		public override void Draw(SpriteBatch spriteBatch)
+		public override void Draw(SpriteBatch spriteBatch, OrthographicCamera camera)
 		{
 			/*
 			for (int i = 0; i < tiles.Length; i++)
@@ -44,7 +44,7 @@ namespace Platformer.Locations
 			enemies.ForEach(enemy => enemy.Draw(spriteBatch));
 			items.ForEach(item => item.Draw(spriteBatch));
 			*/
-			tiledMapRenderer.Draw();
+			tiledMapRenderer.Draw(camera.GetViewMatrix());
 			// player.Draw(spriteBatch);
 		}
 		public override void AddPortals()

@@ -58,7 +58,7 @@ namespace Platformer
         {
             return portals;
         }
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch, OrthographicCamera camera)
         {
             for (int i = 0; i < tiles.Length; i++)
             {
@@ -145,6 +145,7 @@ namespace Platformer
                     items.Add(item);
                 }
             }
+            */
 
             Vector2 playerScreenLocation = camera.WorldToScreen(player.location.X, player.location.Y);
             if (playerScreenLocation.X > screenWidth - 500)
@@ -182,8 +183,6 @@ namespace Platformer
             {
                 camera.Move(new Vector2(0, (((height - 1) * 50) - camera.BoundingRectangle.Height) - camera.Position.Y));
             }
-            */
-            
         }
 
         public void AddBorder()

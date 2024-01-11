@@ -185,11 +185,12 @@ namespace Platformer
 
             spriteBatch.Begin(transformMatrix: camera.GetViewMatrix());
             // player.GetCurrentLocation().Draw(spriteBatch);
-            testTileLocation.Draw(spriteBatch);
+            ((TestTileLocation)testTileLocation).Draw(spriteBatch, camera);
 
-            spriteBatch.End();
+			player.Draw(spriteBatch);
+
+			spriteBatch.End();
             spriteBatch.Begin();
-            player.Draw(spriteBatch);
             playerInfoBar.Draw(spriteBatch);
             foreach (Menu menu in menuList)
             {
