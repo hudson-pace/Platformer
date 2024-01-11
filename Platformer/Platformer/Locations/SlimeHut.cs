@@ -19,7 +19,7 @@ namespace Platformer.Locations
         {
             height = 17;
             width = 28;
-            NPCList.Add(new NPCs.Wizard(new Vector2(750, 600), this, screenWidth, screenHeight, player));
+            NPCList.Add(new NPCs.Wizard(new Vector2(800, 600), this, screenWidth, screenHeight, player));
             spawnPoint = new Vector2(60, 60);
         }
 

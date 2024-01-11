@@ -14,11 +14,13 @@ namespace Platformer
 {
     class Player : Entity
     {
-        private static Texture2D swordTexture, projectileTexture, megamanTexture;
+        private static Texture2D swordTexture, projectileTexture;
+        private static Texture2D knightIdle, knightRun, knightJump;
         private Location currentLocation;
         private KeyboardState previousKeyboardState;
         public bool swordIsActive = false, scytheIsActive = false;
         private bool swinging = false;
+        private bool running = false;
         public Rectangle swordHitBox;
         private string facing = "right";
         public string swingFacing = "right";
@@ -29,8 +31,20 @@ namespace Platformer
         private int invulnerableTimer = 0;
         public bool invulnerable = false;
         private int screenWidth, screenHeight, manaRegenCooldown;
+        enum AnimationType
+        {
+            Running,
+            Idle,
+            Jumping
+        }
+        private static Dictionary<AnimationType, int> animationFrames = new Dictionary<AnimationType, int>();
 
-        public List<Projectile> Projectiles { get; } = new List<Projectile>();
+        private AnimationType currentAnimation = AnimationType.Idle;
+        private int currentAnimationFrame = 0;
+        private int animationDelay = 5;
+        private int animationDelayCounter;
+
+		public List<Projectile> Projectiles { get; } = new List<Projectile>();
 
         public Player(Vector2 location, int screenWidth, int screenHeight)
         {
@@ -45,27 +59,36 @@ namespace Platformer
             
 
             swordOffset = 30;
-            height = 100;
-            width = 100;
+            height = 40 * 2;
+            width = 20 * 2;
             maxHealth = 100;
             health = maxHealth;
             maxMana = 50;
             mana = maxMana;
             xpToLevel = 100;
             xp = 0;
+
+            animationDelayCounter = animationDelay;
         }
 
         public static void LoadTextures(ContentManager content, GraphicsDevice graphicsDevice)
         {
             swordTexture = content.Load<Texture2D>("sword");
             projectileTexture = content.Load<Texture2D>("blue-ball");
-            megamanTexture = content.Load<Texture2D>("megaman");
             Inventory.LoadTextures(content);
             Inventory.CreateTextures(graphicsDevice);
             EquipmentMenu.CreateTextures(graphicsDevice);
             PlayerInfoBar.CreateTextures(graphicsDevice);
             PlayerInfoBar.LoadTextures(content);
             InfoBox.CreateTextures(graphicsDevice);
+
+            knightIdle = content.Load<Texture2D>("knight/Idle");
+            knightRun = content.Load<Texture2D>("knight/Run");
+            knightJump = content.Load<Texture2D>("knight/Jump");
+
+            animationFrames.Add(AnimationType.Idle, knightIdle.Width / 120);
+            animationFrames.Add(AnimationType.Running, knightRun.Width / 120);
+            animationFrames.Add(AnimationType.Jumping, knightJump.Width / 120);
         }
 
         public void AddToInventory(Item item)
@@ -126,7 +149,17 @@ namespace Platformer
         }
         public void Update(KeyboardState keyboardState, Location l, MouseState mouseState)
         {
-            newLocation = location;
+            animationDelayCounter--;
+			if (animationDelayCounter <= 0)
+			{
+				currentAnimationFrame++;
+				if (currentAnimationFrame >= animationFrames[currentAnimation])
+				{
+					currentAnimationFrame = 0;
+				}
+				animationDelayCounter = animationDelay;
+			}
+			newLocation = location;
 
             if (invulnerableTimer > 0)
             {
@@ -168,38 +201,24 @@ namespace Platformer
             {
                 Game1.ToggleMenu(equipmentMenu);
             }
-            if (!(keyboardState.IsKeyDown(Keys.A) ^ keyboardState.IsKeyDown(Keys.D))) // if both or neither are pressed
+            if (!isFalling && !(keyboardState.IsKeyDown(Keys.A) ^ keyboardState.IsKeyDown(Keys.D))) // if both or neither are pressed, and player is not falling.
             {
-                textureChangeCounter = 5;
-                currentTextureState = 1;
+                StartAnimation(AnimationType.Idle);
             }
             else
             {
-                if (textureChangeCounter <= 0)
+                if (!isFalling)
                 {
-                    currentTextureState++;
-                    if (currentTextureState > 2)
-                    {
-                        currentTextureState = 0;
-                    }
-                    textureChangeCounter = 5;
-                }
+					StartAnimation(AnimationType.Running);
+				}
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
-                    if (previousKeyboardState.IsKeyDown(Keys.A) && !isFalling)
-                    {
-                        textureChangeCounter--;
-                    }
-                    newLocation.X -= 4;
+                    newLocation.X -= 6;
                     facing = "left";
                 }
                 if (keyboardState.IsKeyDown(Keys.D))
                 {
-                    if (previousKeyboardState.IsKeyDown(Keys.D) && !isFalling)
-                    {
-                        textureChangeCounter--;
-                    }
-                    newLocation.X += 4;
+                    newLocation.X += 6;
                     facing = "right";
                 }
             }
@@ -273,7 +292,8 @@ namespace Platformer
 
             if (isFalling)
             {
-                newLocation.Y += verticalVelocity;
+                StartAnimation(AnimationType.Jumping);
+				newLocation.Y += verticalVelocity;
                 verticalVelocity++;
             }
 
@@ -352,14 +372,36 @@ namespace Platformer
                 sourceY += 100;
             }
 
-            sourceRectangle = new Rectangle(currentTextureState * 100, sourceY, 100, 100);
+            sourceRectangle = new Rectangle(currentAnimationFrame * 120, 0, 120, 80);
 
-            //spriteBatch.Draw(megamanTexture, new Vector2(location.X - offsetX, location.Y - offsetY), sourceRectangle, Color.White);
-            spriteBatch.Draw(megamanTexture, new Vector2(location.X, location.Y), sourceRectangle, Color.White);
-
+            Texture2D texture;
+            switch (currentAnimation)
+            {
+                case AnimationType.Idle:
+                    texture = knightIdle;
+                    break;
+                case AnimationType.Running:
+                    texture = knightRun;
+                    break;
+                case AnimationType.Jumping:
+                    texture = knightJump;
+                    break;
+                default:
+                    texture = knightIdle;
+                    break;
+            }
+			spriteBatch.DrawRectangle(location.X, location.Y, width, height, Color.White);
+            SpriteEffects effect = SpriteEffects.None;
+            int offset = -15;
+            if (facing == "left")
+            {
+                effect = SpriteEffects.FlipHorizontally;
+                offset = -5;
+            }
+            spriteBatch.Draw(texture, new Vector2(location.X, location.Y), sourceRectangle, Color.White, 0, new Vector2((120 / 2) + offset, 80 / 2), 2, effect, 1);
         }
 
-        public void GetHit(String direction, int damage)
+        public void GetHit(string direction, int damage)
         {
             invulnerableTimer = 100;
             invulnerable = true;
@@ -409,6 +451,15 @@ namespace Platformer
         public void RemoveProjectile(Projectile projectile)
         {
             Projectiles.Remove(projectile);
+        }
+
+        private void StartAnimation(AnimationType animationType)
+        {
+            if (currentAnimation != animationType)
+            {
+                currentAnimation = animationType;
+                currentAnimationFrame = 0;
+            }
         }
     }
 }

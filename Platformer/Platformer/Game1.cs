@@ -54,7 +54,7 @@ namespace Platformer
 			slimeHut.AddPortals();
             testTileLocation.AddPortals();
 
-			player.Travel(testArea, new Vector2(1000, 200));
+			player.Travel(slimeCity, new Vector2(800, 500));
 
 			menuList = new List<Menu>();
 
