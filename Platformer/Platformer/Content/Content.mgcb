@@ -26,18 +26,6 @@
 /processorParam:TextureFormat=Color
 /build:blue-ball.png
 
-#begin brick-wall.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:brick-wall.png
-
 #begin business-man.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -61,18 +49,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:copper-coin.png
-
-#begin dirt.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:dirt.png
 
 #begin door.png
 /importer:TextureImporter

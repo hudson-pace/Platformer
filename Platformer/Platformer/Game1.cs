@@ -95,39 +95,42 @@ namespace Platformer
         /// </summary>
         protected override void LoadContent()
         {
-            // tiledMap = Content.Load<TiledMap>("tiled/samplemap");
-            // tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, tiledMap);
-            testTileLocation.LoadTextures(Content);
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
-            // spriteBatch.Begin();
-            // spriteBatch.End();
 
             var viewportAdapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1280, 720);
             camera = new OrthographicCamera(viewportAdapter);
 
-            // TODO: use this.Content to load your game content here
-
             Player.LoadTextures(Content, GraphicsDevice);
 
-            // player.GetCurrentLocation().LoadTextures(Content);
             testArea.LoadTextures(Content);
             slimeCity.LoadTextures(Content);
             slimeHut.LoadTextures(Content);
-            InfoBox.LoadTextures(Content);
+			testTileLocation.LoadTextures(Content);
+
+			InfoBox.LoadTextures(Content);
             InventoryItem.LoadTextures(Content);
-            // Tiles.Wall.LoadTextures(Content);
 
             font = Content.Load<SpriteFont>("NPCText");
 
             ItemManager.LoadTextures(Content);
-        }
+			DialogBox.LoadTextures(Content);
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
-        protected override void UnloadContent()
+			NPCs.Wizard.LoadTextures(Content);
+			NPCs.BusinessMan.LoadTextures(Content);
+
+			Enemies.SlimeDrip.LoadTextures(Content);
+			Enemies.SlimeRegular.LoadTextures(Content);
+			Enemies.Snail.LoadTextures(Content);
+
+			// Tiles.Plant.LoadTextures(Content);
+		}
+
+		/// <summary>
+		/// UnloadContent will be called once per game and is the place to unload
+		/// game-specific content.
+		/// </summary>
+		protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
         }
@@ -143,7 +146,6 @@ namespace Platformer
             MouseState mouseState = Mouse.GetState();
            
             player.GetCurrentLocation().Update(keyboardState, mouseState, camera, gameTime);
-			// testTileLocation.Update(keyboardState, mouseState, camera, gameTime);
 
 			if (keyboardState.IsKeyDown(Keys.Escape) && !previousKeyboardState.IsKeyDown(Keys.Escape) && menuList.Count > 0)
             {
@@ -163,7 +165,6 @@ namespace Platformer
             previousKeyboardState = keyboardState;
             playerInfoBar.Update();
             
-			// tiledMapRenderer.Update(gameTime);
 			base.Update(gameTime);
         }
 
@@ -186,7 +187,6 @@ namespace Platformer
 
             spriteBatch.Begin(transformMatrix: camera.GetViewMatrix());
             player.GetCurrentLocation().Draw(spriteBatch, camera);
-            // ((TestTileLocation)testTileLocation).Draw(spriteBatch, camera);
 
 			player.Draw(spriteBatch);
 
@@ -199,9 +199,6 @@ namespace Platformer
             }
             spriteBatch.DrawString(font, "time: " + time, new Vector2(10, 10), Color.White);
             spriteBatch.End();
-
-            // GraphicsDevice.Clear(Color.Black);
-            // tiledMapRenderer.Draw();
 
             base.Draw(gameTime);
         }

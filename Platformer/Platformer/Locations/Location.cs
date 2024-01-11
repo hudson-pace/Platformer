@@ -27,9 +27,10 @@ namespace Platformer
         protected TiledMapTileLayer collisionTileLayer;
         protected TiledMap tiledMap;
 		protected TiledMapRenderer tiledMapRenderer;
+        private string contentPath;
 
 
-		public Location(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice)
+		public Location(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice, string contentPath)
         {
             this.player = player;
             this.screenGridWidth = screenGridWidth;
@@ -37,7 +38,8 @@ namespace Platformer
             this.screenWidth = screenWidth;
             this.screenHeight = screenHeight;
             this.graphicsDevice = graphicsDevice;
-        }
+            this.contentPath = contentPath;
+		}
         public abstract void AddPortals();
         
         public void AddTile(Tile tile, int x, int y)
@@ -63,31 +65,19 @@ namespace Platformer
         }
         public virtual void Draw(SpriteBatch spriteBatch, OrthographicCamera camera)
         {
-			/*
-            for (int i = 0; i < tiles.Length; i++)
-            {
-                for (int j = 0; j < tiles[i].Length; j++)
-                {
-                    if (tiles[i][j].isTextured)
-                    {
-                        tiles[i][j].Draw(spriteBatch);
-                    }
-                }
-            }
-            portals.ForEach(portal => portal.Draw(spriteBatch));
-            NPCList.ForEach(npc => npc.Draw(spriteBatch));
-            enemies.ForEach(enemy => enemy.Draw(spriteBatch));
-            items.ForEach(item => item.Draw(spriteBatch));
-            player.Draw(spriteBatch);
-            */
             NPCList.ForEach(npc => npc.Draw(spriteBatch));
             enemies.ForEach(enemy => enemy.Draw(spriteBatch));
             items.ForEach(item => item.Draw(spriteBatch));
 			tiledMapRenderer.Draw(camera.GetViewMatrix());
 		}
+		public void LoadTextures(ContentManager content)
+		{
+			tiledMap = content.Load<TiledMap>(contentPath);
+			tiledMapRenderer = new TiledMapRenderer(graphicsDevice, tiledMap);
+			collisionTileLayer = tiledMap.GetLayer<TiledMapTileLayer>("collision");
+		}
 
-        abstract public void LoadTextures(ContentManager content);
-        public void AddItem(Item item)
+		public void AddItem(Item item)
         {
             items.Add(item);
         }
@@ -194,26 +184,6 @@ namespace Platformer
             else if (camera.Position.Y > (height * 50) - camera.BoundingRectangle.Height)
             {
                 camera.Move(new Vector2(0, ((height * 50) - camera.BoundingRectangle.Height) - camera.Position.Y));
-            }
-        }
-
-        public void AddBorder()
-        {
-            tiles = new Tile[width][];
-            for (int i = 0; i < width; i++)
-            {
-                tiles[i] = new Tile[height];
-                for (int j = 0; j < height; j++)
-                {
-                    if ((j == height - 1) || (j == 0) || (i == 0) || (i == width - 1))
-                    {
-                        tiles[i][j] = new Tiles.InvisibleBarrier(i, j, this);
-                    }
-                    else
-                    {
-                        tiles[i][j] = new Tiles.Empty(i, j, this);
-                    }
-                }
             }
         }
 
