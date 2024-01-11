@@ -1,0 +1,48 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "tiled-map-test.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "basic_tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "collision.tsx": {
+            "scaleInDock": 1
+        },
+        "slime-city.tmx": {
+            "scale": 0.6495624999999999,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 1300.8755893389784,
+                "y": 747.426152217839
+            }
+        },
+        "tiled-map-test.tmx": {
+            "scale": 0.6928666666666666,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 701.4336572693159,
+                "y": 572.9818146829597
+            }
+        }
+    },
+    "map.height": 30,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 50,
+    "map.tileWidth": 50,
+    "map.width": 50,
+    "openFiles": [
+        "slime-city.tmx",
+        "tiled-map-test.tmx"
+    ],
+    "project": "platformer-maps.tiled-project",
+    "recentFiles": [
+        "slime-city.tmx",
+        "tiled-map-test.tmx"
+    ]
+}

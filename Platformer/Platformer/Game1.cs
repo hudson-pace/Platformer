@@ -46,14 +46,14 @@ namespace Platformer
 
             player = new Player(new Vector2(500, 100), screenWidth, screenHeight);
             // testArea = new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
-            // slimeCity = new Locations.SlimeCity(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
+            slimeCity = new Locations.SlimeCity(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
             // slimeHut = new Locations.SlimeHut(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
             testTileLocation = new Locations.TestTileLocation(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
 			// testArea.AddPortals();
-			// slimeCity.AddPortals();
+			slimeCity.AddPortals();
 			// slimeHut.AddPortals();
 
-			player.Travel(testTileLocation, new Vector2(500, 100));
+			player.Travel(testTileLocation, new Vector2(100, 100));
 
 			menuList = new List<Menu>();
 
@@ -111,7 +111,7 @@ namespace Platformer
 
             // player.GetCurrentLocation().LoadTextures(Content);
             // testArea.LoadTextures(Content);
-            // slimeCity.LoadTextures(Content);
+            slimeCity.LoadTextures(Content);
             // slimeHut.LoadTextures(Content);
             InfoBox.LoadTextures(Content);
             InventoryItem.LoadTextures(Content);
@@ -140,9 +140,9 @@ namespace Platformer
         {
             KeyboardState keyboardState = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
-            
-            // player.GetCurrentLocation().Update(keyboardState, mouseState, camera);
-			testTileLocation.Update(keyboardState, mouseState, camera, gameTime);
+           
+            player.GetCurrentLocation().Update(keyboardState, mouseState, camera, gameTime);
+			// testTileLocation.Update(keyboardState, mouseState, camera, gameTime);
 
 			if (keyboardState.IsKeyDown(Keys.Escape) && !previousKeyboardState.IsKeyDown(Keys.Escape) && menuList.Count > 0)
             {
@@ -184,8 +184,8 @@ namespace Platformer
             // TODO: Add your drawing code here
 
             spriteBatch.Begin(transformMatrix: camera.GetViewMatrix());
-            // player.GetCurrentLocation().Draw(spriteBatch);
-            ((TestTileLocation)testTileLocation).Draw(spriteBatch, camera);
+            player.GetCurrentLocation().Draw(spriteBatch, camera);
+            // ((TestTileLocation)testTileLocation).Draw(spriteBatch, camera);
 
 			player.Draw(spriteBatch);
 

@@ -470,6 +470,11 @@
 /processor:TiledMapTilesetProcessor
 /build:tiled-maps/collision.tsx
 
+#begin tiled-maps/slime-city.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:tiled-maps/slime-city.tmx
+
 #begin tiled-maps/tiled-map-test.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor

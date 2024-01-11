@@ -61,7 +61,7 @@ namespace Platformer.Locations
 
         public override void AddPortals()
         {
-            portals.Add(new Portal(new Vector2(100, 600), Game1.slimeCity, new Vector2(1300, 1300), this));
+            portals.Add(new Portal(2, 12, Game1.slimeCity, new Vector2(1300, 1300), this));
         }
         override public void LoadTextures(ContentManager content)
         {

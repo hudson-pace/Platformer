@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Tiled.Renderers;
+using MonoGame.Extended.Tiled;
+using System.Reflection.Metadata;
 
 namespace Platformer.Locations
 {
@@ -17,6 +20,8 @@ namespace Platformer.Locations
         {
             height = 30;
             width = 50;
+
+			/*
             AddBorder();
 
             int i = height - 2;
@@ -106,28 +111,39 @@ namespace Platformer.Locations
             tiles[33][i - 7] = new Tiles.SlimeBlock(33, i - 7, 9, this);
             tiles[33][i - 8] = new Tiles.SlimeBlock(33, i - 8, 5, this);
 
-            
+            */
 
-            List<Enemy> enemyList = new List<Enemy>();
+			
+
+			List<Enemy> enemyList = new List<Enemy>();
             enemyList.Add(new Enemies.SlimeDrip(new Vector2(0, 0), this, null, 5));
-            spawners.Add(new Spawner(new Vector2(450, (i - 1) * 50), enemyList, this));
+            spawners.Add(new Spawner(new Vector2(450, 27 * 50), enemyList, this));
             spawnPoint = new Vector2(60, 60);
         }
 
         public override void AddPortals()
         {
-            portals.Add(new Portal(new Vector2(100, 1250), Game1.testArea, new Vector2(1300, 900), this));
+            portals.Add(new Portal(2, 25, Game1.testArea, new Vector2(1300, 900), this));
 
-            portals.Add(new Portal(new Vector2(800, 1150), this, new Vector2(300, 1200), this));
-            portals.Add(new Portal(new Vector2(300, 1150), this, new Vector2(800, 1200), this));
-            portals.Add(new Portal(new Vector2(1300, 1250), Game1.slimeHut, new Vector2(100, 650), this));
+            portals.Add(new Portal(16, 23, this, new Vector2(300, 1200), this));
+            portals.Add(new Portal(6, 23, this, new Vector2(800, 1200), this));
+            portals.Add(new Portal(26, 25, Game1.slimeHut, new Vector2(100, 650), this));
         }
         override public void LoadTextures(ContentManager content)
         {
-            Portal.LoadContent(content);
-            DialogBox.LoadTextures(content);
-            Tiles.SlimeBlock.LoadTextures(content);
-            Enemies.SlimeDrip.LoadTextures(content);
-        }
+            
+
+			tiledMap = content.Load<TiledMap>("tiled-maps/slime-city");
+			tiledMapRenderer = new TiledMapRenderer(graphicsDevice, tiledMap);
+			collisionTileLayer = tiledMap.GetLayer<TiledMapTileLayer>("collision");
+			DialogBox.LoadTextures(content);
+			NPCs.Wizard.LoadTextures(content);
+			Enemies.SlimeDrip.LoadTextures(content);
+
+			// Portal.LoadContent(content);
+			// DialogBox.LoadTextures(content);
+			// Tiles.SlimeBlock.LoadTextures(content);
+
+		}
     }
 }
