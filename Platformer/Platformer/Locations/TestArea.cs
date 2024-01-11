@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using MonoGame.Extended.Tiled.Renderers;
+using MonoGame.Extended.Tiled;
 
 namespace Platformer.Locations
 {
@@ -24,6 +26,7 @@ namespace Platformer.Locations
             spawners.Add(new Spawner(new Vector2(600, 300), enemyList, this));
             height = 22;
             width = 30;
+            /*
             AddBorder();
 
 
@@ -70,24 +73,25 @@ namespace Platformer.Locations
             {
                 tiles[i][height - 2] = new Tiles.Grass(i, height - 2, this);
             }
+            */
             spawnPoint = new Vector2(60, 60);
         }
 
         public override void AddPortals()
         {
-            portals.Add(new Portal(26, 17, Game1.slimeCity, new Vector2(100, 1300), this));
+            portals.Add(new Portal(27, 18, Game1.slimeCity, 2, 26, this));
 
-            portals.Add(new Portal(2, 16, this, new Vector2(100, 400), this));
-            portals.Add(new Portal(2, 7, this, new Vector2(100, 850), this));
+            portals.Add(new Portal(3, 17, this, 3, 8, this));
+            portals.Add(new Portal(3, 8, this, 3, 17, this));
         }
         override public void LoadTextures(ContentManager content)
         {
-            Portal.LoadContent(content);
-            DialogBox.LoadTextures(content);
-            Tiles.BrickWall.LoadTextures(content);
-            Tiles.Grass.LoadTextures(content);
+			tiledMap = content.Load<TiledMap>("tiled-maps/test-area");
+			tiledMapRenderer = new TiledMapRenderer(graphicsDevice, tiledMap);
+			collisionTileLayer = tiledMap.GetLayer<TiledMapTileLayer>("collision");
+			DialogBox.LoadTextures(content);
+			NPCs.Wizard.LoadTextures(content);
             Tiles.Plant.LoadTextures(content);
-            Tiles.Dirt.LoadTextures(content);
             Enemies.SlimeRegular.LoadTextures(content);
             Enemies.SlimeDrip.LoadTextures(content);
             NPCs.BusinessMan.LoadTextures(content);

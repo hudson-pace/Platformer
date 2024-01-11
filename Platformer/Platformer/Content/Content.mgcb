@@ -475,6 +475,16 @@
 /processor:TiledMapProcessor
 /build:tiled-maps/slime-city.tmx
 
+#begin tiled-maps/slime-hut.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:tiled-maps/slime-hut.tmx
+
+#begin tiled-maps/test-area.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:tiled-maps/test-area.tmx
+
 #begin tiled-maps/tiled-map-test.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor

@@ -28,6 +28,10 @@ namespace Platformer.Locations
 		}
 		public override void AddPortals()
 		{
+			portals.Add(new Portal(4, 5, this, 25, 5, this));
+			portals.Add(new Portal(25, 5, this, 4, 5, this));
+
+			portals.Add(new Portal(14, 3, Game1.slimeCity, 45, 26, this));
 		}
 		override public void LoadTextures(ContentManager content)
 		{

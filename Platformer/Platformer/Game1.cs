@@ -45,13 +45,14 @@ namespace Platformer
             screenGridHeight = (int)(graphics.PreferredBackBufferHeight / 50) + 1;
 
             player = new Player(new Vector2(500, 100), screenWidth, screenHeight);
-            // testArea = new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
+            testArea = new Locations.TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
             slimeCity = new Locations.SlimeCity(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
-            // slimeHut = new Locations.SlimeHut(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
+            slimeHut = new Locations.SlimeHut(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
             testTileLocation = new Locations.TestTileLocation(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
-			// testArea.AddPortals();
+			testArea.AddPortals();
 			slimeCity.AddPortals();
-			// slimeHut.AddPortals();
+			slimeHut.AddPortals();
+            testTileLocation.AddPortals();
 
 			player.Travel(testTileLocation, new Vector2(100, 100));
 
@@ -110,9 +111,9 @@ namespace Platformer
             Player.LoadTextures(Content, GraphicsDevice);
 
             // player.GetCurrentLocation().LoadTextures(Content);
-            // testArea.LoadTextures(Content);
+            testArea.LoadTextures(Content);
             slimeCity.LoadTextures(Content);
-            // slimeHut.LoadTextures(Content);
+            slimeHut.LoadTextures(Content);
             InfoBox.LoadTextures(Content);
             InventoryItem.LoadTextures(Content);
             // Tiles.Wall.LoadTextures(Content);

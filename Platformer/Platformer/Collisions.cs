@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,16 +14,26 @@ namespace Platformer
         {
             int oldLeftGridX = (int)(entity.location.X / 50);
             int newLeftGridX = (int)(entity.newLocation.X / 50);
+            // Round down. Won't work if negative, so check.
+            if (newLeftGridX == 0 && entity.newLocation.X < 0)
+            {
+                newLeftGridX -= 1;
+            }
             int oldRightGridX = (int)((entity.location.X + entity.width - 1) / 50);
             int newRightGridX = (int)((entity.newLocation.X + entity.width - 1) / 50);
             int oldTopGridY = (int)(entity.location.Y / 50);
             int newTopGridY = (int)(entity.newLocation.Y / 50);
+            // Round down again.
+            if (newTopGridY == 0 && entity.newLocation.Y < 0)
+            {
+                newTopGridY -= 1;
+            }
             int oldBottomGridY = (int)((entity.location.Y + entity.height - 1) / 50);
             int newBottomGridY = (int)((entity.newLocation.Y + entity.height - 1) / 50);
 
 
-            bool collided = false;          
-            
+            bool collided = false;
+
             if (newLeftGridX < oldLeftGridX)
             {
                 for (int i = newTopGridY; i <= newBottomGridY; i++)

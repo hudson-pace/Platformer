@@ -97,6 +97,10 @@ namespace Platformer
         }
         public bool IsObstacleAt(int x, int y)
         {
+            if (x < 0 || y < 0 || x >= width || y >= height)
+            {
+                return true;
+            }
 			TiledMapTile t = collisionTileLayer.GetTile((ushort)x, (ushort)y);
             return t.GlobalIdentifier != 0;
 		}
@@ -174,22 +178,22 @@ namespace Platformer
                 camera.Move(new Vector2(0, (-1 * (300 - playerScreenLocation.Y))));
             }
 
-            if (camera.Position.X < 50)
+            if (camera.Position.X < 0)
             {
-                camera.Move(new Vector2((-1 * camera.Position.X) + 50, 0));
+                camera.Move(new Vector2(-1 * camera.Position.X, 0));
             }
-            else if (camera.Position.X > ((width - 1) * 50) - camera.BoundingRectangle.Width)
+            else if (camera.Position.X > (width * 50) - camera.BoundingRectangle.Width)
             {
-                camera.Move(new Vector2((((width - 1) * 50) - camera.BoundingRectangle.Width) - camera.Position.X, 0));
+                camera.Move(new Vector2(((width * 50) - camera.BoundingRectangle.Width) - camera.Position.X, 0));
             }
 
-            if (camera.Position.Y < 50)
+            if (camera.Position.Y < 0)
             {
-                camera.Move(new Vector2(0, (-1 * camera.Position.Y) + 50));
+                camera.Move(new Vector2(0, -1 * camera.Position.Y));
             }
-            else if (camera.Position.Y > ((height - 1) * 50) - camera.BoundingRectangle.Height)
+            else if (camera.Position.Y > (height * 50) - camera.BoundingRectangle.Height)
             {
-                camera.Move(new Vector2(0, (((height - 1) * 50) - camera.BoundingRectangle.Height) - camera.Position.Y));
+                camera.Move(new Vector2(0, ((height * 50) - camera.BoundingRectangle.Height) - camera.Position.Y));
             }
         }
 

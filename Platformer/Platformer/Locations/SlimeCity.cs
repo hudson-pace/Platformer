@@ -123,16 +123,16 @@ namespace Platformer.Locations
 
         public override void AddPortals()
         {
-            portals.Add(new Portal(2, 25, Game1.testArea, new Vector2(1300, 900), this));
+            portals.Add(new Portal(2, 26, Game1.testArea, 27, 18, this));
 
-            portals.Add(new Portal(16, 23, this, new Vector2(300, 1200), this));
-            portals.Add(new Portal(6, 23, this, new Vector2(800, 1200), this));
-            portals.Add(new Portal(26, 25, Game1.slimeHut, new Vector2(100, 650), this));
-        }
+            portals.Add(new Portal(15, 24, this, 6, 24, this));
+            portals.Add(new Portal(6, 24, this, 15, 24, this));
+            portals.Add(new Portal(25, 26, Game1.slimeHut, 1, 13, this));
+
+            portals.Add(new Portal(45, 26, Game1.testTileLocation, 14, 3, this));
+		}
         override public void LoadTextures(ContentManager content)
         {
-            
-
 			tiledMap = content.Load<TiledMap>("tiled-maps/slime-city");
 			tiledMapRenderer = new TiledMapRenderer(graphicsDevice, tiledMap);
 			collisionTileLayer = tiledMap.GetLayer<TiledMapTileLayer>("collision");

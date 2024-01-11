@@ -16,11 +16,11 @@ namespace Platformer
         private Location destination, currentLocation;
         private Vector2 positionDestination;
 
-        public Portal(int x, int y, Location destination, Vector2 positionDestination, Location currentLocation)
+        public Portal(int x, int y, Location destination, int destX, int destY, Location currentLocation)
         {
             this.hitBox = new Rectangle(x * 50, y * 50, 100, 150);
             this.destination = destination;
-            this.positionDestination = positionDestination;
+            this.positionDestination = new Vector2(destX * 50, destY * 50);
             this.currentLocation = currentLocation;
 
             /*

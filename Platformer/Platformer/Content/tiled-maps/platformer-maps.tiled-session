@@ -16,26 +16,42 @@
         },
         "slime-city.tmx": {
             "scale": 0.6495624999999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 657.3655344943713,
+                "y": 1294.7175983835275
+            }
+        },
+        "slime-hut.tmx": {
+            "scale": 0.7423571428571428,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 1300.8755893389784,
-                "y": 747.426152217839
+                "x": 705.8597132685462,
+                "y": 575.1948426825749
+            }
+        },
+        "test-area.tmx": {
+            "scale": 0.6928666666666666,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 1109.881651111325,
+                "y": 617.7234677186567
             }
         },
         "tiled-map-test.tmx": {
             "scale": 0.6928666666666666,
-            "selectedLayer": 0,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 701.4336572693159,
-                "y": 572.9818146829597
+                "x": 803.906475512364,
+                "y": 310.30501298951214
             }
         }
     },
-    "map.height": 30,
+    "map.height": 22,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 50,
     "map.tileWidth": 50,
-    "map.width": 50,
+    "map.width": 30,
     "openFiles": [
         "slime-city.tmx",
         "tiled-map-test.tmx"

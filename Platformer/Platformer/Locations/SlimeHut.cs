@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using MonoGame.Extended.Tiled.Renderers;
+using MonoGame.Extended.Tiled;
 
 namespace Platformer.Locations
 {
@@ -16,6 +18,7 @@ namespace Platformer.Locations
         {
             height = 17;
             width = 28;
+            /*
             AddBorder();
 
             for (int i = 1; i < width - 1; i++)
@@ -54,6 +57,7 @@ namespace Platformer.Locations
 
             tiles[16][height - 2] = new Tiles.SlimeBlock(16, height - 2, 12, this);
             tiles[16][height - 3] = new Tiles.SlimeBlock(16, height - 3, 5, this);
+            */
 
             NPCList.Add(new NPCs.Wizard(new Vector2(750, 600), this, screenWidth, screenHeight, player));
             spawnPoint = new Vector2(60, 60);
@@ -61,14 +65,14 @@ namespace Platformer.Locations
 
         public override void AddPortals()
         {
-            portals.Add(new Portal(2, 12, Game1.slimeCity, new Vector2(1300, 1300), this));
+            portals.Add(new Portal(1, 13, Game1.slimeCity, 25, 26, this));
         }
         override public void LoadTextures(ContentManager content)
         {
-            Portal.LoadContent(content);
+			tiledMap = content.Load<TiledMap>("tiled-maps/slime-hut");
+			tiledMapRenderer = new TiledMapRenderer(graphicsDevice, tiledMap);
+			collisionTileLayer = tiledMap.GetLayer<TiledMapTileLayer>("collision");
             DialogBox.LoadTextures(content);
-            Tiles.SlimeBlock.LoadTextures(content);
-            Tiles.BrickWall.LoadTextures(content);
 			NPCs.Wizard.LoadTextures(content);
         }
     }
