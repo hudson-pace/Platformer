@@ -15,6 +15,7 @@ namespace Platformer
         public Tile[][] tiles;
         protected List<Enemy> enemies = new List<Enemy>();
         protected List<Spawner> spawners = new List<Spawner>();
+        protected List<EntitySpawner> entitySpawners = new List<EntitySpawner>();
         protected List<NPC> NPCList = new List<NPC>();
         protected List<Item> items = new List<Item>();
         protected List<Portal> portals = new List<Portal>();
@@ -69,6 +70,7 @@ namespace Platformer
             enemies.ForEach(enemy => enemy.Draw(spriteBatch));
             items.ForEach(item => item.Draw(spriteBatch));
 			tiledMapRenderer.Draw(camera.GetViewMatrix());
+            entitySpawners.ForEach(spawner => spawner.Draw(spriteBatch));
 		}
 		public void LoadTextures(ContentManager content)
 		{
@@ -109,7 +111,8 @@ namespace Platformer
             spawners.ForEach(spawner => spawner.Update(enemies));
             items.ForEach(item => item.Update(state, this));
             NPCList.ForEach(npc => npc.Update(state, this, mouseState));
-            /*
+			entitySpawners.ForEach(spawner => spawner.Update(player));
+			/*
             foreach (Tile[] row in tiles)
             {
                 foreach (Tile tile in row)
@@ -121,7 +124,7 @@ namespace Platformer
                 }
             }
             */
-            if (state.IsKeyDown(Keys.Q) && !previousQPressed)
+			if (state.IsKeyDown(Keys.Q) && !previousQPressed)
             {
                 foreach(NPC character in NPCList)
                 {

@@ -28,7 +28,11 @@ namespace Platformer.Locations
             height = 22;
             width = 30;
             spawnPoint = new Vector2(60, 60);
-        }
+
+            entitySpawners.Add(new EntitySpawner(this, 6, 19));
+			entitySpawners.Add(new EntitySpawner(this, 7, 19));
+			entitySpawners.Add(new EntitySpawner(this, 8, 19));
+		}
 
         public override void AddPortals()
         {

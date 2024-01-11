@@ -54,7 +54,7 @@ namespace Platformer
 			slimeHut.AddPortals();
             testTileLocation.AddPortals();
 
-			player.Travel(testTileLocation, new Vector2(100, 100));
+			player.Travel(testArea, new Vector2(1000, 200));
 
 			menuList = new List<Menu>();
 
@@ -122,6 +122,8 @@ namespace Platformer
 			Enemies.SlimeDrip.LoadTextures(Content);
 			Enemies.SlimeRegular.LoadTextures(Content);
 			Enemies.Snail.LoadTextures(Content);
+
+            Plant.LoadTextures(Content);
 
 			// Tiles.Plant.LoadTextures(Content);
 		}
