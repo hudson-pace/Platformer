@@ -12,7 +12,6 @@ namespace Platformer
 {
     abstract class Location
     {
-        public Tile[][] tiles;
         protected List<Enemy> enemies = new List<Enemy>();
         protected List<Spawner> spawners = new List<Spawner>();
         protected List<EntitySpawner> entitySpawners = new List<EntitySpawner>();
@@ -44,13 +43,6 @@ namespace Platformer
 		}
         public abstract void AddPortals();
         
-        public void AddTile(Tile tile, int x, int y)
-        {
-            if (tiles[x][y].GetName() == "empty")
-            {
-                tiles[x][y] = tile;
-            }
-        }
         public Vector2 GetSpawnPoint()
         {
             return spawnPoint;
@@ -118,18 +110,7 @@ namespace Platformer
             items.ForEach(item => item.Update(state, this));
             NPCList.ForEach(npc => npc.Update(state, this, mouseState));
 			entitySpawners.ForEach(spawner => spawner.Update(player));
-			/*
-            foreach (Tile[] row in tiles)
-            {
-                foreach (Tile tile in row)
-                {
-                    if (tile is Tiles.UpdatableTile)
-                    {
-                        ((Tiles.UpdatableTile)tile).Update(player);
-                    }
-                }
-            }
-            */
+
 			if (state.IsKeyDown(Keys.Q) && !previousQPressed)
             {
                 foreach(NPC character in NPCList)
@@ -194,11 +175,6 @@ namespace Platformer
             {
                 camera.Move(new Vector2(0, ((height * 50) - camera.BoundingRectangle.Height) - camera.Position.Y));
             }
-        }
-
-        public void ReplaceTile(int x, int y, Tile newTile)
-        {
-            tiles[x][y] = newTile;
         }
     }
 }
