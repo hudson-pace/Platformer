@@ -124,8 +124,6 @@ namespace Platformer
 			Enemies.Snail.LoadTextures(Content);
 
             Plant.LoadTextures(Content);
-
-			// Tiles.Plant.LoadTextures(Content);
 		}
 
 		/// <summary>
