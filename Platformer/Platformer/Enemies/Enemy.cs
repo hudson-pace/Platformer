@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 
 namespace Platformer
 {
     abstract class Enemy : Entity
     {
         public int health;
+        public int maxHealth;
         public Location currentLocation;
         public List<Item> drops = new List<Item>();
         public Spawner Spawner { get; set; } = null;
@@ -15,6 +19,7 @@ namespace Platformer
         private static Random random = new Random();
         public int howMany;
         protected int damage, xp;
+        private static Texture2D whiteTexture;
 
         public Enemy()
         {
@@ -108,5 +113,24 @@ namespace Platformer
             }
             isFalling = true;
         }
-    }
+
+		public override void Draw(SpriteBatch spriteBatch)
+		{
+            if (health < maxHealth)
+            {
+                Rectangle healthBar = new Rectangle((int)location.X, (int)location.Y - 20, width, 10);
+                int filledWidth = (int)((width - 2) * ((health * 1.0) / maxHealth));
+                Rectangle filled = new Rectangle((int)location.X + 1, (int)location.Y - 19, filledWidth, 8);
+
+                spriteBatch.Draw(whiteTexture, healthBar, Color.Black);
+                spriteBatch.Draw(whiteTexture, filled, Color.Red);
+            }
+		}
+
+        public static void LoadContent(GraphicsDevice graphicsDevice)
+        {
+            whiteTexture = new Texture2D(graphicsDevice, 1, 1);
+            whiteTexture.SetData(new[] { Color.White });
+        }
+	}
 }

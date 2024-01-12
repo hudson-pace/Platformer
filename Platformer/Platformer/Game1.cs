@@ -121,6 +121,8 @@ namespace Platformer
 			Enemies.SlimeRegular.LoadTextures(Content);
 			Enemies.Snail.LoadTextures(Content);
 
+            Enemy.LoadContent(GraphicsDevice);
+
             Plant.LoadTextures(Content);
 		}
 

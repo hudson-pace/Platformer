@@ -237,6 +237,18 @@
 /processorParam:TextureFormat=Color
 /build:knight2/Jump_KG_1.png
 
+#begin knight2/Shield_Bash_KG.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:knight2/Shield_Bash_KG.png
+
 #begin knight2/Walking_KG_1.png
 /importer:TextureImporter
 /processor:TextureProcessor

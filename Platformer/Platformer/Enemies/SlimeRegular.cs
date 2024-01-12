@@ -19,7 +19,8 @@ namespace Platformer.Enemies
             height = 100;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             health = 100;
-            drops.Add(new Items.SlimeItem(new int[] { 1, 1 }, new int[] { 80, 20 }));
+			maxHealth = health;
+			drops.Add(new Items.SlimeItem(new int[] { 1, 1 }, new int[] { 80, 20 }));
             drops.Add(new Items.SlimeTail(new int[] { 1 }, new int[] { 40 }));
             drops.Add(new Items.CopperCoin(new int[] { 8, 2, 1 }, new int[] { 100, 80, 50 }));
             jumpHeight = 1f;
@@ -67,7 +68,8 @@ namespace Platformer.Enemies
             }
 
             spriteBatch.Draw(texture, new Vector2(location.X, location.Y), sourceRectangle, Color.White);
-        }
+			base.Draw(spriteBatch);
+		}
 
         public static void LoadTextures(ContentManager content)
         {

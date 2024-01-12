@@ -11,17 +11,18 @@ namespace Platformer
     {
         private List<Enemy> enemyList;
         private Vector2 location;
-        private int spawnInterval;
+        private int spawnCounter;
         private Location currentLocation;
+        private int spawnInterval;
 
-        public Spawner(Vector2 location, List<Enemy> enemyList, Location currentLocation)
+        public Spawner(Vector2 location, List<Enemy> enemyList, Location currentLocation, int spawnInterval = 600)
         {
             this.location = location;
             this.enemyList = new List<Enemy>();
             MakeEnemyList(enemyList);
             this.currentLocation = currentLocation;
-            spawnInterval = 0;
-            
+			spawnCounter = 0;
+            this.spawnInterval = spawnInterval;
         }
         public void MakeEnemyList(List<Enemy> enemiesToAdd)
         {
@@ -39,13 +40,13 @@ namespace Platformer
         }
         public void Update(List<Enemy> enemies)
         {
-            if (spawnInterval < 600)
+            if (spawnCounter < spawnInterval)
             {
-                spawnInterval++;
+				spawnCounter++;
             }
             else
             {
-                spawnInterval = 0;
+				spawnCounter = 0;
                 List<Enemy> enemiesToSpawn = new List<Enemy>(enemyList);
                 for (int i = 0; i < enemies.Count; i++)
                 {

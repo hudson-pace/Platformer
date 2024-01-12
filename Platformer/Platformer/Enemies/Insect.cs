@@ -17,6 +17,7 @@ namespace Platformer.Enemies
             height = 100;
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             health = 50;
+            maxHealth = health;
             Spawner = spawner;
             name = "insect";
             this.howMany = howMany;
@@ -64,6 +65,7 @@ namespace Platformer.Enemies
             {
                 spriteBatch.Draw(leftFacing, new Vector2(location.X, location.Y), Color.White);
             }
+            base.Draw(spriteBatch);
         }
         public static void LoadTextures(ContentManager content)
         {
