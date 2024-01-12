@@ -29,7 +29,21 @@ namespace Platformer
         private int invulnerableTimer = 0;
         public bool invulnerable = false;
         private int manaRegenCooldown;
-        enum AnimationType
+
+        /*
+        private static int textureWidth = 120;
+        private static int textureHeight = 80;
+        private int textureScale = 2;
+        private int rightOffset = -15;
+        private int leftOffset = 15;
+        */
+		private static int textureWidth = 100;
+		private static int textureHeight = 64;
+		private int textureScale = 1;
+		private int rightOffset = 0;
+		private int leftOffset = 0;
+
+		enum AnimationType
         {
             Running,
             Idle,
@@ -39,16 +53,28 @@ namespace Platformer
         private static Dictionary<AnimationType, int> animationFrames = new Dictionary<AnimationType, int>();
         private static Dictionary<AnimationType, string> animationTextureSources = new Dictionary<AnimationType, string>()
         {
+            /*
             { AnimationType.Running, "knight/Run" },
             { AnimationType.Idle, "knight/Idle" },
             { AnimationType.Jumping, "knight/Jump" },
             { AnimationType.Attacking, "knight/Attack" },
+            */
+            { AnimationType.Running, "knight2/Walking_KG_1" },
+			{ AnimationType.Idle, "knight2/Idle_KG_1" },
+			{ AnimationType.Jumping, "knight2/Jump_KG_1" },
+			{ AnimationType.Attacking, "knight2/Attack_KG_1" },
+		};
+        private static Dictionary<AnimationType, int> animationDelays = new Dictionary<AnimationType, int>()
+        {
+            { AnimationType.Running, 5 },
+            { AnimationType.Idle, 10 },
+            { AnimationType.Jumping, 5 },
+            { AnimationType.Attacking, 5 },
         };
         private static Dictionary<AnimationType, Texture2D> animationTextures = new Dictionary<AnimationType, Texture2D>();
 
         private AnimationType currentAnimation = AnimationType.Idle;
         private int currentAnimationFrame = 0;
-        private int animationDelay = 5;
         private int animationDelayCounter;
         private int swingCounter;
 
@@ -58,15 +84,20 @@ namespace Platformer
         {
             this.location = location;
 
-            inventory = new PlayerInventory(this, screenWidth, screenHeight);
+            // height = 40;
+            // width = 20;
+            height = 64;
+            width = 45;
+			height *= textureScale;
+			width *= textureScale;
+
+			inventory = new PlayerInventory(this, screenWidth, screenHeight);
             equipmentMenu = new EquipmentMenu(this);
             hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
             swordHitBox = new Rectangle((int)location.X + width, (int)location.Y, swordOffset, height);
             
 
-            swordOffset = 100;
-            height = 40 * 2;
-            width = 20 * 2;
+            swordOffset = 40;
             maxHealth = 100;
             health = maxHealth;
             maxMana = 50;
@@ -74,7 +105,7 @@ namespace Platformer
             xpToLevel = 100;
             xp = 0;
 
-            animationDelayCounter = animationDelay;
+            animationDelayCounter = animationDelays[currentAnimation];
         }
 
         public static void LoadTextures(ContentManager content, GraphicsDevice graphicsDevice)
@@ -91,7 +122,7 @@ namespace Platformer
             {
                 Texture2D texture = content.Load<Texture2D>(entry.Value);
                 animationTextures.Add(entry.Key, texture);
-                animationFrames.Add(entry.Key, texture.Width / 120);
+                animationFrames.Add(entry.Key, texture.Width / textureWidth);
             }
         }
 
@@ -161,7 +192,7 @@ namespace Platformer
 				{
 					currentAnimationFrame = 0;
 				}
-				animationDelayCounter = animationDelay;
+				animationDelayCounter = animationDelays[currentAnimation];
 			}
 			newLocation = location;
 
@@ -269,7 +300,7 @@ namespace Platformer
             if (swinging)
             {
                 swingCounter++;
-                if (swingCounter >= animationDelay * animationFrames[AnimationType.Attacking]) // Only play animation once.
+                if (swingCounter >= animationDelays[AnimationType.Attacking] * animationFrames[AnimationType.Attacking]) // Only play animation once.
                 {
 					swinging = false;
 					scytheIsActive = false;
@@ -356,20 +387,24 @@ namespace Platformer
                 tintColor = Color.Gray;
             }
 
-            sourceRectangle = new Rectangle(currentAnimationFrame * 120, 0, 120, 80);
+            sourceRectangle = new Rectangle(currentAnimationFrame * textureWidth, 0, textureWidth, textureHeight);
 
             Texture2D texture = animationTextures[currentAnimation];
 
 			spriteBatch.DrawRectangle(location.X, location.Y, width, height, Color.White);
             
             SpriteEffects effect = SpriteEffects.None;
-            int offset = -15;
+            int offset = rightOffset;
             if (facing == "left")
             {
                 effect = SpriteEffects.FlipHorizontally;
-                offset = -5;
+                offset = leftOffset;
             }
-            spriteBatch.Draw(texture, new Vector2(location.X, location.Y), sourceRectangle, tintColor, 0, new Vector2((120 / 2) + offset, 80 / 2), 2, effect, 1);
+            int widthDiff = offset + textureWidth - (width / textureScale);
+            int widthOffset = (widthDiff * textureScale) / 2;
+            int heightDiff = textureHeight - (height / textureScale);
+            int heightOffset = (heightDiff * textureScale);
+            spriteBatch.Draw(texture, new Vector2(location.X - widthOffset, location.Y - heightOffset), sourceRectangle, tintColor, 0, new Vector2(0, 0), /*new Vector2((textureWidth / 2) + offset, textureHeight / 2),*/ textureScale, effect, 1);
 			if (swinging)
 			{
 				spriteBatch.DrawRectangle(swordHitBox, Color.Red);
