@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Tiled.Renderers;
 using MonoGame.Extended.Tiled;
 using System.Reflection.Metadata;
+using Platformer.Enemies;
 
 namespace Platformer.Locations
 {
@@ -22,8 +23,9 @@ namespace Platformer.Locations
             width = 50;
 
 			List<Enemy> enemyList = new List<Enemy>();
-            enemyList.Add(new Enemies.SlimeDrip(new Vector2(0, 0), this, null, 5));
-            spawners.Add(new Spawner(new Vector2(450, 27 * 50), enemyList, this));
+            // enemyList.Add(new Enemies.SlimeDrip(new Vector2(0, 0), this, null, 5));
+            enemyList.Add(new SlimeRegular(new Vector2(0, 0), this, null, 1));
+            spawners.Add(new Spawner(new Vector2(450, 27 * 50), enemyList, this, 100));
             spawnPoint = new Vector2(60, 60);
         }
 

@@ -9,14 +9,59 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using MonoGame.Extended;
+using System.Diagnostics;
 
 namespace Platformer
 {
     class Player : Entity
     {
+        private class Attack
+        {
+            private int range;
+            private int duration;
+            private int delay;
+            private string texturePath;
+            private Texture2D texture;
+            private int frames;
+            public Attack(int range, int delay, string texturePath, int textureWidth)
+            {
+                this.range = range;
+                this.texturePath = texturePath;
+                this.delay = delay;
+            }
+
+            public int GetAttackDuration()
+            {
+                return 1;
+            }
+
+            public void LoadTextures(ContentManager content)
+            {
+                texture = content.Load<Texture2D>(texturePath);
+                frames = texture.Width / textureWidth;
+				duration = delay * frames;
+			}
+            public Texture2D GetTexture()
+            {
+                return texture;
+            }
+            public int GetDuration()
+            {
+                return duration;
+			}
+            public int GetDelay()
+            {
+                return delay;
+            }
+            public int GetFrames()
+            {
+                return frames;
+            }
+        }
         private static Texture2D projectileTexture;
         private Location currentLocation;
         private KeyboardState previousKeyboardState;
+        private MouseState previousMouseState;
         public bool swordIsActive = false, scytheIsActive = false;
         private bool swinging = false;
         private bool running = false;
@@ -62,14 +107,12 @@ namespace Platformer
             { AnimationType.Running, "knight2/Walking_KG_1" },
 			{ AnimationType.Idle, "knight2/Idle_KG_1" },
 			{ AnimationType.Jumping, "knight2/Jump_KG_1" },
-			{ AnimationType.Attacking, "knight2/Attack_KG_1" },
 		};
         private static Dictionary<AnimationType, int> animationDelays = new Dictionary<AnimationType, int>()
         {
             { AnimationType.Running, 5 },
             { AnimationType.Idle, 10 },
             { AnimationType.Jumping, 5 },
-            { AnimationType.Attacking, 5 },
         };
         private static Dictionary<AnimationType, Texture2D> animationTextures = new Dictionary<AnimationType, Texture2D>();
 
@@ -77,6 +120,13 @@ namespace Platformer
         private int currentAnimationFrame = 0;
         private int animationDelayCounter;
         private int swingCounter;
+
+        private Attack currentAttack;
+
+        private Attack swordAttack;
+        private Attack shieldAttack;
+
+        private List<Attack> attacks = new List<Attack>();
 
 		public List<Projectile> Projectiles { get; } = new List<Projectile>();
 
@@ -105,6 +155,14 @@ namespace Platformer
             xpToLevel = 100;
             xp = 0;
 
+            swordAttack = new Attack(40, 5, "knight2/Attack_KG_1", 120);
+            shieldAttack = new Attack(40, 5, "knight2/Shield_Bash_KG", 120);
+
+            attacks.Add(swordAttack);
+            attacks.Add(shieldAttack);
+
+            currentAttack = swordAttack;
+
             animationDelayCounter = animationDelays[currentAnimation];
         }
 
@@ -124,6 +182,10 @@ namespace Platformer
                 animationTextures.Add(entry.Key, texture);
                 animationFrames.Add(entry.Key, texture.Width / textureWidth);
             }
+        }
+        public void LoadAttackTextures(ContentManager content)
+        {
+            attacks.ForEach(attack => attack.LoadTextures(content));
         }
 
         public void AddToInventory(Item item)
@@ -188,11 +250,11 @@ namespace Platformer
 			if (animationDelayCounter <= 0)
 			{
 				currentAnimationFrame++;
-				if (currentAnimationFrame >= animationFrames[currentAnimation])
+				if (currentAnimationFrame >= GetAnimationFrames())
 				{
 					currentAnimationFrame = 0;
 				}
-				animationDelayCounter = animationDelays[currentAnimation];
+				animationDelayCounter = GetAnimationDelay();
 			}
 			newLocation = location;
 
@@ -254,10 +316,6 @@ namespace Platformer
                 running = false;
             }
 
-            if (keyboardState.IsKeyDown(Keys.LeftControl))
-            {
-                Console.WriteLine(location.X + ", " + location.Y);
-            }
             if (keyboardState.IsKeyDown(Keys.Space) && !isFalling)
             {
                 isFalling = true;
@@ -283,24 +341,34 @@ namespace Platformer
                 projectileCooldown = 60;
                 mana -= 25;
             }
-            if (keyboardState.IsKeyDown(Keys.F) && !previousKeyboardState.IsKeyDown(Keys.F) && equipmentMenu.GetEquippedItem() != null && swinging == false)
+            if (swinging == false)
             {
-                swingCounter = 3;
-                swinging = true;
-                if (equipmentMenu.GetEquippedItem().GetItem().GetType() == typeof(Items.SwordItem))
+                if (mouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released && equipmentMenu.GetEquippedItem() != null)
+                {
+                    currentAttack = swordAttack;
+                    swingCounter = 3;
+                    swinging = true;
+                    if (equipmentMenu.GetEquippedItem().GetItem().GetType() == typeof(Items.SwordItem))
+                    {
+                        swordIsActive = true;
+                    }
+                    else if (equipmentMenu.GetEquippedItem().GetItem().GetType() == typeof(Items.ScytheItem))
+                    {
+                        scytheIsActive = true;
+                    }
+                } else if (mouseState.RightButton == ButtonState.Pressed && previousMouseState.RightButton == ButtonState.Released)
                 {
                     swordIsActive = true;
-                }
-                else if (equipmentMenu.GetEquippedItem().GetItem().GetType() == typeof(Items.ScytheItem))
-                {
-                    scytheIsActive = true;
+                    currentAttack = shieldAttack;
+                    swingCounter = 0;
+                    swinging = true;
                 }
             }
             
             if (swinging)
             {
                 swingCounter++;
-                if (swingCounter >= animationDelays[AnimationType.Attacking] * animationFrames[AnimationType.Attacking]) // Only play animation once.
+                if (swingCounter >= currentAttack.GetDuration()) // Only play animation once.
                 {
 					swinging = false;
 					scytheIsActive = false;
@@ -368,6 +436,7 @@ namespace Platformer
             }
 
             previousKeyboardState = keyboardState;
+            previousMouseState = mouseState;
         }
         override public void Draw(SpriteBatch spriteBatch)
         {
@@ -389,8 +458,8 @@ namespace Platformer
 
             sourceRectangle = new Rectangle(currentAnimationFrame * textureWidth, 0, textureWidth, textureHeight);
 
-            Texture2D texture = animationTextures[currentAnimation];
-
+            Texture2D texture = GetAnimationTexture();
+            
 			spriteBatch.DrawRectangle(location.X, location.Y, width, height, Color.White);
             
             SpriteEffects effect = SpriteEffects.None;
@@ -469,6 +538,40 @@ namespace Platformer
             {
                 currentAnimation = animationType;
                 currentAnimationFrame = 0;
+            }
+        }
+
+        private Texture2D GetAnimationTexture()
+        {
+			if (currentAnimation == AnimationType.Attacking)
+			{
+				return currentAttack.GetTexture();
+			}
+			else
+			{
+				return animationTextures[currentAnimation];
+			}
+		}
+        private int GetAnimationDelay()
+        {
+			if (currentAnimation == AnimationType.Attacking)
+			{
+				return currentAttack.GetDelay();
+			}
+			else
+			{
+				return animationDelays[currentAnimation];
+			}
+		}
+        private int GetAnimationFrames()
+        {
+            if (currentAnimation == AnimationType.Attacking)
+            {
+                return currentAttack.GetFrames();
+            }
+            else
+            {
+                return animationFrames[currentAnimation];
             }
         }
     }

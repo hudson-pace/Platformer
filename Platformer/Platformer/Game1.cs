@@ -124,6 +124,8 @@ namespace Platformer
             Enemy.LoadContent(GraphicsDevice);
 
             Plant.LoadTextures(Content);
+
+            player.LoadAttackTextures(Content);
 		}
 
 		/// <summary>
