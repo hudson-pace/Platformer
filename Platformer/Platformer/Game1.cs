@@ -39,8 +39,8 @@ namespace Platformer
 
             screenWidth = (int)(graphics.PreferredBackBufferWidth);
             screenHeight = (int)(graphics.PreferredBackBufferHeight);
-            screenGridWidth = (int)(graphics.PreferredBackBufferWidth / 50) + 1;
-            screenGridHeight = (int)(graphics.PreferredBackBufferHeight / 50) + 1;
+            screenGridWidth = (int)(graphics.PreferredBackBufferWidth / Globals.tileSize) + 1;
+            screenGridHeight = (int)(graphics.PreferredBackBufferHeight / Globals.tileSize) + 1;
 
             player = new Player(new Vector2(500, 100), screenWidth, screenHeight);
             testArea = new TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);

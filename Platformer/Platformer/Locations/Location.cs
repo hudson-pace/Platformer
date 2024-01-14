@@ -162,18 +162,18 @@ namespace Platformer
             {
                 camera.Move(new Vector2(-1 * camera.Position.X, 0));
             }
-            else if (camera.Position.X > (width * 50) - camera.BoundingRectangle.Width)
+            else if (camera.Position.X > (width * Globals.tileSize) - camera.BoundingRectangle.Width)
             {
-                camera.Move(new Vector2(((width * 50) - camera.BoundingRectangle.Width) - camera.Position.X, 0));
+                camera.Move(new Vector2(((width * Globals.tileSize) - camera.BoundingRectangle.Width) - camera.Position.X, 0));
             }
 
             if (camera.Position.Y < 0)
             {
                 camera.Move(new Vector2(0, -1 * camera.Position.Y));
             }
-            else if (camera.Position.Y > (height * 50) - camera.BoundingRectangle.Height)
+            else if (camera.Position.Y > (height * Globals.tileSize) - camera.BoundingRectangle.Height)
             {
-                camera.Move(new Vector2(0, ((height * 50) - camera.BoundingRectangle.Height) - camera.Position.Y));
+                camera.Move(new Vector2(0, ((height * Globals.tileSize) - camera.BoundingRectangle.Height) - camera.Position.Y));
             }
         }
     }

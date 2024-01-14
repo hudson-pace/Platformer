@@ -8,6 +8,6 @@ namespace Platformer
 {
 	internal class Globals
 	{
-		public static int tileSize = 50;
+		public static int tileSize = 32;
 	}
 }

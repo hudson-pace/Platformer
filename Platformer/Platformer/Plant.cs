@@ -18,9 +18,9 @@ namespace Platformer
 		public Plant(int x, int y, Location currentMap)
 		{
 			isAlive = true;
-			height = 50;
-			width = 50;
-			location = new Vector2(x * 50, y * 50);
+			height = Globals.tileSize;
+			width = Globals.tileSize;
+			location = new Vector2(x * Globals.tileSize, y * Globals.tileSize);
 			hitBox = new Rectangle((int)location.X, (int)location.Y, width, height);
 			this.currentMap = currentMap;
 		}

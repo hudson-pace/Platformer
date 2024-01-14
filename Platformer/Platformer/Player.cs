@@ -58,7 +58,11 @@ namespace Platformer
                 return frames;
             }
         }
-        private static Texture2D projectileTexture;
+
+		private bool showHitboxes = false;
+
+
+		private static Texture2D projectileTexture;
         private Location currentLocation;
         private KeyboardState previousKeyboardState;
         private MouseState previousMouseState;
@@ -460,9 +464,12 @@ namespace Platformer
 
             Texture2D texture = GetAnimationTexture();
             
-			spriteBatch.DrawRectangle(location.X, location.Y, width, height, Color.White);
-            
-            SpriteEffects effect = SpriteEffects.None;
+            if (showHitboxes)
+            {
+				spriteBatch.DrawRectangle(location.X, location.Y, width, height, Color.White);
+			}
+
+			SpriteEffects effect = SpriteEffects.None;
             int offset = rightOffset;
             if (facing == "left")
             {
@@ -474,7 +481,7 @@ namespace Platformer
             int heightDiff = textureHeight - (height / textureScale);
             int heightOffset = (heightDiff * textureScale);
             spriteBatch.Draw(texture, new Vector2(location.X - widthOffset, location.Y - heightOffset), sourceRectangle, tintColor, 0, new Vector2(0, 0), /*new Vector2((textureWidth / 2) + offset, textureHeight / 2),*/ textureScale, effect, 1);
-			if (swinging)
+			if (showHitboxes && swinging)
 			{
 				spriteBatch.DrawRectangle(swordHitBox, Color.Red);
 			}

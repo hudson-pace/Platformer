@@ -12,24 +12,24 @@ namespace Platformer
     {
         public static bool CollideWithTiles(Location location, Entity entity)
         {
-            int oldLeftGridX = (int)(entity.location.X / 50);
-            int newLeftGridX = (int)(entity.newLocation.X / 50);
+            int oldLeftGridX = (int)(entity.location.X / Globals.tileSize);
+            int newLeftGridX = (int)(entity.newLocation.X / Globals.tileSize);
             // Round down. Won't work if negative, so check.
             if (newLeftGridX == 0 && entity.newLocation.X < 0)
             {
                 newLeftGridX -= 1;
             }
-            int oldRightGridX = (int)((entity.location.X + entity.width - 1) / 50);
-            int newRightGridX = (int)((entity.newLocation.X + entity.width - 1) / 50);
-            int oldTopGridY = (int)(entity.location.Y / 50);
-            int newTopGridY = (int)(entity.newLocation.Y / 50);
+            int oldRightGridX = (int)((entity.location.X + entity.width - 1) / Globals.tileSize);
+            int newRightGridX = (int)((entity.newLocation.X + entity.width - 1) / Globals.tileSize);
+            int oldTopGridY = (int)(entity.location.Y / Globals.tileSize);
+            int newTopGridY = (int)(entity.newLocation.Y / Globals.tileSize);
             // Round down again.
             if (newTopGridY == 0 && entity.newLocation.Y < 0)
             {
                 newTopGridY -= 1;
             }
-            int oldBottomGridY = (int)((entity.location.Y + entity.height - 1) / 50);
-            int newBottomGridY = (int)((entity.newLocation.Y + entity.height - 1) / 50);
+            int oldBottomGridY = (int)((entity.location.Y + entity.height - 1) / Globals.tileSize);
+            int newBottomGridY = (int)((entity.newLocation.Y + entity.height - 1) / Globals.tileSize);
 
 
             bool collided = false;
@@ -40,7 +40,7 @@ namespace Platformer
                 {
                     if (location.IsObstacleAt(newLeftGridX, i) || (entity.isEnemy && location.IsEnemyObstacleAt(newLeftGridX, i)))
 					{
-                        entity.newLocation.X = oldLeftGridX * 50;
+                        entity.newLocation.X = oldLeftGridX * Globals.tileSize;
                         collided = true;
                         break;
                     }
@@ -53,14 +53,14 @@ namespace Platformer
                 {
                     if (location.IsObstacleAt(newRightGridX, i) || (entity.isEnemy && location.IsEnemyObstacleAt(newRightGridX, i)))
                     {
-                        entity.newLocation.X = (newRightGridX * 50) - entity.width;
+                        entity.newLocation.X = (newRightGridX * Globals.tileSize) - entity.width;
                         collided = true;
                         break;
                     }
                 }
             }
-            newLeftGridX = (int)(entity.newLocation.X / 50);
-            newRightGridX = (int)((entity.newLocation.X + entity.width - 1) / 50);
+            newLeftGridX = (int)(entity.newLocation.X / Globals.tileSize);
+            newRightGridX = (int)((entity.newLocation.X + entity.width - 1) / Globals.tileSize);
 
             if (newTopGridY < oldTopGridY)
             {
@@ -68,7 +68,7 @@ namespace Platformer
                 {
                     if (location.IsObstacleAt(i, newTopGridY) || (entity.isEnemy && location.IsEnemyObstacleAt(i, newTopGridY)))
 					{
-                        entity.newLocation.Y = ((newTopGridY + 1) * 50);
+                        entity.newLocation.Y = ((newTopGridY + 1) * Globals.tileSize);
                         entity.verticalVelocity = 0;
                         collided = true;
                         break;
@@ -82,7 +82,7 @@ namespace Platformer
                 {
                     if (location.IsObstacleAt(i, newBottomGridY) || (entity.isEnemy && location.IsEnemyObstacleAt(i, newBottomGridY)))
 					{
-                        entity.newLocation.Y = (newBottomGridY * 50) - entity.height;
+                        entity.newLocation.Y = (newBottomGridY * Globals.tileSize) - entity.height;
                         entity.isFalling = false;
                         entity.verticalVelocity = 0;
                         entity.horizontalVelocity = 0;
@@ -91,8 +91,8 @@ namespace Platformer
                     }
                 }
             }
-            newTopGridY = (int)(entity.newLocation.Y / 50);
-            newBottomGridY = (int)((entity.newLocation.Y + entity.height - 1) / 50);
+            newTopGridY = (int)(entity.newLocation.Y / Globals.tileSize);
+            newBottomGridY = (int)((entity.newLocation.Y + entity.height - 1) / Globals.tileSize);
 
             if (!entity.isFalling && entity.canFall && ((newLeftGridX != oldLeftGridX) || (newRightGridX != oldRightGridX)))
             {

@@ -16,8 +16,8 @@ namespace Platformer.Locations
 		public NewMain(Player player, int screenGridWidth, int screenGridHeight, int screenWidth, int screenHeight, GraphicsDevice graphicsDevice)
 			: base(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, graphicsDevice, contentPath)
 		{
-			height = 22;
-			width = 30;
+			height = 24;
+			width = 70;
 		}
 
 		public override void AddPortals()

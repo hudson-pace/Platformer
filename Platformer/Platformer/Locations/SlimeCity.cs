@@ -25,7 +25,7 @@ namespace Platformer.Locations
 			List<Enemy> enemyList = new List<Enemy>();
             // enemyList.Add(new Enemies.SlimeDrip(new Vector2(0, 0), this, null, 5));
             enemyList.Add(new SlimeRegular(new Vector2(0, 0), this, null, 1));
-            spawners.Add(new Spawner(new Vector2(450, 27 * 50), enemyList, this, 100));
+            spawners.Add(new Spawner(new Vector2(450, 27 * Globals.tileSize), enemyList, this, 100));
             spawnPoint = new Vector2(60, 60);
         }
 
