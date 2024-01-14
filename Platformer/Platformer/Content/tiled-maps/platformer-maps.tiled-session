@@ -3,66 +3,126 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "slime-city.tmx",
+    "activeFile": "new-main.tmx",
     "expandedProjectPaths": [
         "."
     ],
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "basic_tiles.tsx": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "collision-32.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "collision.tsx": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "medieval-props-small.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "medieval_props.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "medieval_props_large.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "medieval_props_small.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "medieval_tiles.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "new-main.tmx": {
+            "scale": 0.8896354166666666,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 495.146654177156,
+                "y": 533.9265850945496
+            }
         },
         "slime-city.tmx": {
             "scale": 0.6495624999999999,
-            "selectedLayer": 1,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 908.3036659289909,
-                "y": 1328.5865486385069
+                "x": 2836.524583854518,
+                "y": 2033.6765130376216
             }
         },
         "slime-hut.tmx": {
             "scale": 0.7423571428571428,
-            "selectedLayer": 0,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 699.1244106610218,
-                "y": 424.99759453478305
+                "x": 648.6096411045896,
+                "y": 720.6773790050996
             }
         },
         "test-area.tmx": {
             "scale": 0.6928666666666666,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 749.0618685653806,
-                "y": 549.1677090349273
+                "x": 746.8969498701049,
+                "y": 547.0027903396517
             }
         },
         "tiled-map-test.tmx": {
             "scale": 0.6928666666666666,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 749.0618685653806,
-                "y": 498.65293947849517
+                "x": 744.0103916097373,
+                "y": 493.6014625228519
             }
+        },
+        "tx-ground.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tx-props.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         }
     },
+    "last.externalTilesetPath": "C:/Users/hudso/Documents/projects/Platformer/Platformer/Platformer/Content/tiled-maps",
+    "last.imagePath": "C:/Users/hudso/Documents/projects/Platformer/Platformer/Platformer/Content/tiled-maps",
     "map.height": 22,
     "map.lastUsedFormat": "tmx",
-    "map.tileHeight": 50,
-    "map.tileWidth": 50,
+    "map.tileHeight": 32,
+    "map.tileWidth": 32,
     "map.width": 30,
     "openFiles": [
-        "slime-city.tmx",
-        "tiled-map-test.tmx",
         "slime-hut.tmx",
-        "test-area.tmx"
+        "new-main.tmx",
+        "slime-city.tmx",
+        "collision-32.tsx"
     ],
     "project": "platformer-maps.tiled-project",
     "recentFiles": [
-        "test-area.tmx",
         "slime-hut.tmx",
+        "collision-32.tsx",
+        "slime-city.tmx",
+        "new-main.tmx",
+        "test-area.tmx",
+        "medieval_props_small.tsx",
+        "medieval_props_large.tsx",
+        "medieval_tiles.tsx",
         "tiled-map-test.tmx",
-        "slime-city.tmx"
-    ]
+        "tx-ground.tsx",
+        "tx-props.tsx",
+        "basic_tiles.tsx"
+    ],
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.margin": 0,
+    "tileset.tileSize": {
+        "height": 32,
+        "width": 32
+    }
 }

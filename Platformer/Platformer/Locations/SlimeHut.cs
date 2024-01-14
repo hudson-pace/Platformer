@@ -25,7 +25,7 @@ namespace Platformer.Locations
 
         public override void AddPortals()
         {
-            portals.Add(new Portal(1, 13, Game1.slimeCity, 25, 26));
+            portals.Add(new Portal(1, 13, 2, 3, Game1.slimeCity, 25, 26));
         }
     }
 }

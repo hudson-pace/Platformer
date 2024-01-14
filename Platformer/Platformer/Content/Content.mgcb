@@ -525,6 +525,23 @@
 /processor:TiledMapTilesetProcessor
 /build:tiled-maps/basic_tiles.tsx
 
+#begin tiled-maps/collision-32.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tiled-maps/collision-32.png
+
+#begin tiled-maps/collision-32.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:tiled-maps/collision-32.tsx
+
 #begin tiled-maps/collision.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -542,6 +559,50 @@
 /processor:TiledMapTilesetProcessor
 /build:tiled-maps/collision.tsx
 
+#begin tiled-maps/large-props.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tiled-maps/large-props.png
+
+#begin tiled-maps/medieval_props_large.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:tiled-maps/medieval_props_large.tsx
+
+#begin tiled-maps/medieval_props_small.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:tiled-maps/medieval_props_small.tsx
+
+#begin tiled-maps/medieval_tiles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tiled-maps/medieval_tiles.png
+
+#begin tiled-maps/medieval_tiles.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:tiled-maps/medieval_tiles.tsx
+
+#begin tiled-maps/new-main.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:tiled-maps/new-main.tmx
+
 #begin tiled-maps/slime-city.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
@@ -551,6 +612,18 @@
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
 /build:tiled-maps/slime-hut.tmx
+
+#begin tiled-maps/small-props.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tiled-maps/small-props.png
 
 #begin tiled-maps/test-area.tmx
 /importer:TiledMapImporter
@@ -562,7 +635,7 @@
 /processor:TiledMapProcessor
 /build:tiled-maps/tiled-map-test.tmx
 
-#begin Tiles/basic_tiles.png
+#begin tiled-maps/tx-ground.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -572,9 +645,14 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/basic_tiles.png
+/build:tiled-maps/tx-ground.png
 
-#begin Tiles/slime-block.png
+#begin tiled-maps/tx-ground.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:tiled-maps/tx-ground.tsx
+
+#begin tiled-maps/tx-props.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -584,7 +662,12 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/slime-block.png
+/build:tiled-maps/tx-props.png
+
+#begin tiled-maps/tx-props.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:tiled-maps/tx-props.tsx
 
 #begin wizard.png
 /importer:TextureImporter

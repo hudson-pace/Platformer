@@ -11,24 +11,16 @@ namespace Platformer
 {
     class Portal
     {
-        public Rectangle hitBox;
-        private static Texture2D texture;
-        private Location destination;
-        private Vector2 positionDestination;
+        public Rectangle HitBox { get; private set; }
+        public Location Destination { get; private set; }
+        public Vector2 PositionDestination { get; private set; }
 
-        public Portal(int x, int y, Location destination, int destX, int destY)
+        // x, y, width, and height are all measured via tile. ie tile location and number of tiles in width.
+        public Portal(int x, int y, int width, int height, Location destination, int destX, int destY)
         {
-            this.hitBox = new Rectangle(x * 50, y * 50, 100, 150);
-            this.destination = destination;
-            this.positionDestination = new Vector2(destX * 50, destY * 50);
-        }
-        public Location GetDestination()
-        {
-            return destination;
-        }
-        public Vector2 GetPositionDestination()
-        {
-            return positionDestination;
+            HitBox = new Rectangle(x * Globals.tileSize, y * Globals.tileSize, width * Globals.tileSize, height * Globals.tileSize);
+            Destination = destination;
+            PositionDestination = new Vector2(destX * Globals.tileSize, destY * Globals.tileSize);
         }
     }
 }

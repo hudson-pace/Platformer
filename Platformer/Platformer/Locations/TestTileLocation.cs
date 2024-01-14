@@ -28,10 +28,10 @@ namespace Platformer.Locations
 		}
 		public override void AddPortals()
 		{
-			portals.Add(new Portal(4, 5, this, 25, 5));
-			portals.Add(new Portal(25, 5, this, 4, 5));
+			portals.Add(new Portal(4, 5, 2, 3, this, 25, 5));
+			portals.Add(new Portal(25, 5, 2, 3, this, 4, 5));
 
-			portals.Add(new Portal(14, 3, Game1.slimeCity, 45, 26));
+			portals.Add(new Portal(14, 3, 2, 3, Game1.slimeCity, 45, 26));
 		}
 		public override void Update(KeyboardState state, MouseState mouseState, OrthographicCamera camera, GameTime gameTime)
 		{

@@ -88,7 +88,7 @@ namespace Platformer
                 return true;
             }
 			TiledMapTile t = collisionTileLayer.GetTile((ushort)x, (ushort)y);
-            return t.GlobalIdentifier == 22;
+            return t.GlobalIdentifier == 22 || t.GlobalIdentifier == 1282;
 		}
         public bool IsEnemyObstacleAt(int x, int y)
         {
@@ -97,7 +97,7 @@ namespace Platformer
 				return true;
 			}
 			TiledMapTile t = collisionTileLayer.GetTile((ushort)x, (ushort)y);
-            return t.GlobalIdentifier == 21 || t.GlobalIdentifier == 22;
+            return t.GlobalIdentifier == 21 || t.GlobalIdentifier == 22 || t.GlobalIdentifier == 1281 || t.GlobalIdentifier == 1282;
         }
         public virtual void Update(KeyboardState state, MouseState mouseState, OrthographicCamera camera, GameTime gameTime)
         {

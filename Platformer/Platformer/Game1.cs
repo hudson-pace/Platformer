@@ -19,7 +19,7 @@ namespace Platformer
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        public static Location slimeCity, testArea, slimeHut, testTileLocation;
+        public static Location slimeCity, testArea, slimeHut, testTileLocation, newMain;
         private static List<Menu> menuList;
         private static Player player;
         private int screenGridWidth, screenGridHeight, screenWidth, screenHeight;
@@ -47,12 +47,14 @@ namespace Platformer
             slimeCity = new SlimeCity(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
             slimeHut = new SlimeHut(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
             testTileLocation = new TestTileLocation(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
+            newMain = new NewMain(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
 			testArea.AddPortals();
 			slimeCity.AddPortals();
 			slimeHut.AddPortals();
             testTileLocation.AddPortals();
+            newMain.AddPortals();
 
-			player.Travel(slimeCity, new Vector2(800, 500));
+			player.Travel(newMain, new Vector2(200, 200));
 
 			menuList = new List<Menu>();
 
@@ -105,6 +107,7 @@ namespace Platformer
             slimeCity.LoadTextures(Content);
             slimeHut.LoadTextures(Content);
 			testTileLocation.LoadTextures(Content);
+            newMain.LoadTextures(Content);
 
 			InfoBox.LoadTextures(Content);
             InventoryItem.LoadTextures(Content);
