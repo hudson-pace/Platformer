@@ -29,6 +29,8 @@ namespace Platformer
         private OrthographicCamera camera;
         private PlayerInfoBar playerInfoBar;
 
+        private Texture2D bg1, bg2, bg3;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -129,6 +131,10 @@ namespace Platformer
             Plant.LoadTextures(Content);
 
             player.LoadAttackTextures(Content);
+
+			bg1 = Content.Load<Texture2D>("backgrounds/background_layer_1");
+			bg2 = Content.Load<Texture2D>("backgrounds/background_layer_2");
+			bg3 = Content.Load<Texture2D>("backgrounds/background_layer_3");
 		}
 
 		/// <summary>
@@ -179,16 +185,12 @@ namespace Platformer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            if (time < 1600)
-            {
-                GraphicsDevice.Clear(Color.CornflowerBlue);
-            }
-            else
-            {
-                GraphicsDevice.Clear(Color.DarkBlue);
-            }
-
-            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            Rectangle bg = new Rectangle(0, 0, 1280, 720);
+			spriteBatch.Draw(bg1, bg, Color.White);
+			spriteBatch.Draw(bg2, bg, Color.White);
+			spriteBatch.Draw(bg3, bg, Color.White);
+			spriteBatch.End();
 
             spriteBatch.Begin(transformMatrix: camera.GetViewMatrix());
             player.GetCurrentLocation().Draw(spriteBatch, camera);

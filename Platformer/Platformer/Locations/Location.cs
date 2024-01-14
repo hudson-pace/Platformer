@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
+using System.Diagnostics;
 
 namespace Platformer
 {
