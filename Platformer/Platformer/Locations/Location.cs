@@ -27,6 +27,7 @@ namespace Platformer
         private bool previousQPressed = false;
         protected TiledMapTileLayer collisionTileLayer;
         protected TiledMapTileLayer mainTileLayer;
+        private TiledMapObjectLayer portalLayer;
         protected TiledMap tiledMap;
 		protected TiledMapRenderer tiledMapRenderer;
         private string contentPath;
@@ -60,6 +61,7 @@ namespace Platformer
         }
         public virtual void Draw(SpriteBatch spriteBatch, OrthographicCamera camera)
         {
+            portals.ForEach(portal => portal.Draw(spriteBatch));
             NPCList.ForEach(npc => npc.Draw(spriteBatch));
             enemies.ForEach(enemy => enemy.Draw(spriteBatch));
             items.ForEach(item => item.Draw(spriteBatch));
@@ -72,7 +74,13 @@ namespace Platformer
 			tiledMapRenderer = new TiledMapRenderer(graphicsDevice, tiledMap);
 			collisionTileLayer = tiledMap.GetLayer<TiledMapTileLayer>("collision");
             mainTileLayer = tiledMap.GetLayer<TiledMapTileLayer>("tiles");
-		}
+            portalLayer = tiledMap.GetLayer<TiledMapObjectLayer>("portals");
+            foreach (TiledMapObject obj in portalLayer.Objects)
+            {
+				Portal portal = new Portal(obj.Position, obj.Size, obj.Identifier, int.Parse(obj.Properties.GetValueOrDefault("destination")), this);
+                portals.Add(portal);
+            }
+        }
 
 		public void AddItem(Item item)
         {
@@ -102,7 +110,8 @@ namespace Platformer
         }
         public virtual void Update(KeyboardState state, MouseState mouseState, OrthographicCamera camera, GameTime gameTime)
         {
-            player.Update(state, this, mouseState);
+			portals.ForEach(portal => portal.Update());
+			player.Update(state, this, mouseState);
             for (int i = enemies.Count - 1; i >= 0; i--) // updating may cause enemy to be removed, so iterate backwards.
             {
                 enemies[i].Update(player, this);
@@ -111,6 +120,8 @@ namespace Platformer
             items.ForEach(item => item.Update(state, this));
             NPCList.ForEach(npc => npc.Update(state, this, mouseState));
 			entitySpawners.ForEach(spawner => spawner.Update(player));
+
+            
 
 			if (state.IsKeyDown(Keys.Q) && !previousQPressed)
             {

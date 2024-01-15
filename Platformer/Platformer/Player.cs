@@ -417,9 +417,10 @@ namespace Platformer
             {
                 foreach (Portal portal in currentLocation.GetPortals())
                 {
-                    if (Collisions.EntityCollisions(hitBox, portal.HitBox))
+                    if (Collisions.EntityCollisions(hitBox, portal.GetHitbox()))
                     {
-                        Travel(portal.Destination, portal.PositionDestination);
+						Portal destination = portal.GetDestination();
+                        Travel(destination.Location, new Vector2(destination.Position.X, destination.Position.Y - (height - portal.Size.Y)));
                     }
                 }
             }

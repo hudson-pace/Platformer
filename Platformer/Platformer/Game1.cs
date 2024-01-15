@@ -19,7 +19,7 @@ namespace Platformer
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        public static Location slimeCity, testArea, slimeHut, testTileLocation, newMain;
+        public static Location newMain;
         private static List<Menu> menuList;
         private static Player player;
         private int screenGridWidth, screenGridHeight, screenWidth, screenHeight;
@@ -45,15 +45,7 @@ namespace Platformer
             screenGridHeight = (int)(graphics.PreferredBackBufferHeight / Globals.tileSize) + 1;
 
             player = new Player(new Vector2(500, 100), screenWidth, screenHeight);
-            testArea = new TestArea(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
-            slimeCity = new SlimeCity(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
-            slimeHut = new SlimeHut(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
-            testTileLocation = new TestTileLocation(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
             newMain = new NewMain(player, screenGridWidth, screenGridHeight, screenWidth, screenHeight, GraphicsDevice);
-			testArea.AddPortals();
-			slimeCity.AddPortals();
-			slimeHut.AddPortals();
-            testTileLocation.AddPortals();
             newMain.AddPortals();
 
 			player.Travel(newMain, new Vector2(200, 200));
@@ -105,10 +97,6 @@ namespace Platformer
 
             Player.LoadTextures(Content, GraphicsDevice);
 
-            testArea.LoadTextures(Content);
-            slimeCity.LoadTextures(Content);
-            slimeHut.LoadTextures(Content);
-			testTileLocation.LoadTextures(Content);
             newMain.LoadTextures(Content);
 
 			InfoBox.LoadTextures(Content);
@@ -129,6 +117,8 @@ namespace Platformer
             Enemy.LoadContent(GraphicsDevice);
 
             Plant.LoadTextures(Content);
+
+            Portal.LoadTextures(Content);
 
             player.LoadAttackTextures(Content);
 

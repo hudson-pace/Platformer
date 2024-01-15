@@ -42,11 +42,14 @@
             "scaleInEditor": 1
         },
         "new-main.tmx": {
-            "scale": 0.8896354166666666,
-            "selectedLayer": 1,
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 0.5,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 1086.962121655641,
-                "y": 383.86511328376565
+                "x": 1771,
+                "y": 790
             }
         },
         "slime-city.tmx": {
@@ -92,6 +95,7 @@
     },
     "last.externalTilesetPath": "C:/Users/hudso/Documents/projects/Platformer/Platformer/Platformer/Content/tiled-maps",
     "last.imagePath": "C:/Users/hudso/Documents/projects/Platformer/Platformer/Platformer/Content/tiled-maps",
+    "last.objectTemplatePath": "C:/Users/hudso/Documents/projects/Platformer/Platformer/Platformer/Content/tiled-maps",
     "map.height": 22,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 32,
@@ -104,6 +108,7 @@
         "collision-32.tsx"
     ],
     "project": "platformer-maps.tiled-project",
+    "property.type": "object",
     "recentFiles": [
         "slime-hut.tmx",
         "collision-32.tsx",
