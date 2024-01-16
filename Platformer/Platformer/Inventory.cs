@@ -99,7 +99,7 @@ namespace Platformer
                 item.Count = 100;
                 if (RemoveFromInventory(new InventoryItem(item, new Vector2(0, 0))))
                 {
-                    AddToInventory(new Items.SilverCoin(1), false, 0);
+                    AddToInventory(new Item("silverCoin", 1), false, 0);
                 }
             }
             else if (found && item.itemName == "silverCoin")
@@ -107,7 +107,7 @@ namespace Platformer
                 item.Count = 100;
                 if (RemoveFromInventory(new InventoryItem(item, new Vector2(0, 0))))
                 {
-                    AddToInventory(new Items.GoldCoin(1), false, 0);
+                    AddToInventory(new Item("goldCoin", 1), false, 0);
                 }
             }
             
@@ -167,11 +167,11 @@ namespace Platformer
             }
 
             money -= price;
-            RemoveFromInventory(new InventoryItem(new Items.GoldCoin(price / 10000), new Vector2(0, 0)));
+            RemoveFromInventory(new InventoryItem(new Item("goldCoin", price / 10000), new Vector2(0, 0)));
             price = price % 100;
-            RemoveFromInventory(new InventoryItem(new Items.SilverCoin(price / 100), new Vector2(0, 0)));
+            RemoveFromInventory(new InventoryItem(new Item("silverCoin", price / 100), new Vector2(0, 0)));
             price = price % 100;
-            RemoveFromInventory(new InventoryItem(new Items.CopperCoin(price / 1), new Vector2(0, 0)));
+            RemoveFromInventory(new InventoryItem(new Item("copperCoin", price / 1), new Vector2(0, 0)));
 
             return true;
         }

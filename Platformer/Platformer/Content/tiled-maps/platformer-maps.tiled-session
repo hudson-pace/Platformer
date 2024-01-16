@@ -45,11 +45,11 @@
             "expandedObjectLayers": [
                 3
             ],
-            "scale": 0.5,
-            "selectedLayer": 2,
+            "scale": 2,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 1771,
-                "y": 790
+                "x": 1591.75,
+                "y": 312
             }
         },
         "slime-city.tmx": {
@@ -102,18 +102,16 @@
     "map.tileWidth": 32,
     "map.width": 30,
     "openFiles": [
-        "slime-hut.tmx",
         "new-main.tmx",
-        "slime-city.tmx",
         "collision-32.tsx"
     ],
     "project": "platformer-maps.tiled-project",
     "property.type": "object",
     "recentFiles": [
-        "slime-hut.tmx",
         "collision-32.tsx",
-        "slime-city.tmx",
         "new-main.tmx",
+        "slime-hut.tmx",
+        "slime-city.tmx",
         "test-area.tmx",
         "medieval_props_small.tsx",
         "medieval_props_large.tsx",

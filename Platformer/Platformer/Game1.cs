@@ -71,13 +71,12 @@ namespace Platformer
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            ItemManager.RegisterItems();
+            Item.RegisterItems();
 
-            player.AddToInventory(new Items.HealthPotion(3));
-            player.AddToInventory(new Items.ManaPotion(3));
-            player.AddToInventory(new Items.SwordItem(1));
-            player.AddToInventory(new Items.ScytheItem(1));
+			player.AddToInventory(new Item("healthPotion", 3));
+			player.AddToInventory(new Item("manaPotion", 3));
+			player.AddToInventory(new Item("swordItem", 1));
+			player.AddToInventory(new Item("scytheItem", 1));
 
             previousKeyboardState = Keyboard.GetState();
             base.Initialize();
@@ -104,7 +103,7 @@ namespace Platformer
 
             font = Content.Load<SpriteFont>("NPCText");
 
-            ItemManager.LoadTextures(Content);
+            Item.LoadTextures(Content);
 			DialogBox.LoadTextures(Content);
 
 			NPCs.Wizard.LoadTextures(Content);

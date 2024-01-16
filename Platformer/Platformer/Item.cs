@@ -4,11 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Platformer;
+using System.Reflection.Metadata;
 
 namespace Platformer
 {
-    abstract class Item : Entity
+    class Item : Entity
     {
         public string itemName;
         private static Random random = new Random();
@@ -19,7 +23,16 @@ namespace Platformer
         private int pickUpCounter;
         public int Count { get; set; }
         protected int id;
-        public Item(int count)
+
+        private static Texture2D texture;
+        private static Dictionary<string, int> itemDict = new Dictionary<string, int>();
+
+        private static string[] itemNames =
+        {
+            "copperCoin", "silverCoin", "goldCoin", "healthPotion", "manaPotion", "plantFibers", "scytheItem", "shellFragment", "slimeItem", "slimeTail",
+            "snailGoop", "swordItem",
+        };
+        public Item(string itemName, int count)
         {
             Count = count;
             verticalVelocity = -3;
@@ -28,22 +41,33 @@ namespace Platformer
             CanBePickedUp = false;
             pickUpCounter = 80;
             horizontalVelocity = random.Next(-3, 3);
-        }
-        public Item(int[] count, int[] probability) : this(0)
-        {
-            int sum = 0;
-            for (int i = 0; i < count.Length; i++)
+            this.itemName = itemName;
+            id = itemDict.GetValueOrDefault(itemName);
+            if (id == 0)
             {
-                for (int j = 0; j < count[i]; j++)
-                {
-                    if (random.Next(0, 100) < probability[i])
-                    {
-                        sum++;
-                    }
-                }
+                this.itemName = "notFound";
             }
-            Count = sum;
         }
+        public Item(string itemName, int[] count, int[] probability) : this(itemName, calculateSumFromProbability(count, probability))
+        {
+        }
+
+        private static int calculateSumFromProbability(int[] count, int[] probability)
+        {
+			int sum = 0;
+			for (int i = 0; i < count.Length; i++)
+			{
+				for (int j = 0; j < count[i]; j++)
+				{
+					if (random.Next(0, 100) < probability[i])
+					{
+						sum++;
+					}
+				}
+			}
+            return sum;
+		}
+
         public void SetLocation(Vector2 location)
         {
             this.location = location;
@@ -97,5 +121,25 @@ namespace Platformer
                 }
             }
         }
-    }
+
+        public static void LoadTextures(ContentManager content)
+        {
+            texture = content.Load<Texture2D>("items");
+        }
+
+		public override void Draw(SpriteBatch spriteBatch)
+		{
+            Rectangle source = new Rectangle(30 * id, 0, 30, 30);
+            Rectangle destination = new Rectangle((int)location.X, (int)location.Y, 30, 30);
+            spriteBatch.Draw(texture, destination, source, Color.White);
+		}
+
+        public static void RegisterItems()
+        {
+            for (int i = 0; i < itemNames.Length; i++)
+            {
+                itemDict.Add(itemNames[i], i + 1);
+            }
+		}
+	}
 }

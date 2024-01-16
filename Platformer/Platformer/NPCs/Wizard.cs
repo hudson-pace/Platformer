@@ -27,7 +27,7 @@ namespace Platformer.NPCs
             this.currentLocation = currentLocation;
             newLocation = location;
             shop = new Shop(screenWidth, screenHeight, player.GetInventory());
-            shop.AddToInventory(new Items.HealthPotion(1), true, 5);
+            shop.AddToInventory(new Item("healthPotion", 1), true, 5);
             height = 100;
             width = 100;
             greetingDialog = "Greetings, mortal.";

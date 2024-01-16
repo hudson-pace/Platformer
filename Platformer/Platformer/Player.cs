@@ -278,7 +278,7 @@ namespace Platformer
 
             if (!previousKeyboardState.IsKeyDown(Keys.OemComma) && keyboardState.IsKeyDown(Keys.OemComma))
             {
-                if (inventory.RemoveFromInventory(new InventoryItem(new Items.HealthPotion(1), new Vector2(0, 0))))
+                if (inventory.RemoveFromInventory(new InventoryItem(new Item("healthPotion", 1), new Vector2(0, 0))))
                 {
                     health += 50;
                     if (health > maxHealth)
@@ -289,7 +289,7 @@ namespace Platformer
             }
             if (!previousKeyboardState.IsKeyDown(Keys.OemPeriod) && keyboardState.IsKeyDown(Keys.OemPeriod))
             {
-                if (inventory.RemoveFromInventory(new InventoryItem(new Items.ManaPotion(1), new Vector2(0, 0))))
+                if (inventory.RemoveFromInventory(new InventoryItem(new Item("manaPotion", 1), new Vector2(0, 0))))
                 {
                     mana = maxMana;
                 }
@@ -352,11 +352,11 @@ namespace Platformer
                     currentAttack = swordAttack;
                     swingCounter = 3;
                     swinging = true;
-                    if (equipmentMenu.GetEquippedItem().GetItem().GetType() == typeof(Items.SwordItem))
+                    if (equipmentMenu.GetEquippedItem().GetItem().itemName == "swordItem")
                     {
                         swordIsActive = true;
                     }
-                    else if (equipmentMenu.GetEquippedItem().GetItem().GetType() == typeof(Items.ScytheItem))
+                    else if (equipmentMenu.GetEquippedItem().GetItem().itemName == "scytheItem")
                     {
                         scytheIsActive = true;
                     }

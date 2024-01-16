@@ -40,7 +40,7 @@ namespace Platformer
 		{
 			if (player.scytheIsActive && Collisions.EntityCollisions(player.swordHitBox, hitBox))
 			{
-				Item drop = new Items.PlantFibers(2);
+				Item drop = new Item("plantFibers", 2);
 				drop.ResetPickUpCounter();
 				drop.SetLocation(new Vector2(hitBox.Left, hitBox.Top));
 				currentMap.AddItem(drop);
